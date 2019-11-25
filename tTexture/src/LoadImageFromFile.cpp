@@ -1,5 +1,5 @@
-#include <tTexture-Core/tTexture.h>
-#include <tTexture-Core/EntryPoint.h>
+#include <tTexture/tTexture.h>
+#include <tTexture/EntryPoint.h>
 
 #include <iostream>
 
@@ -19,9 +19,5 @@ int main()
 
 	// Use data
 	byte* pixels = imageData.Image;
-	std::cout << "TextureData:"
-		<< "\n\tWidth: "	<< imageData.Data.Width 
-		<< "\n\tHeight: "	<< imageData.Data.Height 
-		<< "\n\tBpp: "		<< imageData.Data.Bpp 
-	<< std::endl;
+	TTEX_TRACE("{0}", imageData);
 }

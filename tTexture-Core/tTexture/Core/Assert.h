@@ -2,9 +2,6 @@
 
 #include "Core/Log.h"
 
-#include <cstdarg>
-#include <string>
-
 #ifdef TTEX_DEBUG
 	#define TTEX_ENABLE_ASSERTS
 #endif 

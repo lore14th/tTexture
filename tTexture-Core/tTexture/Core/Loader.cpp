@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Loader.h"
 
 #include <stb_image/stb_image.h>

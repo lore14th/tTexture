@@ -54,10 +54,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TTEX_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\tTexture-Core;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>tTexture;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -73,10 +74,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TTEX_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\tTexture-Core;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>tTexture;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -95,17 +97,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\tTexture-Core\Core\Assert.h" />
-    <ClInclude Include="src\tTexture-Core\Core\Core.h" />
-    <ClInclude Include="src\tTexture-Core\Core\Loader.h" />
-    <ClInclude Include="src\tTexture-Core\Core\Log.h" />
-    <ClInclude Include="src\tTexture-Core\EntryPoint.h" />
-    <ClInclude Include="src\tTexture-Core\tTexture.h" />
+    <ClInclude Include="tTexture\Core\Assert.h" />
+    <ClInclude Include="tTexture\Core\Core.h" />
+    <ClInclude Include="tTexture\Core\Loader.h" />
+    <ClInclude Include="tTexture\Core\Log.h" />
+    <ClInclude Include="tTexture\EntryPoint.h" />
+    <ClInclude Include="tTexture\pch.h" />
+    <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\tTexture-Core\Core\Loader.cpp" />
-    <ClCompile Include="src\tTexture-Core\Core\Log.cpp" />
-    <ClCompile Include="src\tTexture-Core\stb_image_build.cpp" />
+    <ClCompile Include="tTexture\Core\Core.cpp" />
+    <ClCompile Include="tTexture\Core\Loader.cpp" />
+    <ClCompile Include="tTexture\Core\Log.cpp" />
+    <ClCompile Include="tTexture\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="tTexture\stb_image_build.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

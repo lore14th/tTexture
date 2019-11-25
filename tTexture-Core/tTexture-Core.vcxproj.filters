@@ -6,26 +6,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\tTexture-Core\Core\Core.h">
+    <ClInclude Include="tTexture\Core\Assert.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\tTexture-Core\Core\Loader.h">
+    <ClInclude Include="tTexture\Core\Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\tTexture-Core\Core\Log.h">
+    <ClInclude Include="tTexture\Core\Loader.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\tTexture-Core\EntryPoint.h" />
-    <ClInclude Include="src\tTexture-Core\tTexture.h" />
-    <ClInclude Include="src\tTexture-Core\Core\Assert.h" />
+    <ClInclude Include="tTexture\Core\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\EntryPoint.h" />
+    <ClInclude Include="tTexture\pch.h" />
+    <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\tTexture-Core\Core\Loader.cpp">
+    <ClCompile Include="tTexture\Core\Loader.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\tTexture-Core\Core\Log.cpp">
+    <ClCompile Include="tTexture\Core\Log.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\tTexture-Core\stb_image_build.cpp" />
+    <ClCompile Include="tTexture\pch.cpp" />
+    <ClCompile Include="tTexture\stb_image_build.cpp" />
+    <ClCompile Include="tTexture\Core\Core.cpp" />
   </ItemGroup>
 </Project>

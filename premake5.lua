@@ -37,15 +37,18 @@ project "tTexture-Core"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "pch.h"
+	pchsource "tTexture-Core/tTexture/pch.cpp"
+
 	files { 
-		"%{prj.name}/src/tTexture-Core/**.h", 
-		"%{prj.name}/src/tTexture-Core/**.c", 
-		"%{prj.name}/src/tTexture-Core**.hpp", 
-		"%{prj.name}/src/tTexture-Core/**.cpp",
+		"%{prj.name}/tTexture/**.h", 
+		"%{prj.name}/tTexture/**.c", 
+		"%{prj.name}/tTexture**.hpp", 
+		"%{prj.name}/tTexture/**.cpp",
 	}
 
 	includedirs {
-		"%{prj.name}/src/tTexture-Core",
+		"%{prj.name}/tTexture",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.stb_image}", --this includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
@@ -104,7 +107,7 @@ project "tTexture"
     
 	includedirs {
 		"%{prj.name}/src",
-		"tTexture-Core/src",
+		"tTexture-Core",
 		"tTexture-Core/vendor",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.spdlog}",
