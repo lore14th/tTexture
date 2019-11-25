@@ -1,0 +1,9 @@
+[submodule "tTexture-Core/vendor/imgui"]
+	path = tTexture-Core/vendor/imgui
+	url = https://github.com/lore14th/imgui.git
+[submodule "tTexture-Core/vendor/glm"]
+	path = tTexture-Core/vendor/glm
+	url = https://github.com/g-truc/glm
+[submodule "tTexture-Core/vendor/GLFW"]
+	path = tTexture-Core/vendor/GLFW
+	url = https://github.com/lore14th/glfw.git
