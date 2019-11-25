@@ -6,18 +6,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Core.h">
+    <ClInclude Include="src\tTexture-Core\Core\Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Loader.h">
+    <ClInclude Include="src\tTexture-Core\Core\Loader.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\tTexture.h" />
+    <ClInclude Include="src\tTexture-Core\Core\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tTexture-Core\EntryPoint.h" />
+    <ClInclude Include="src\tTexture-Core\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Loader.cpp">
+    <ClCompile Include="src\tTexture-Core\Core\Loader.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\stb_image_build.cpp" />
+    <ClCompile Include="src\tTexture-Core\Core\Log.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tTexture-Core\stb_image_build.cpp" />
   </ItemGroup>
 </Project>

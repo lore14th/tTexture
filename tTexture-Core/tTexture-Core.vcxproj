@@ -56,8 +56,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>TF_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TTEX_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src\tTexture-Core;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,8 +75,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>TF_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TTEX_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;TTEX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src\tTexture-Core;vendor\spdlog\include;vendor;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -95,13 +95,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Core.h" />
-    <ClInclude Include="src\Core\Loader.h" />
-    <ClInclude Include="src\tTexture.h" />
+    <ClInclude Include="src\tTexture-Core\Core\Core.h" />
+    <ClInclude Include="src\tTexture-Core\Core\Loader.h" />
+    <ClInclude Include="src\tTexture-Core\Core\Log.h" />
+    <ClInclude Include="src\tTexture-Core\EntryPoint.h" />
+    <ClInclude Include="src\tTexture-Core\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Loader.cpp" />
-    <ClCompile Include="src\stb_image_build.cpp" />
+    <ClCompile Include="src\tTexture-Core\Core\Loader.cpp" />
+    <ClCompile Include="src\tTexture-Core\Core\Log.cpp" />
+    <ClCompile Include="src\tTexture-Core\stb_image_build.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

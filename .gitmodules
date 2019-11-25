@@ -7,3 +7,6 @@
 [submodule "tTexture-Core/vendor/GLFW"]
 	path = tTexture-Core/vendor/GLFW
 	url = https://github.com/lore14th/glfw.git
+[submodule "tTexture-Core/vendor/spdlog"]
+	path = tTexture-Core/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git

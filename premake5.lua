@@ -18,6 +18,7 @@ IncludeDir["Glad"]		= "tTexture-Core/vendor/GLAD/include"
 IncludeDir["ImGui"]		= "tTexture-Core/vendor/imgui"
 IncludeDir["glm"]		= "tTexture-Core/vendor/glm"
 IncludeDir["stb_image"]	= "tTexture-Core/vendor"
+IncludeDir["spdlog"]	= "tTexture-Core/vendor/spdlog/include"
 -------------------------------------------------------------------------------
 
 group "Dependencies"
@@ -37,14 +38,15 @@ project "tTexture-Core"
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files { 
-		"%{prj.name}/src/**.h", 
-		"%{prj.name}/src/**.c", 
-		"%{prj.name}/src/**.hpp", 
-		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/src/tTexture-Core/**.h", 
+		"%{prj.name}/src/tTexture-Core/**.c", 
+		"%{prj.name}/src/tTexture-Core**.hpp", 
+		"%{prj.name}/src/tTexture-Core/**.cpp",
 	}
 
 	includedirs {
-		"%{prj.name}/src",
+		"%{prj.name}/src/tTexture-Core",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.stb_image}", --this includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
@@ -62,8 +64,7 @@ project "tTexture-Core"
 	systemversion "latest"
 	
 		defines { 
-			"TF_PLATFORM_WINDOWS",
-
+			"TTEX_PLATFORM_WINDOWS",
 			"_CRT_SECURE_NO_WARNINGS",
 			"GLFW_INCLUDE_NONE",
 		}
@@ -106,7 +107,7 @@ project "tTexture"
 		"tTexture-Core/src",
 		"tTexture-Core/vendor",
 		"%{IncludeDir.glm}",
-		--"%{IncludeDir.spdlog}",
+		"%{IncludeDir.spdlog}",
 	}
 	
 	filter "system:windows"

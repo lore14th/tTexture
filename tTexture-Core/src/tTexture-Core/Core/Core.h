@@ -3,11 +3,13 @@
 #include <array>
 #include <string>
 
+#include "Core/Log.h"
+
 using int32_t = int;
 using uin32_t = unsigned int;
 using byte = unsigned char;
 
-// TODO: add simple logging system
+// TODO: add simple logging system [DONE]
 // TODO: add basic assertion system
 // TODO: Create buffer to manage byte* memory automatically
 // TODO: use Buffer instead of byte*
