@@ -13,13 +13,15 @@ namespace tTexture {
 		// [timestamp] loggerName: message
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
-		// setting up the engine logger
+		// setting up the core logger
 		s_CoreLogger = spdlog::stdout_color_mt("tTexture-Core");
 		s_CoreLogger->set_level(GetLogLevel(logLevel));
 
 		// setting up the application logger
 		s_ClientLogger = spdlog::stdout_color_mt("tTexture-App");
 		s_ClientLogger->set_level(GetLogLevel(logLevel));
+
+		TTEX_CORE_TRACE("Log:Initialized");
 	}
 
 	spdlog::level::level_enum Log::GetLogLevel(LogLevel level)

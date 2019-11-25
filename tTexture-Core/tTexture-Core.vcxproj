@@ -95,6 +95,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\tTexture-Core\Core\Assert.h" />
     <ClInclude Include="src\tTexture-Core\Core\Core.h" />
     <ClInclude Include="src\tTexture-Core\Core\Loader.h" />
     <ClInclude Include="src\tTexture-Core\Core\Log.h" />

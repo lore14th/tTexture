@@ -10,6 +10,7 @@ namespace tTexture {
 		// TODO: return 0 if there are errors during initialization
 
 		Log::Init();
+		
 		return 1;
 	}
 }

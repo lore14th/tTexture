@@ -4,13 +4,16 @@
 #include <string>
 
 #include "Core/Log.h"
+#include "Core/Assert.h"
 
 using int32_t = int;
 using uin32_t = unsigned int;
 using byte = unsigned char;
 
+// Initial Commits
 // TODO: add simple logging system [DONE]
-// TODO: add basic assertion system
+// TODO: add basic assertion system [DONE]
+// TODO: add pre-compiled headers
 // TODO: Create buffer to manage byte* memory automatically
 // TODO: use Buffer instead of byte*
 

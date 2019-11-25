@@ -17,6 +17,7 @@
     </ClInclude>
     <ClInclude Include="src\tTexture-Core\EntryPoint.h" />
     <ClInclude Include="src\tTexture-Core\tTexture.h" />
+    <ClInclude Include="src\tTexture-Core\Core\Assert.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tTexture-Core\Core\Loader.cpp">
