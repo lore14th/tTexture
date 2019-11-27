@@ -1,23 +1,22 @@
 #include <tTexture/tTexture.h>
 #include <tTexture/EntryPoint.h>
 
-#include <iostream>
-
 int main()
 {
 	// Call initialize before 
 	if (!tTexture::Initialize())
-		return -1;
+		exit(-1);
 
 	const char* filepath = "assets/textures/fst_paint-splatter.jpg";
-	uint32_t desiredChannels = 4;
 	bool flipOnLoad = false;
+	uint32_t desiredChannels = 4;
 
 	tTexture::Texture2D imageData;
-	tTexture::Loader loader(filepath, desiredChannels, flipOnLoad);
+	tTexture::Loader loader(filepath, flipOnLoad, desiredChannels);
 	loader.LoadImageFromFile(imageData);
 
 	// Use data
-	byte* pixels = imageData.Image;
+	tTexture::Buffer pixels = imageData.Image;
 	TTEX_TRACE("{0}", imageData);
+	TTEX_TRACE("Allocated {0} bytes", imageData.Image.GetSize());
 }

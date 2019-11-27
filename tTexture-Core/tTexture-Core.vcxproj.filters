@@ -9,6 +9,9 @@
     <ClInclude Include="tTexture\Core\Assert.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="tTexture\Core\Buffer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="tTexture\Core\Core.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -31,6 +34,5 @@
     </ClCompile>
     <ClCompile Include="tTexture\pch.cpp" />
     <ClCompile Include="tTexture\stb_image_build.cpp" />
-    <ClCompile Include="tTexture\Core\Core.cpp" />
   </ItemGroup>
 </Project>

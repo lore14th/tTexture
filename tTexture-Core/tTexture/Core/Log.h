@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Core.h"
-
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
@@ -13,7 +11,7 @@ namespace tTexture {
 		enum class LogLevel { Fatal, Error, Warn, Info, Trace };
 
 	public:
-		static void Init(LogLevel level = LogLevel::Trace);
+		static bool Init(LogLevel level = LogLevel::Trace);
 
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
@@ -24,6 +22,9 @@ namespace tTexture {
 
 		// converts Tinfoil API LogLevels into spdlog::level
 		static spdlog::level::level_enum GetLogLevel(LogLevel level);
+
+	private:
+		static bool s_Initialized;
 	};
 
 #ifdef TTEX_DEBUG

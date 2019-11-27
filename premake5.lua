@@ -48,7 +48,7 @@ project "tTexture-Core"
 	}
 
 	includedirs {
-		"%{prj.name}/tTexture",
+		"tTexture-Core/tTexture",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.stb_image}", --this includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
@@ -61,6 +61,14 @@ project "tTexture-Core"
 		"GLFW",
 		"Glad",
 		"ImGui",
+	}
+
+	excludes {
+		"%{prj.name}/tTexture/TODO.txt"
+	}
+
+	defines {
+		--"TTEX_LOADER_SINGLE_THREAD" -- to load images using a single thread. Disable to use multi-threading
 	}
 
 	filter "system:windows"

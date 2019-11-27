@@ -98,6 +98,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="tTexture\Core\Assert.h" />
+    <ClInclude Include="tTexture\Core\Buffer.h" />
     <ClInclude Include="tTexture\Core\Core.h" />
     <ClInclude Include="tTexture\Core\Loader.h" />
     <ClInclude Include="tTexture\Core\Log.h" />
@@ -106,7 +107,6 @@
     <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tTexture\Core\Core.cpp" />
     <ClCompile Include="tTexture\Core\Loader.cpp" />
     <ClCompile Include="tTexture\Core\Log.cpp" />
     <ClCompile Include="tTexture\pch.cpp">

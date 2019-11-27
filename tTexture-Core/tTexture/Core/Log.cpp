@@ -5,23 +5,31 @@
 
 namespace tTexture {
 
+	bool Log::s_Initialized = false;
+
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
-	void Log::Init(LogLevel logLevel)
+	bool Log::Init(LogLevel logLevel)
 	{
-		// [timestamp] loggerName: message
-		spdlog::set_pattern("%^[%T] %n: %v%$");
+		if (!s_Initialized)
+		{
+			// [timestamp] loggerName: message
+			spdlog::set_pattern("%^[%T] %n: %v%$");
 
-		// setting up the core logger
-		s_CoreLogger = spdlog::stdout_color_mt("tTexture-Core");
-		s_CoreLogger->set_level(GetLogLevel(logLevel));
+			// setting up the core logger
+			s_CoreLogger = spdlog::stdout_color_mt("tTexture-Core");
+			s_CoreLogger->set_level(GetLogLevel(logLevel));
 
-		// setting up the application logger
-		s_ClientLogger = spdlog::stdout_color_mt("tTexture-App");
-		s_ClientLogger->set_level(GetLogLevel(logLevel));
+			// setting up the application logger
+			s_ClientLogger = spdlog::stdout_color_mt("tTexture-App");
+			s_ClientLogger->set_level(GetLogLevel(logLevel));
 
-		TTEX_CORE_TRACE("Log:Initialized");
+			s_Initialized = true;
+			TTEX_CORE_TRACE("Log:Initialized");
+		}
+
+		return s_Initialized;
 	}
 
 	spdlog::level::level_enum Log::GetLogLevel(LogLevel level)

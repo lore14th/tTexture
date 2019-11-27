@@ -6,11 +6,14 @@ namespace tTexture {
 
 	static int Initialize()
 	{
+		bool returnStatus = true;
+
 		// TODO: add initialization flags
 		// TODO: return 0 if there are errors during initialization
+		// TODO: [Safety Check] Initialize should be called once, but make sure that init methods are not called by accident multiple types
 
-		Log::Init();
+		bool logStatus = Log::Init(); // safe
 		
-		return 1;
+		return returnStatus && logStatus;
 	}
 }

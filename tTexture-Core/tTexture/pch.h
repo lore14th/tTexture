@@ -20,3 +20,4 @@
 
 #include "Core/Core.h"
 #include "Core/Log.h"
+#include "Core/Buffer.h"

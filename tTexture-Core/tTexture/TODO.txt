@@ -1,0 +1,18 @@
+-- Project Setup -- 
+[DONE] - add simple logging system		
+[DONE] - add basic assertion system		
+[DONE] - add pre-compiled headers		
+
+-- Basic Lib Features --
+[DONE] - Create buffer to manage byte* memory automatically
+[DONE] - Use Buffer instead of byte*
+[DONE] - Read TextureCube from file (HCROSS / VCROSS)
+[TODO] - Export HCROSS files as .tga [more formats later]
+[TODO] - Test Reader and Exporter
+
+-- Basic Lib Clean up --
+[TODO] - Consider removing GLFW dependency
+[TODO] - Consider splitting up the Loader into multiple classes, one for each type of CubeFormat. Client should use a generic Loader
+[TODO] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
+
+
