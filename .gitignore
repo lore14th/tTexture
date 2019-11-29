@@ -3,5 +3,7 @@
 bin/
 bin-int/
 
+tTexture/exporter/
+
 # Files
 *.user

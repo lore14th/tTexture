@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Loader.h"
-#include <stb_image/stb_image.h>
+#include <stb/stb_image.h>
 
 #ifndef TTEX_LOADER_SINGLE_THREAD
 #include <thread>
@@ -8,7 +8,7 @@
 
 namespace tTexture {
 
-	Loader::Loader(const std::string& filepath, bool flipOnLoad, uint32_t desiredChannels)
+	Loader::Loader(const std::string& filepath, uint32_t desiredChannels, bool flipOnLoad)
 		: m_Filepath(filepath), m_DesiredChannels(desiredChannels), m_FlipOnLoad(flipOnLoad)
 	{
 		TTEX_CORE_ASSERT(!m_Filepath.empty(), "Loader: You must provide a valid filepath");
@@ -24,6 +24,7 @@ namespace tTexture {
 
 		result.Image.Allocate(result.Data.Width * result.Data.Height * result.Data.Bpp);
 		result.Image.Data = pixels;
+		result.Data.FlippedOnLoad = m_FlipOnLoad;
 	}
 
 	void Loader::LoadCubeMapFromFile(CubeFormat format, TextureCube& result)
@@ -33,13 +34,13 @@ namespace tTexture {
 		LoadImageFromFile(sourceImage);
 
 		// Process image
-		uint32_t faceSize = 0;
 		switch (format)
 		{
 			case tTexture::CubeFormat::HCROSS: ConvertHCross(sourceImage, result);		break;
 			case tTexture::CubeFormat::VCROSS: ConvertVCross(sourceImage, result);		break;
 			case tTexture::CubeFormat::EQUIRECTANGULAR: TTEX_CORE_ASSERT(false, "Not supported right now");	break;
 		}
+		result.Data.FlippedOnLoad = sourceImage.Data.FlippedOnLoad;
 	}
 
 	void Loader::FreeImageBuffer(byte* buffer)
@@ -56,7 +57,7 @@ namespace tTexture {
 		const uint32_t bpp = 4;
 
 		TTEX_CORE_ASSERT(faceSize != 0, "Loader:Cubemap has invalid faceSize: {0}", faceSize);
-		TTEX_CORE_ASSERT(faceSize == sourceImage.Data.Width / 3, "Loader:Cubemap faceSize error. Non square faces");
+		TTEX_CORE_ASSERT(faceSize == sourceImage.Data.Height / 3, "Loader:Cubemap faceSize error. Non square faces");
 
 		for (auto& face : result.Images)
 			face.Allocate(faceSize * faceSize * bpp);
@@ -75,12 +76,13 @@ namespace tTexture {
 	#else
 		std::array<std::thread*, 6> threads;
 		
-		threads[0] = new std::thread(Loader::ReadSquareFace, Face::POS_X, CubeFormat::HCROSS, sourceImage, result);
-		threads[1] = new std::thread(Loader::ReadSquareFace, Face::NEG_X, CubeFormat::HCROSS, sourceImage, result);
-		threads[2] = new std::thread(Loader::ReadSquareFace, Face::POS_Y, CubeFormat::HCROSS, sourceImage, result);
-		threads[3] = new std::thread(Loader::ReadSquareFace, Face::NEG_Y, CubeFormat::HCROSS, sourceImage, result);
-		threads[4] = new std::thread(Loader::ReadSquareFace, Face::POS_Z, CubeFormat::HCROSS, sourceImage, result);
-		threads[5] = new std::thread(Loader::ReadSquareFace, Face::NEG_Z, CubeFormat::HCROSS, sourceImage, result);
+		// Note: thread takes in args by value(no matter the function signature), use std::ref to pass by reference
+		threads[0] = new std::thread(Loader::ReadSquareFace, Face::POS_X, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
+		threads[1] = new std::thread(Loader::ReadSquareFace, Face::NEG_X, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
+		threads[2] = new std::thread(Loader::ReadSquareFace, Face::POS_Y, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
+		threads[3] = new std::thread(Loader::ReadSquareFace, Face::NEG_Y, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
+		threads[4] = new std::thread(Loader::ReadSquareFace, Face::POS_Z, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
+		threads[5] = new std::thread(Loader::ReadSquareFace, Face::NEG_Z, CubeFormat::HCROSS, std::ref(sourceImage), std::ref(result));
 		
 		for (auto& t : threads)
 			t->join();
@@ -95,7 +97,7 @@ namespace tTexture {
 		const uint32_t bpp = 4;
 
 		TTEX_CORE_ASSERT(faceSize != 0, "Loader:Cubemap has invalid faceSize: {0}", faceSize);
-		TTEX_CORE_ASSERT(faceSize == sourceImage.Data.Width / 4, "Loader:Cubemap faceSize error. Non square faces");
+		TTEX_CORE_ASSERT(faceSize == sourceImage.Data.Height / 4, "Loader:Cubemap faceSize error. Non square faces");
 
 		for (auto& face : result.Images)
 			face.Allocate(faceSize * faceSize * bpp);
@@ -124,7 +126,7 @@ namespace tTexture {
 		for (auto& t : threads)
 			t->join();
 #endif
-		FlipFaceVertically(Face::NEG_Y, result);
+		FlipFaceVertically(Face::NEG_Z, result);
 	}
 
 	void Loader::ReadSquareFace(Face face, CubeFormat format, const Texture2D& sourceImage, TextureCube& result)
@@ -132,7 +134,7 @@ namespace tTexture {
 		// Generate i, j coordinates to read the source texture
 		uint32_t faceSize = result.Data.Width;
 		uint32_t faceIndex = (uint32_t)face;
-		std::pair<uint32_t, uint32_t> sourceUV = GetReadingCoordinates(format, face, faceSize);
+		std::pair<uint32_t, uint32_t> sourceUV = GetFaceLimits(format, face, faceSize);
 
 		for (uint32_t y = 0; y < faceSize; y++)
 		{
@@ -189,41 +191,6 @@ namespace tTexture {
 			low += bpp;
 			high -= bpp;
 		}
-	}
-
-	std::pair<uint32_t, uint32_t> Loader::GetReadingCoordinates(CubeFormat format, Face face, uint32_t faceSize)
-	{
-		TTEX_ASSERT(format != CubeFormat::EQUIRECTANGULAR, "Loader:Cannot generate coordinates for Equirectangular conversion");
-
-		switch (format)
-		{
-			case CubeFormat::HCROSS:
-			{
-				switch (face)
-				{
-					case Face::POS_X: return { 0, faceSize };
-					case Face::NEG_X: return { 2 * faceSize, faceSize };
-					case Face::POS_Y: return { faceSize, 0 };
-					case Face::NEG_Y: return { faceSize, 2 * faceSize };
-					case Face::POS_Z: return { faceSize, faceSize };
-					case Face::NEG_Z: return { 3 * faceSize, faceSize };
-				}
-			} break;
-			case tTexture::CubeFormat::VCROSS:
-			{
-				switch (face)
-				{
-					case Face::POS_X: return { 0, faceSize };
-					case Face::NEG_X: return { 2 * faceSize, faceSize };
-					case Face::POS_Y: return { faceSize, 0 };
-					case Face::NEG_Y: return { faceSize, 2 * faceSize };
-					case Face::POS_Z: return { faceSize, faceSize };
-					case Face::NEG_Z: return { faceSize, 3 * faceSize };
-				}
-			} break;
-		}
-
-		return { 0, 0 };
 	}
 
 }

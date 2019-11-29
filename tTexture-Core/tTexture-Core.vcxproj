@@ -100,6 +100,7 @@
     <ClInclude Include="tTexture\Core\Assert.h" />
     <ClInclude Include="tTexture\Core\Buffer.h" />
     <ClInclude Include="tTexture\Core\Core.h" />
+    <ClInclude Include="tTexture\Core\Exporter.h" />
     <ClInclude Include="tTexture\Core\Loader.h" />
     <ClInclude Include="tTexture\Core\Log.h" />
     <ClInclude Include="tTexture\EntryPoint.h" />
@@ -107,12 +108,14 @@
     <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tTexture\Core\Core.cpp" />
+    <ClCompile Include="tTexture\Core\Exporter.cpp" />
     <ClCompile Include="tTexture\Core\Loader.cpp" />
     <ClCompile Include="tTexture\Core\Log.cpp" />
     <ClCompile Include="tTexture\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="tTexture\stb_image_build.cpp" />
+    <ClCompile Include="tTexture\stb_build.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

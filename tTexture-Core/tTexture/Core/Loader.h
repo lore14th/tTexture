@@ -7,9 +7,7 @@ namespace tTexture {
 	class Loader
 	{
 	public:
-		enum class Face { POS_X = 0, NEG_X, POS_Y = 2, NEG_Y = 3, POS_Z = 4, NEG_Z = 5};
-	public:
-		Loader(const std::string& filepath, bool flipOnLoad = false, uint32_t desiredChannels = 4);
+		Loader(const std::string& filepath, uint32_t desiredChannels = 3, bool flipOnLoad = false);
 
 		void LoadImageFromFile(Texture2D& result);
 
@@ -24,8 +22,6 @@ namespace tTexture {
 
 		static void ReadSquareFace(Face face, CubeFormat format, const Texture2D& sourceImage, TextureCube& result);
 		static void FlipFaceVertically(Face face, TextureCube& result);
-
-		static std::pair<uint32_t, uint32_t> GetReadingCoordinates(CubeFormat format, Face face, uint32_t faceSize);
 	private:
 		std::string m_Filepath;
 		uint32_t m_DesiredChannels;

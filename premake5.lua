@@ -17,7 +17,7 @@ IncludeDir["GLFW"]		= "tTexture-Core/vendor/GLFW/include"
 IncludeDir["Glad"]		= "tTexture-Core/vendor/GLAD/include"
 IncludeDir["ImGui"]		= "tTexture-Core/vendor/imgui"
 IncludeDir["glm"]		= "tTexture-Core/vendor/glm"
-IncludeDir["stb_image"]	= "tTexture-Core/vendor"
+IncludeDir["stb"]		= "tTexture-Core/vendor"
 IncludeDir["spdlog"]	= "tTexture-Core/vendor/spdlog/include"
 -------------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ project "tTexture-Core"
 	includedirs {
 		"tTexture-Core/tTexture",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.stb_image}", --this includes the entire vendor folder
+		"%{IncludeDir.stb}", --this includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",

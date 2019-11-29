@@ -7,12 +7,30 @@
 [DONE] - Create buffer to manage byte* memory automatically
 [DONE] - Use Buffer instead of byte*
 [DONE] - Read TextureCube from file (HCROSS / VCROSS)
-[TODO] - Export HCROSS files as .tga [more formats later]
+[DONE] - Export HCROSS files as .tga [more formats later]
 [TODO] - Test Reader and Exporter
 
--- Basic Lib Clean up --
-[TODO] - Consider removing GLFW dependency
-[TODO] - Consider splitting up the Loader into multiple classes, one for each type of CubeFormat. Client should use a generic Loader
-[TODO] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
+[TODO] - Read Texture from Equirectangular format
+[TODO] - Export Equirectangular
 
+	-- Clean up 1 --
+	[TODO] - Consider removing GLFW dependency
+	[TODO] - Consider splitting up the Loader into multiple classes, one for each type of CubeFormat. Client should use a generic Loader
+	[TODO] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
+	----------------
 
+[TODO] - Create Irradiance Map
+[TODO] - Export Irradiance Map
+
+[TODO] - Export files as VCROSS
+------------------------
+
+-- Advanced Lib Features --
+[TODO] - Create BRDF Luts
+
+[TODO] - Add GUI
+[TODO] - MacOS support
+[TODO] - Linus support
+
+[TODO] - Export files as Equirectangular (consider)
+---------------------------
