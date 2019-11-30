@@ -7,8 +7,8 @@ int main()
 	if (!tTexture::Initialize())
 		exit(-1);
 
-	const char* filepath = "assets/textures/V_Cross.png";
-	tTexture::CubeFormat format = tTexture::CubeFormat::VCROSS;
+	const char* filepath = "assets/textures/H_Cross.png";
+	tTexture::CubeFormat format = tTexture::CubeFormat::HCROSS;
 
 	bool flipOnLoad = false;
 	uint32_t desiredChannels = 4; // this must match the image format
@@ -18,12 +18,12 @@ int main()
 	loader.LoadCubeMapFromFile(format, texture);
 
 	// Store image on disk
-	tTexture::Exporter exporter("FelixNonCiCredeVCross.tga");
+	tTexture::Exporter exporter("exporter/VCrossTest.tga");
 	exporter.WriteToDisk(texture);
 
-	// Use data
+	// TODO: remove
+	// Use data 
 	tTexture::Buffer pixels = texture.Images[(int)tTexture::Face::POS_X];
 	TTEX_TRACE("{0}", texture);
 	TTEX_TRACE("Allocated {0} bytes", texture.Images[(int)tTexture::Face::POS_X].GetSize());
-
 }

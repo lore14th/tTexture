@@ -4,6 +4,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\NativeLoader">
+      <UniqueIdentifier>{5B3A6AE6-C750-687C-10C8-F39D7C1D3904}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tTexture\Core\Assert.h">
@@ -24,10 +27,21 @@
     <ClInclude Include="tTexture\Core\Log.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="tTexture\Core\NativeLoader\EquirectangularLoader.h">
+      <Filter>Core\NativeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Core\NativeLoader\HCrossLoader.h">
+      <Filter>Core\NativeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Core\NativeLoader\NativeLoader.h">
+      <Filter>Core\NativeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Core\NativeLoader\VCrossLoader.h">
+      <Filter>Core\NativeLoader</Filter>
+    </ClInclude>
     <ClInclude Include="tTexture\EntryPoint.h" />
     <ClInclude Include="tTexture\pch.h" />
     <ClInclude Include="tTexture\tTexture.h" />
-    <ClInclude Include="vendor\stb\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tTexture\Core\Core.cpp">
@@ -41,6 +55,18 @@
     </ClCompile>
     <ClCompile Include="tTexture\Core\Log.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Core\NativeLoader\EquirectangularLoader.cpp">
+      <Filter>Core\NativeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Core\NativeLoader\HCrossLoader.cpp">
+      <Filter>Core\NativeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Core\NativeLoader\NativeLoader.cpp">
+      <Filter>Core\NativeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Core\NativeLoader\VCrossLoader.cpp">
+      <Filter>Core\NativeLoader</Filter>
     </ClCompile>
     <ClCompile Include="tTexture\pch.cpp" />
     <ClCompile Include="tTexture\stb_build.cpp" />

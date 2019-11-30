@@ -22,7 +22,6 @@ namespace tTexture { // types
 	struct TextureData
 	{
 		int32_t Width, Height, Bpp;
-		bool FlippedOnLoad = false;
 
 		TextureData();
 		TextureData(int32_t width, int32_t height, int32_t bpp);
