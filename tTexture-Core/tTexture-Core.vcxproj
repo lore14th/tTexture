@@ -106,6 +106,7 @@
     <ClInclude Include="tTexture\EntryPoint.h" />
     <ClInclude Include="tTexture\pch.h" />
     <ClInclude Include="tTexture\tTexture.h" />
+    <ClInclude Include="vendor\stb\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tTexture\Core\Core.cpp" />

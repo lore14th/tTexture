@@ -7,6 +7,7 @@ namespace tTexture {
 	class Loader
 	{
 	public:
+		
 		Loader(const std::string& filepath, uint32_t desiredChannels = 3, bool flipOnLoad = false);
 
 		void LoadImageFromFile(Texture2D& result);
