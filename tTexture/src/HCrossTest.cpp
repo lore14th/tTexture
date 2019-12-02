@@ -9,17 +9,16 @@ int main()
 
 	const char* filepath = "assets/textures/H_Cross.png";
 	tTexture::CubeFormat format = tTexture::CubeFormat::HCROSS;
-
 	bool flipOnLoad = false;
 	uint32_t desiredChannels = 4; // this must match the image format
 
+	tTexture::Application app;
+
 	tTexture::TextureCube texture;
-	tTexture::Loader loader(filepath, desiredChannels, flipOnLoad);
-	loader.LoadCubeMapFromFile(format, texture);
+	app.LoadTextureCube(filepath, desiredChannels, format, texture, flipOnLoad);
 
 	// Store image on disk
-	tTexture::Exporter exporter("exporter/VCrossTest.tga");
-	exporter.WriteToDisk(texture);
+	app.ExportTexture("exporter/CubemapTest.tga", texture);
 
 	// TODO: remove
 	// Use data 

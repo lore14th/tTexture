@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Log.h"
+#include "Renderer/OpenGLRenderer.h"
 
 namespace tTexture {
 
@@ -15,5 +16,9 @@ namespace tTexture {
 		bool logStatus = Log::Init(); // safe
 		
 		return returnStatus && logStatus;
+	}
+
+	static void Shutdown()
+	{
 	}
 }

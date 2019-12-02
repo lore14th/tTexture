@@ -97,6 +97,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="tTexture\Core\Application.h" />
     <ClInclude Include="tTexture\Core\Assert.h" />
     <ClInclude Include="tTexture\Core\Buffer.h" />
     <ClInclude Include="tTexture\Core\Core.h" />
@@ -109,9 +110,11 @@
     <ClInclude Include="tTexture\Core\NativeLoader\VCrossLoader.h" />
     <ClInclude Include="tTexture\EntryPoint.h" />
     <ClInclude Include="tTexture\pch.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLRenderer.h" />
     <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tTexture\Core\Application.cpp" />
     <ClCompile Include="tTexture\Core\Core.cpp" />
     <ClCompile Include="tTexture\Core\Exporter.cpp" />
     <ClCompile Include="tTexture\Core\Loader.cpp" />
@@ -123,6 +126,7 @@
     <ClCompile Include="tTexture\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp" />
     <ClCompile Include="tTexture\stb_build.cpp" />
   </ItemGroup>
   <ItemGroup>

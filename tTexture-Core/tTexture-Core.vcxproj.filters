@@ -42,6 +42,8 @@
     <ClInclude Include="tTexture\EntryPoint.h" />
     <ClInclude Include="tTexture\pch.h" />
     <ClInclude Include="tTexture\tTexture.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLRenderer.h" />
+    <ClInclude Include="tTexture\Core\Application.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tTexture\Core\Core.cpp">
@@ -70,5 +72,7 @@
     </ClCompile>
     <ClCompile Include="tTexture\pch.cpp" />
     <ClCompile Include="tTexture\stb_build.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp" />
+    <ClCompile Include="tTexture\Core\Application.cpp" />
   </ItemGroup>
 </Project>

@@ -11,16 +11,20 @@ int main()
 	bool flipOnLoad = false;
 	uint32_t desiredChannels = 3; // this must match the image format
 
+	// You need to crate an tTexture::Application to access all the functionalities of the library
+	tTexture::Application app;
+
+	// Load a 2D image
 	tTexture::Texture2D texture;
-	tTexture::Loader loader(filepath, desiredChannels, flipOnLoad);
-	loader.LoadImageFromFile(texture);
+	app.LoadTexture2D(filepath, desiredChannels, texture, flipOnLoad);
 
 	// Use data
 	tTexture::Buffer pixels = texture.Image;
 	TTEX_TRACE("{0}", texture);
 	TTEX_TRACE("Allocated {0} bytes", texture.Image.GetSize());
 
-	// Store image on disk
-	tTexture::Exporter exporter("image2D.tga");
-	exporter.WriteToDisk(texture);
+	// Store the image to disk
+	// the output format is specified by the extension of the output filepath
+	// -- NOTE: right now only .tga is supported --
+	app.ExportTexture("exporter/image2D.tga", texture);
 }
