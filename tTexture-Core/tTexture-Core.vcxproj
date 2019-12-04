@@ -109,8 +109,13 @@
     <ClInclude Include="tTexture\Core\NativeLoader\NativeLoader.h" />
     <ClInclude Include="tTexture\Core\NativeLoader\VCrossLoader.h" />
     <ClInclude Include="tTexture\EntryPoint.h" />
-    <ClInclude Include="tTexture\pch.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLBuffer.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLContext.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLFramebuffer.h" />
     <ClInclude Include="tTexture\Renderer\OpenGLRenderer.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLShader.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLTexture.h" />
+    <ClInclude Include="tTexture\pch.h" />
     <ClInclude Include="tTexture\tTexture.h" />
   </ItemGroup>
   <ItemGroup>
@@ -123,10 +128,15 @@
     <ClCompile Include="tTexture\Core\NativeLoader\HCrossLoader.cpp" />
     <ClCompile Include="tTexture\Core\NativeLoader\NativeLoader.cpp" />
     <ClCompile Include="tTexture\Core\NativeLoader\VCrossLoader.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLBuffer.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLContext.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLFramebuffer.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLShader.cpp" />
+    <ClCompile Include="tTexture\Renderer\OpenGLTexture.cpp" />
     <ClCompile Include="tTexture\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp" />
     <ClCompile Include="tTexture\stb_build.cpp" />
   </ItemGroup>
   <ItemGroup>

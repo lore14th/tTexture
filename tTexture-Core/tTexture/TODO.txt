@@ -1,7 +1,7 @@
 -- Project Setup -- 
 [DONE] - add simple logging system		
 [DONE] - add basic assertion system		
-[DONE] - add pre-compiled headers		
+[DONE] - add pre-compiled headers
 
 -- Basic Lib Features --
 [DONE] - Create buffer to manage byte* memory automatically
@@ -11,27 +11,26 @@
 [TODO] - Test Reader and Exporter
 
 	-- Clean up 0 ----------------------------
-	[TODO] - Application Cleanup
+	[DONE] - Application Cleanup
 		-> Application now provides a method for each operation the user is supposed to do with this library
 	------------------------------------------
 
-[TODO] - Read Texture from Equirectangular format -> Create a simple OpenGLRenderer
-[TODO] - Export Equirectangular
+[DONE] - Read Texture from Equirectangular format
+[DONE] - Export Equirectangular
 
 	-- Clean up 1 ----------------------------
-	[TODO] - Consider removing GLFW dependency
+	[DONE] - Consider removing GLFW dependency
 		-> NO, creating a window is mandatory!
 
 	[DONE] - Consider splitting up the Loader into multiple classes, one for each type of CubeFormat. Client should use a generic Loader
 		-> YES, code will be better organized and easier to read.
 
-	[TODO] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
+	[DONE] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
 		-> NO, because we ended up using stb_image_write, so we can create a function inside the exporter for every format we want to support.
 	------------------------------------------
 
 [TODO] - Create Irradiance Map
 [TODO] - Export Irradiance Map
-
 
 [TODO] - Export files as VCROSS
 ------------------------

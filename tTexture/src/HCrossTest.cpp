@@ -7,12 +7,12 @@ int main()
 	if (!tTexture::Initialize())
 		exit(-1);
 
-	const char* filepath = "assets/textures/H_Cross.png";
-	tTexture::CubeFormat format = tTexture::CubeFormat::HCROSS;
+	const char* filepath = "assets/textures/Equirectangular.jpg";
+	tTexture::CubeFormat format = tTexture::CubeFormat::EQUIRECTANGULAR;
 	bool flipOnLoad = false;
-	uint32_t desiredChannels = 4; // this must match the image format
+	uint32_t desiredChannels = 3; // this must match the image format
 
-	tTexture::Application app;
+	tTexture::Application app(false);
 
 	tTexture::TextureCube texture;
 	app.LoadTextureCube(filepath, desiredChannels, format, texture, flipOnLoad);

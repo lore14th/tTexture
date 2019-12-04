@@ -91,12 +91,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\HCrossTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\tTexture-Core\tTexture-Core.vcxproj">
       <Project>{A05944EF-0C1A-C025-D554-09A341D40402}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\HCrossTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

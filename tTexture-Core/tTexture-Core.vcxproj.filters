@@ -7,8 +7,14 @@
     <Filter Include="Core\NativeLoader">
       <UniqueIdentifier>{5B3A6AE6-C750-687C-10C8-F39D7C1D3904}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{7CCE658F-689B-C09A-91B4-AE427DE0F528}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tTexture\Core\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="tTexture\Core\Assert.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -40,12 +46,31 @@
       <Filter>Core\NativeLoader</Filter>
     </ClInclude>
     <ClInclude Include="tTexture\EntryPoint.h" />
+    <ClInclude Include="tTexture\Renderer\OpenGLBuffer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Renderer\OpenGLContext.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Renderer\OpenGLFramebuffer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Renderer\OpenGLRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Renderer\OpenGLShader.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="tTexture\Renderer\OpenGLTexture.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="tTexture\pch.h" />
     <ClInclude Include="tTexture\tTexture.h" />
-    <ClInclude Include="tTexture\Renderer\OpenGLRenderer.h" />
-    <ClInclude Include="tTexture\Core\Application.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tTexture\Core\Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="tTexture\Core\Core.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -70,9 +95,25 @@
     <ClCompile Include="tTexture\Core\NativeLoader\VCrossLoader.cpp">
       <Filter>Core\NativeLoader</Filter>
     </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLBuffer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLContext.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLFramebuffer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLShader.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="tTexture\Renderer\OpenGLTexture.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="tTexture\pch.cpp" />
     <ClCompile Include="tTexture\stb_build.cpp" />
-    <ClCompile Include="tTexture\Renderer\OpenGLRenderer.cpp" />
-    <ClCompile Include="tTexture\Core\Application.cpp" />
   </ItemGroup>
 </Project>

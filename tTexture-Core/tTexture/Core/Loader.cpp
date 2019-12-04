@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Loader.h"
+#include "Core/Application.h"
+
 #include <stb/stb_image.h>
 
 #include "Core/NativeLoader/HCrossLoader.h"
@@ -9,7 +11,7 @@
 namespace tTexture {
 
 	Loader::Loader(const std::string& filepath, uint32_t desiredChannels, bool flipOnLoad)
-		: m_Filepath(filepath), m_DesiredChannels(desiredChannels), m_FlipOnLoad(flipOnLoad)
+		: m_Filepath(filepath), m_DesiredChannels(desiredChannels), m_FlipOnLoad(flipOnLoad), m_ApplicationRef(nullptr)
 	{
 		TTEX_CORE_ASSERT(!m_Filepath.empty(), "Loader: You must provide a valid filepath");
 		TTEX_CORE_ASSERT(m_DesiredChannels > 2 && m_DesiredChannels < 5, "TextureLoader: desiredChannels must be 3 or 4. desiredChannels = {0}", m_DesiredChannels);
@@ -38,7 +40,7 @@ namespace tTexture {
 		{
 			case CubeFormat::HCROSS: loader = std::make_unique<Native::HCrossLoader>(); break;
 			case CubeFormat::VCROSS: loader = std::make_unique<Native::VCrossLoader>(); break;
-			case CubeFormat::EQUIRECTANGULAR: loader = std::make_unique<Native::EquirectangularLoader>(); break;
+			case CubeFormat::EQUIRECTANGULAR: loader = std::make_unique<Native::EquirectangularLoader>(m_ApplicationRef->m_Renderer); break;
 		}
 		loader->ConvertToCubeMap(sourceImage, result);
 	}
