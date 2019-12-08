@@ -14,15 +14,14 @@ int main()
 
 	tTexture::Application app(false);
 
-	tTexture::TextureCube texture;
-	app.LoadTextureCube(filepath, desiredChannels, format, texture, flipOnLoad);
+	std::shared_ptr<tTexture::TextureCube> texture = app.LoadTextureCube(filepath, desiredChannels, format, flipOnLoad);
 
 	// Store image on disk
 	app.ExportTexture("exporter/CubemapTest.tga", texture);
 
 	// TODO: remove
 	// Use data 
-	tTexture::Buffer pixels = texture.Images[(int)tTexture::Face::POS_X];
+	tTexture::Buffer pixels = texture->Images[(int)tTexture::Face::POS_X];
 	TTEX_TRACE("{0}", texture);
-	TTEX_TRACE("Allocated {0} bytes", texture.Images[(int)tTexture::Face::POS_X].GetSize());
+	TTEX_TRACE("Allocated {0} bytes", texture->Images[(int)tTexture::Face::POS_X].GetSize());
 }
