@@ -33,16 +33,7 @@
     <ClInclude Include="tTexture\Core\Log.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="tTexture\Core\NativeLoader\EquirectangularLoader.h">
-      <Filter>Core\NativeLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="tTexture\Core\NativeLoader\HCrossLoader.h">
-      <Filter>Core\NativeLoader</Filter>
-    </ClInclude>
     <ClInclude Include="tTexture\Core\NativeLoader\NativeLoader.h">
-      <Filter>Core\NativeLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="tTexture\Core\NativeLoader\VCrossLoader.h">
       <Filter>Core\NativeLoader</Filter>
     </ClInclude>
     <ClInclude Include="tTexture\EntryPoint.h" />
@@ -83,16 +74,7 @@
     <ClCompile Include="tTexture\Core\Log.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="tTexture\Core\NativeLoader\EquirectangularLoader.cpp">
-      <Filter>Core\NativeLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="tTexture\Core\NativeLoader\HCrossLoader.cpp">
-      <Filter>Core\NativeLoader</Filter>
-    </ClCompile>
     <ClCompile Include="tTexture\Core\NativeLoader\NativeLoader.cpp">
-      <Filter>Core\NativeLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="tTexture\Core\NativeLoader\VCrossLoader.cpp">
       <Filter>Core\NativeLoader</Filter>
     </ClCompile>
     <ClCompile Include="tTexture\Renderer\OpenGLBuffer.cpp">

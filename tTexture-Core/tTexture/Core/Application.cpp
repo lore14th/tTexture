@@ -20,38 +20,40 @@ namespace tTexture {
 		s_Instance = this;
 	}
 
-	void Application::LoadTexture2D(const char* filepath, uint32_t imageChannels, Texture2D& result, bool flipOnLoad)
+	std::shared_ptr<Texture2D> Application::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
 	{
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
 
-		loader.LoadImageFromFile(result);
+		return loader.LoadImageFromFile();
 	}
 
-	void Application::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, TextureCube& result, bool flipOnLoad)
+	std::shared_ptr<TextureCube> Application::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
 		if (m_OnlineApplication && format == CubeFormat::EQUIRECTANGULAR)
 		{
 			TTEX_CORE_ERROR("tTexture cannot load Equirectangular texture using an online application.\n\
 							Please use the offline application to convert the image and store the result to disk");
 			TTEX_CORE_ASSERT(false, "");
+
+			return std::make_shared<TextureCube>();
 		}
 		else
 		{
 			Loader loader(filepath, imageChannels, flipOnLoad);
 			loader.SetApplicationCallback(this);
 
-			loader.LoadCubeMapFromFile(format, result);
+			return loader.LoadCubeMapFromFile(format);
 		}
 	}
 
-	void Application::ExportTexture(const char* outputFilepath, const Texture2D& texture)
+	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
-	void Application::ExportTexture(const char* outputFilepath, const TextureCube& texture)
+	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture)
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);

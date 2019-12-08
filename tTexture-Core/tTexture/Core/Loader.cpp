@@ -4,9 +4,7 @@
 
 #include <stb/stb_image.h>
 
-#include "Core/NativeLoader/HCrossLoader.h"
-#include "Core/NativeLoader/VCrossLoader.h"
-#include "Core/NativeLoader/EquirectangularLoader.h"
+#include "Core/NativeLoader/NativeLoader.h"
 
 namespace tTexture {
 
@@ -17,22 +15,24 @@ namespace tTexture {
 		TTEX_CORE_ASSERT(m_DesiredChannels > 2 && m_DesiredChannels < 5, "TextureLoader: desiredChannels must be 3 or 4. desiredChannels = {0}", m_DesiredChannels);
 	}
 
-	void Loader::LoadImageFromFile(Texture2D& result)
+	std::shared_ptr<Texture2D> Loader::LoadImageFromFile()
 	{
 		TTEX_CORE_INFO("Loader: Loading Texture {0}, Flip on Load = {1}", m_Filepath, m_FlipOnLoad);
+		std::shared_ptr<Texture2D> result = std::make_shared<Texture2D>();
 
 		stbi_set_flip_vertically_on_load((int)m_FlipOnLoad);
-		byte* pixels = stbi_load(m_Filepath.c_str(), &result.Data.Width, &result.Data.Height, &result.Data.Bpp, m_DesiredChannels == 3 ? STBI_rgb : STBI_rgb_alpha);
+		byte* pixels = stbi_load(m_Filepath.c_str(), &result->Data.Width, &result->Data.Height, &result->Data.Bpp, m_DesiredChannels == 3 ? STBI_rgb : STBI_rgb_alpha);
 
-		result.Image.Allocate(result.Data.Width * result.Data.Height * result.Data.Bpp);
-		result.Image.Data = pixels;
+		result->Image.Allocate(result->Data.Width * result->Data.Height * result->Data.Bpp);
+		result->Image.Data = pixels;
+
+		return result;
 	}
 
-	void Loader::LoadCubeMapFromFile(CubeFormat format, TextureCube& result)
+	std::shared_ptr<TextureCube> Loader::LoadCubeMapFromFile(CubeFormat format)
 	{
 		// Load image as a Texture2D
-		Texture2D sourceImage;
-		LoadImageFromFile(sourceImage);
+		std::shared_ptr<Texture2D> sourceImage = LoadImageFromFile();
 
 		// Create a Native Loader to convert the image
 		std::unique_ptr <tTexture::Native::NativeLoader> loader;
@@ -42,7 +42,7 @@ namespace tTexture {
 			case CubeFormat::VCROSS: loader = std::make_unique<Native::VCrossLoader>(); break;
 			case CubeFormat::EQUIRECTANGULAR: loader = std::make_unique<Native::EquirectangularLoader>(m_ApplicationRef->m_Renderer); break;
 		}
-		loader->ConvertToCubeMap(sourceImage, result);
+		return loader->ConvertToCubeMap(sourceImage);
 	}
 
 	void Loader::FreeImageBuffer(byte* buffer)

@@ -10,11 +10,11 @@ namespace tTexture {
 		Application(bool onlineApplication = true);
 		~Application() = default;
 
-		void LoadTexture2D(const char* filepath, uint32_t imageChannels, Texture2D& result, bool flipOnLoad = false);
-		void LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, TextureCube& result, bool flipOnLoad = false);
+		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad = false);
+		std::shared_ptr<TextureCube> LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad = false);
 
-		void ExportTexture(const char* outputFilepath, const Texture2D& texture);
-		void ExportTexture(const char* outputFilepath, const TextureCube& texture);
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture);
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture);
 		
 		static inline Application& Get() { return *s_Instance; }
 	private:

@@ -13,10 +13,10 @@ namespace tTexture {
 
 		void SetApplicationCallback(Application* app) { m_ApplicationRef = app; }
 
-		void LoadImageFromFile(Texture2D& result);
+		std::shared_ptr<Texture2D> LoadImageFromFile();
 		// returns a 4 channels image spitted up into cube faces.
 		// you can use the Loader::Face enum to access the data inside result.Images
-		void LoadCubeMapFromFile(CubeFormat format, TextureCube& result);
+		std::shared_ptr<TextureCube> LoadCubeMapFromFile(CubeFormat format);
 
 		static void FreeImageBuffer(byte* buffer);
 	private:

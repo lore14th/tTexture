@@ -12,16 +12,15 @@ int main()
 	uint32_t desiredChannels = 3; // this must match the image format
 
 	// You need to crate an tTexture::Application to access all the functionalities of the library
-	tTexture::Application app;
+	tTexture::Application app(false);
 
 	// Load a 2D image
-	tTexture::Texture2D texture;
-	app.LoadTexture2D(filepath, desiredChannels, texture, flipOnLoad);
+	std::shared_ptr<tTexture::Texture2D> texture = app.LoadTexture2D(filepath, desiredChannels, flipOnLoad);
 
 	// Use data
-	tTexture::Buffer pixels = texture.Image;
-	TTEX_TRACE("{0}", texture);
-	TTEX_TRACE("Allocated {0} bytes", texture.Image.GetSize());
+	tTexture::Buffer pixels = texture->Image;
+	TTEX_TRACE("{0}", texture); // TODO: fix this!
+	TTEX_TRACE("Allocated {0} bytes", texture->Image.GetSize());
 
 	// Store the image to disk
 	// the output format is specified by the extension of the output filepath

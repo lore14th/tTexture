@@ -12,22 +12,7 @@ namespace tTexture {
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format. Choose a different file extension");
 	}
 
-	void Exporter::WriteToDisk(const TextureCube& texture)
-	{
-		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
-
-		// TODO: Support multiple output formats
-		Texture2D convertedTexture;
-		PrepareHCross(texture, convertedTexture);
-
-		switch (m_OutputFormat)
-		{
-			case OutputFormat::Tga: StoreTGAStbi(convertedTexture);		break;
-			//case OutputFormat::Png:	
-		}	
-	}
-
-	void Exporter::WriteToDisk(const Texture2D& texure)
+	void Exporter::WriteToDisk(const std::shared_ptr<Texture2D>& texure)
 	{
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
 
@@ -38,6 +23,20 @@ namespace tTexture {
 		}
 	}
 
+	void Exporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture)
+	{
+		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
+
+		// TODO: Support multiple output formats
+		std::shared_ptr<Texture2D> convertedTexture = PrepareHCross(texture);
+
+		switch (m_OutputFormat)
+		{
+			case OutputFormat::Tga: StoreTGAStbi(convertedTexture);		break;
+			//case OutputFormat::Png:	
+		}	
+	}
+	
 	Exporter::OutputFormat Exporter::RetrieveOutputFormat(const std::string& filepath)
 	{
 		size_t extensionFlag = filepath.find_last_of(".");
@@ -51,21 +50,23 @@ namespace tTexture {
 		return OutputFormat::NONE;
 	}
 
-	void Exporter::PrepareHCross(const TextureCube& sourceTexture, Texture2D& result)
+	std::shared_ptr<Texture2D> Exporter::PrepareHCross(const std::shared_ptr<TextureCube>& sourceTexture)
 	{
-		TTEX_CORE_ASSERT(sourceTexture.Data.Bpp == 4, "Exporter: sourceTexture must have bpp set to 4. bpp: {0}", sourceTexture.Data.Bpp);
-		TTEX_CORE_ASSERT(sourceTexture.Data.Width == sourceTexture.Data.Height, "Exporter: TextureCube cannot be converted. Non square faces");
+		TTEX_CORE_ASSERT(sourceTexture->Data.Bpp == 4, "Exporter: sourceTexture must have bpp set to 4. bpp: {0}", sourceTexture->Data.Bpp);
+		TTEX_CORE_ASSERT(sourceTexture->Data.Width == sourceTexture->Data.Height, "Exporter: TextureCube cannot be converted. Non square faces");
+
+		std::shared_ptr<Texture2D> result = std::make_shared<Texture2D>();
 		
-		const uint32_t faceSize = sourceTexture.Data.Width;
+		const uint32_t faceSize = sourceTexture->Data.Width;
 		const int32_t width = 4 * faceSize;
 		const int32_t height = 3 * faceSize;
 		const int32_t bpp = 3;
 
-		result.Data.Width = width;
-		result.Data.Height = height;
-		result.Data.Bpp = bpp;
-		result.Image.Allocate(width * height * bpp);
-		result.Image.ZeroInitialze(); // write black to every pixel
+		result->Data.Width = width;
+		result->Data.Height = height;
+		result->Data.Bpp = bpp;
+		result->Image.Allocate(width * height * bpp);
+		result->Image.ZeroInitialze(); // write black to every pixel
 
 		for (int32_t y = 0; y < height; y++)
 		{
@@ -77,10 +78,12 @@ namespace tTexture {
 					std::pair<uint32_t, uint32_t> readCoords = GetCoordinatesRelativeToFace(x, y, faceSize, face);
 					
 					for(byte channel = 0; channel < bpp; channel++)
-						result.Image[(x + y * width) * bpp + channel] = sourceTexture.Images[(int32_t)face][(readCoords.first + readCoords.second * faceSize) * sourceTexture.Data.Bpp + channel];
+						result->Image[(x + y * width) * bpp + channel] = sourceTexture->Images[(int32_t)face][(readCoords.first + readCoords.second * faceSize) * sourceTexture->Data.Bpp + channel];
 				}
 			}
 		}
+
+		return result;
 	}
 
 	Face Exporter::SelectFace(uint32_t faceSize, uint32_t x, uint32_t y)
@@ -108,9 +111,9 @@ namespace tTexture {
 		}
 	}
 
-	void Exporter::StoreTGAStbi(const Texture2D& texture)
+	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture)
 	{
-		stbi_write_tga(m_Filepath.c_str(), texture.Data.Width, texture.Data.Height, texture.Data.Bpp, texture.Image.Data);
+		stbi_write_tga(m_Filepath.c_str(), texture->Data.Width, texture->Data.Height, texture->Data.Bpp, texture->Image.Data);
 	}
 
 }

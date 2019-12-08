@@ -31,7 +31,7 @@ namespace tTexture {
 	#define TTEX_CORE_ERROR(...)	::tTexture::Log::GetCoreLogger()->error(__VA_ARGS__)
 	#define TTEX_CORE_WARN(...)		::tTexture::Log::GetCoreLogger()->warn(__VA_ARGS__)
 	#define TTEX_CORE_INFO(...)		::tTexture::Log::GetCoreLogger()->info(__VA_ARGS__)
-	#define TTEX_CORE_TRACE(...)	::tTexture::Log::GetCoreLogger()->trace(__VA_ARGS__)
+	#define TTEX_CORE_TRACE(...)	::tTexture::Log::GetCoreLogger()->trace(__VA_ARGS__);
 	#define TTEX_CORE_FATAL(...)	::tTexture::Log::GetCoreLogger()->critical(__VA_ARGS__)
 	
 	#define TTEX_CORE_CHECK(x, ...)	{if(x) {::tTexture::Log::GetCoreLogger()->info(__VA_ARGS__); __debugbreak();}}

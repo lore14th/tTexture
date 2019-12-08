@@ -6,6 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\HCrossTest.cpp" />
+    <ClCompile Include="src\Image2DTest.cpp" />
   </ItemGroup>
 </Project>
