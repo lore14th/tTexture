@@ -7,17 +7,11 @@
 
 namespace tTexture {
 
-	Application* Application::s_Instance = nullptr;
-
 	Application::Application(bool onlineApplication)
 		: m_OnlineApplication(onlineApplication)
 	{
-		TTEX_CORE_ASSERT(!s_Instance, "Application already exists");
-
-		if(!onlineApplication)
-			m_Renderer = std::make_unique<OpenGLRenderer>();
-
-		s_Instance = this;
+		if (!onlineApplication)
+			m_Renderer = std::make_optional(std::make_unique<OpenGLRenderer>());
 	}
 
 	std::shared_ptr<Texture2D> Application::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
@@ -47,6 +41,21 @@ namespace tTexture {
 		}
 	}
 
+	std::shared_ptr<tTexture::TextureCube> Application::CreateIrradiance(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
+	{
+		Loader loader(filepath, imageChannels, flipOnLoad);
+		loader.SetApplicationCallback(this);
+		std::shared_ptr<TextureCube> texture = loader.LoadCubeMapFromFile(format);
+
+		return CreateIrradiance(texture);
+	}
+
+	std::shared_ptr<tTexture::TextureCube> Application::CreateIrradiance(const std::shared_ptr<TextureCube> sourceTexture)
+	{
+		auto& renderer = GetRenderer();
+		return renderer->CreateIrradianceMap(sourceTexture);
+	}
+
 	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
 	{
 		Exporter exporter(outputFilepath);
@@ -57,6 +66,12 @@ namespace tTexture {
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
+	}
+
+	const std::unique_ptr<tTexture::OpenGLRenderer>& Application::GetRenderer() const
+	{
+		TTEX_CORE_ASSERT(m_Renderer.has_value(), "Application:No renderer instance. Make sure you are running offline mode");
+		return m_Renderer.value();
 	}
 
 }

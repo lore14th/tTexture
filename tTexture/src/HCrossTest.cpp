@@ -15,9 +15,11 @@ int main()
 	tTexture::Application app(false);
 
 	std::shared_ptr<tTexture::TextureCube> texture = app.LoadTextureCube(filepath, desiredChannels, format, flipOnLoad);
+	std::shared_ptr<tTexture::TextureCube> irradianceMap = app.CreateIrradiance(texture);
 
 	// Store image on disk
 	app.ExportTexture("exporter/CubemapTest.tga", texture);
+	//app.ExportTexture("exporter/CubemapTest.tga", irradianceMap);
 
 	// TODO: remove
 	// Use data 

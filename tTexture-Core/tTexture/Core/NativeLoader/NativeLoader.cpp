@@ -172,8 +172,7 @@ namespace tTexture::Native {
 
 	std::shared_ptr<TextureCube> EquirectangularLoader::ConvertToCubeMap(const std::shared_ptr<Texture2D>& sourceImage) const
 	{
-		//return m_Renderer->RenderEquirectangularTexture(sourceImage);
-		return std::make_shared<TextureCube>();
+		return m_Renderer->RenderEquirectangularTexture(sourceImage);
 	}
 
 }

@@ -35,19 +35,19 @@ namespace tTexture::Renderer {
 	// -- OpenGLTexture2D
 	// ------------------------------------------------------
 
-	OpenGLTexture2D::OpenGLTexture2D(const Texture2D& texture)
+	OpenGLTexture2D::OpenGLTexture2D(const std::shared_ptr<Texture2D>& texture)
 		: m_RendererID(0), m_Texture(texture)
 	{
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		m_MipLevels = CalculateMipMapCount(m_Texture.Data.Width, m_Texture.Data.Height);
+		m_MipLevels = CalculateMipMapCount(m_Texture->Data.Width, m_Texture->Data.Height);
 
-		glTextureStorage2D(m_RendererID, m_MipLevels, GetInternalFormat(m_Texture.Data.Bpp), m_Texture.Data.Width, m_Texture.Data.Height);
+		glTextureStorage2D(m_RendererID, m_MipLevels, GetInternalFormat(m_Texture->Data.Bpp), m_Texture->Data.Width, m_Texture->Data.Height);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, m_MipLevels > 1 ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Texture.Data.Width, m_Texture.Data.Height, GetPixelFormat(m_Texture.Data.Bpp), GL_UNSIGNED_BYTE, m_Texture.Image.Data);
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Texture->Data.Width, m_Texture->Data.Height, GetPixelFormat(m_Texture->Data.Bpp), GL_UNSIGNED_BYTE, m_Texture->Image.Data);
 		glGenerateTextureMipmap(m_RendererID);
 		
 	}
@@ -55,11 +55,11 @@ namespace tTexture::Renderer {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: m_RendererID(0)
 	{
-		m_Texture.Data.Width = width;
-		m_Texture.Data.Height = height;
-		m_Texture.Data.Bpp = 4;
+		m_Texture->Data.Width = width;
+		m_Texture->Data.Height = height;
+		m_Texture->Data.Bpp = 4;
 
-		m_MipLevels = CalculateMipMapCount(m_Texture.Data.Width, m_Texture.Data.Height);
+		m_MipLevels = CalculateMipMapCount(m_Texture->Data.Width, m_Texture->Data.Height);
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 
@@ -68,7 +68,7 @@ namespace tTexture::Renderer {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Texture.Data.Width, m_Texture.Data.Height, GetPixelFormat(m_Texture.Data.Bpp), GL_UNSIGNED_BYTE, nullptr);
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Texture->Data.Width, m_Texture->Data.Height, GetPixelFormat(m_Texture->Data.Bpp), GL_UNSIGNED_BYTE, nullptr);
 
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);

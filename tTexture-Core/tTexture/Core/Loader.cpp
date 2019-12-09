@@ -40,7 +40,7 @@ namespace tTexture {
 		{
 			case CubeFormat::HCROSS: loader = std::make_unique<Native::HCrossLoader>(); break;
 			case CubeFormat::VCROSS: loader = std::make_unique<Native::VCrossLoader>(); break;
-			case CubeFormat::EQUIRECTANGULAR: loader = std::make_unique<Native::EquirectangularLoader>(m_ApplicationRef->m_Renderer); break;
+			case CubeFormat::EQUIRECTANGULAR: loader = std::make_unique<Native::EquirectangularLoader>(m_ApplicationRef->GetRenderer()); break;
 		}
 		return loader->ConvertToCubeMap(sourceImage);
 	}
