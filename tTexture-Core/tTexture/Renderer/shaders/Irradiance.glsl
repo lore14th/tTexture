@@ -22,7 +22,7 @@ in vec3 v_WorldPosition;
 
 uniform float u_OutputAlpha;
 uniform float u_Exposure;
-uniform samplerCube u_Texture; 
+uniform samplerCube u_Texture;
 
 const float PI = 3.14159265359;
 
@@ -57,8 +57,7 @@ void main()
 			nrSamples++;
 		}
 	}
-	irradiance = PI * irradiance * (1.0 / float(nrSamples));
 
-	//outputColor = vec4(irradiance, u_OutputAlpha);
-	outputColor = vec4(1,0,0,1);
+	irradiance = PI * irradiance * (1.0 / float(nrSamples));
+	outputColor = vec4(irradiance, u_OutputAlpha);
 }

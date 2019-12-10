@@ -21,12 +21,12 @@ namespace tTexture {
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture);
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture);
 
+		void SetRendererResolution(uint32_t resolution);
 	private:
 		const std::unique_ptr<OpenGLRenderer>& GetRenderer() const;
 		 
 	private:
 		std::optional<std::unique_ptr<OpenGLRenderer>> m_Renderer;
-		bool m_OnlineApplication;
 
 		friend class Loader; // Loader need to access m_Renderer
 	};

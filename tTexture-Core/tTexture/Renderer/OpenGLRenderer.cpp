@@ -27,7 +27,7 @@ namespace tTexture {
 #endif
 
 	OpenGLRenderer::OpenGLRenderer()
-		: m_VertexArray(0), m_CaptureProjection(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f)), 
+		: m_VertexArray(0), m_Resolution(512), m_CaptureProjection(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f)), 
 		m_Exposure(1.0f), m_OutputAlpha(1.0f), m_TextureSlot(0)
 	{
 #ifdef TTEX_RENDERER_DEBUG
@@ -48,9 +48,8 @@ namespace tTexture {
 
 	std::shared_ptr<TextureCube> OpenGLRenderer::RenderEquirectangularTexture(const std::shared_ptr<Texture2D>& source)
 	{
-		// TODO: expose resolution
 		// Create Target TextureCube
-		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(512);
+		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
 
 		// Create shader and set uniforms
 		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/Equirectangular.glsl");
@@ -64,7 +63,10 @@ namespace tTexture {
 		std::unique_ptr<Renderer::OpenGLTexture2D> sourceTexture = std::make_unique<Renderer::OpenGLTexture2D>(source);
 		sourceTexture->Bind(m_TextureSlot);
 
+		m_CubeVertexBuffer->Bind();
+		m_CubeIndexBuffer->Bind();
 		// Render texture
+		m_Context->Clear(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 		for (uint32_t i = 0; i < 6; i++)
 		{
 			m_Framebuffer->BindAndRenderToCubeFace(targetTexture, i, 0);
@@ -72,25 +74,47 @@ namespace tTexture {
 		#ifdef TTEX_RENDERER_DEBUG
 			m_Context->Clear(GetFaceColor(i));
 		#endif
-			shader->Bind();
 			shader->SetUniformMat4f("u_ViewMatrix", GetEquirectagularView(i));
-
-			m_CubeVertexBuffer->Bind();
-			m_CubeIndexBuffer->Bind();
-			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), false);
-
+			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
 		}
 		m_Framebuffer->Unbind();
-
-		return ConvertResultToCubeMap(targetTexture);
+		return targetTexture->ConvertToTextureCube();
 	}
 
 	std::shared_ptr<tTexture::TextureCube> OpenGLRenderer::CreateIrradianceMap(const std::shared_ptr<TextureCube>& source)
 	{
-		std::shared_ptr<TextureCube> result = std::make_shared<TextureCube>();
-		TTEX_CORE_ASSERT(false, "TODO: implement this");
-		
-		return result;
+		// Create Target TextureCube
+		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
+
+		// Create shader and set uniforms
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/Irradiance.glsl");
+		shader->Bind();
+		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
+		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
+		shader->SetUniform1i("u_Texture", m_TextureSlot);
+		shader->SetUniform1f("u_Exposure", m_Exposure);
+
+		// Create and bind source texture
+		std::unique_ptr<Renderer::OpenGLTextureCube> sourceTexture = std::make_unique<Renderer::OpenGLTextureCube>(source);
+		sourceTexture->Bind(m_TextureSlot);
+
+		m_CubeVertexBuffer->Bind();
+		m_CubeIndexBuffer->Bind();
+
+		m_Context->Clear(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+		for (uint32_t i = 0; i < 6; i++)
+		{
+			m_Framebuffer->BindAndRenderToCubeFace(targetTexture, i, 0);
+			m_Context->Clear();
+		#ifdef TTEX_RENDERER_DEBUG
+			m_Context->Clear(GetFaceColor(i));
+		#endif
+			shader->SetUniformMat4f("u_ViewMatrix", GetIrradianceView(i));
+			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
+		}
+		m_Framebuffer->Unbind();
+
+		return targetTexture->ConvertToTextureCube();
 	}
 
 	void OpenGLRenderer::Init()
@@ -112,36 +136,36 @@ namespace tTexture {
 		};
 
 		static float vertices[24 * 6] = {
-			// Front Face
+		// Front Face
 			-1.0f, -1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
 			-1.0f,  1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
 			 1.0f,  1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
 			 1.0f, -1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
-			// Back Face				 	    		   
+		 // Back Face				 	    		   
 			-1.0f, -1.0f, -1.0f,	 0.0f,  0.0f, 1.0f,
 			 1.0f, -1.0f, -1.0f,	 0.0f,  0.0f, 1.0f,
 			 1.0f,  1.0f, -1.0f,	 0.0f,  0.0f, 1.0f,
 			-1.0f,  1.0f, -1.0f,	 0.0f,  0.0f, 1.0f,
-			// TopFace					 				   
-		    -1.0f,  1.0f, -1.0f,	 0.0f,  -1.0f,  0.0f,
+		 // TopFace					 				   
+			-1.0f,  1.0f, -1.0f,	 0.0f,  -1.0f,  0.0f,
 			 1.0f,  1.0f, -1.0f,	 0.0f,  -1.0f,  0.0f,
 			 1.0f,  1.0f,  1.0f,	 0.0f,  -1.0f,  0.0f,
-		    -1.0f,  1.0f,  1.0f,	 0.0f,  -1.0f,  0.0f,
-		   // Bottom Face						   	   
-   		    -1.0f, -1.0f, -1.0f,	 0.0f, 1.0f,  0.0f,
-   		    -1.0f, -1.0f,  1.0f,	 0.0f, 1.0f,  0.0f,
-   		     1.0f, -1.0f,  1.0f,	 0.0f, 1.0f,  0.0f,
-   		     1.0f, -1.0f, -1.0f,	 0.0f, 1.0f,  0.0f,
-   		  // Right Face							   	   
-		     1.0f, -1.0f, -1.0f,	-1.0f,  0.0f,  0.0f,
-		     1.0f, -1.0f,  1.0f,	-1.0f,  0.0f,  0.0f,
-		     1.0f,  1.0f,  1.0f,	-1.0f,  0.0f,  0.0f,
-		     1.0f,  1.0f, -1.0f,	-1.0f,  0.0f,  0.0f,
-		 // Left Face					    	   	   
-		    -1.0f, -1.0f, -1.0f,	1.0f,  0.0f,  0.0f,
-		    -1.0f,  1.0f, -1.0f,	1.0f,  0.0f,  0.0f,
-		    -1.0f,  1.0f,  1.0f,	1.0f,  0.0f,  0.0f,
-		    -1.0f, -1.0f,  1.0f,	1.0f,  0.0f,  0.0f,
+			-1.0f,  1.0f,  1.0f,	 0.0f,  -1.0f,  0.0f,
+		  // Bottom Face						   	   
+			-1.0f, -1.0f, -1.0f,	 0.0f, 1.0f,  0.0f,
+			-1.0f, -1.0f,  1.0f,	 0.0f, 1.0f,  0.0f,
+			 1.0f, -1.0f,  1.0f,	 0.0f, 1.0f,  0.0f,
+			 1.0f, -1.0f, -1.0f,	 0.0f, 1.0f,  0.0f,
+		  // Right Face							   	   
+			 1.0f, -1.0f, -1.0f,	-1.0f,  0.0f,  0.0f,
+			 1.0f, -1.0f,  1.0f,	-1.0f,  0.0f,  0.0f,
+			 1.0f,  1.0f,  1.0f,	-1.0f,  0.0f,  0.0f,
+			 1.0f,  1.0f, -1.0f,	-1.0f,  0.0f,  0.0f,
+		// Left Face					    	   	   
+			-1.0f, -1.0f, -1.0f,	1.0f,  0.0f,  0.0f,
+			-1.0f,  1.0f, -1.0f,	1.0f,  0.0f,  0.0f,
+			-1.0f,  1.0f,  1.0f,	1.0f,  0.0f,  0.0f,
+			-1.0f, -1.0f,  1.0f,	1.0f,  0.0f,  0.0f,
 		};
 
 		static uint32_t indices[36] = {
@@ -163,7 +187,6 @@ namespace tTexture {
 	glm::mat4 OpenGLRenderer::GetEquirectagularView(uint32_t faceIndex)
 	{
 		TTEX_CORE_ASSERT(faceIndex < 6, "Index out of bounds");
-
 		switch (faceIndex)
 		{
 			case 0: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3( 0.0f, -1.0f, 0.0f));
@@ -173,26 +196,24 @@ namespace tTexture {
 			case 4: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3( 0.0f, -1.0f, 0.0f));
 			case 5: return glm::lookAt(glm::vec3(0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3( 0.0f, -1.0f, 0.0f));
 		}
-
 		TTEX_CORE_ASSERT(false, "");
 		return glm::mat4(1.0f);
 	}
 
-	std::shared_ptr<TextureCube> OpenGLRenderer::ConvertResultToCubeMap(const std::shared_ptr<Renderer::OpenGLTextureCube>& source)
+	glm::mat4 OpenGLRenderer::GetIrradianceView(uint32_t faceIndex)
 	{
-		std::shared_ptr<TextureCube> result = std::make_shared<TextureCube>();
-
-		result->Data.Width = source->GetFaceSize();
-		result->Data.Height = source->GetFaceSize();
-		result->Data.Bpp = source->GetBpp();
-
-		for (uint32_t i = 0; i < result->Images.size(); i++)
+		TTEX_CORE_ASSERT(faceIndex < 6, "Index out of bounds");
+		switch (faceIndex)
 		{
-			uint32_t size = 0;
-			result->Images[i].Data = source->GetPixels(i, size);
-			result->Images[i].Size = size;
+			case 0: return glm::lookAt(glm::vec3(0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f));
+			case 1: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f));
+			case 2: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f));
+			case 3: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f));
+			case 4: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f));
+			case 5: return glm::lookAt(glm::vec3(0.0f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f));
 		}
-		return result;
+		TTEX_CORE_ASSERT(false, "");
+		return glm::mat4(1.0f);
 	}
 
 }

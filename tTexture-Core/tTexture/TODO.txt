@@ -27,10 +27,12 @@
 
 	[DONE] - Consider splitting up the Exporter into multiple classes, one for each file format we want to support. Client should use a generic Exporter
 		-> NO, because we ended up using stb_image_write, so we can create a function inside the exporter for every format we want to support.
+
+	[DONE] - Refactor code to return shared_ptr
 	------------------------------------------
 
-[TODO] - Create Irradiance Map
-[TODO] - Export Irradiance Map
+[DONE] - Create Irradiance Map
+[DONE] - Export Irradiance Map
 
 [TODO] - Export files as VCROSS
 ------------------------

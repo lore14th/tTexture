@@ -8,7 +8,6 @@
 namespace tTexture {
 
 	Application::Application(bool onlineApplication)
-		: m_OnlineApplication(onlineApplication)
 	{
 		if (!onlineApplication)
 			m_Renderer = std::make_optional(std::make_unique<OpenGLRenderer>());
@@ -24,7 +23,7 @@ namespace tTexture {
 
 	std::shared_ptr<TextureCube> Application::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
-		if (m_OnlineApplication && format == CubeFormat::EQUIRECTANGULAR)
+		if (!m_Renderer.has_value() && format == CubeFormat::EQUIRECTANGULAR)
 		{
 			TTEX_CORE_ERROR("tTexture cannot load Equirectangular texture using an online application.\n\
 							Please use the offline application to convert the image and store the result to disk");
@@ -66,6 +65,14 @@ namespace tTexture {
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
+	}
+
+	void Application::SetRendererResolution(uint32_t resolution)
+	{	
+		if (m_Renderer.has_value())
+			m_Renderer.value()->SetRendererResolution(resolution);
+		else
+			TTEX_CORE_WARN("Application cannot set Renderer resolution");
 	}
 
 	const std::unique_ptr<tTexture::OpenGLRenderer>& Application::GetRenderer() const

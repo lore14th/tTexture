@@ -13,13 +13,17 @@ int main()
 	uint32_t desiredChannels = 3; // this must match the image format
 
 	tTexture::Application app(false);
+	app.SetRendererResolution(512);
 
 	std::shared_ptr<tTexture::TextureCube> texture = app.LoadTextureCube(filepath, desiredChannels, format, flipOnLoad);
-	std::shared_ptr<tTexture::TextureCube> irradianceMap = app.CreateIrradiance(texture);
-
-	// Store image on disk
 	app.ExportTexture("exporter/CubemapTest.tga", texture);
-	//app.ExportTexture("exporter/CubemapTest.tga", irradianceMap);
+	std::shared_ptr<tTexture::TextureCube> irradianceMap = app.CreateIrradiance(texture);
+	app.ExportTexture("exporter/Irradiance.tga", irradianceMap);
+
+	std::shared_ptr<tTexture::TextureCube> textureTest = app.LoadTextureCube("assets/textures/lakeside.hdr", desiredChannels, format, flipOnLoad);
+	app.ExportTexture("exporter/Lake.tga", textureTest);
+	std::shared_ptr<tTexture::TextureCube> irradianceMapTest = app.CreateIrradiance(textureTest);
+	app.ExportTexture("exporter/LakeIrradiance.tga", irradianceMapTest);
 
 	// TODO: remove
 	// Use data 

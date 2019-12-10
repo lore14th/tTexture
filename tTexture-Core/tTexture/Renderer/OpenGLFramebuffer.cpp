@@ -113,8 +113,8 @@ namespace tTexture::Renderer {
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 
-		const OpenGLTextureCube * glCubeMap = static_cast<const OpenGLTextureCube*>(targetTexture.get());
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex, glCubeMap->GetRendererID(), mipLevel);
+		//const OpenGLTextureCube* glCubeMap = static_cast<const OpenGLTextureCube*>(targetTexture.get());
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex, targetTexture->GetRendererID(), mipLevel);
 
 		uint32_t size = (uint32_t)(targetTexture->GetFaceSize() * std::pow(0.5, mipLevel));
 		TTEX_CORE_ASSERT(size > 0, "Invalid size");
