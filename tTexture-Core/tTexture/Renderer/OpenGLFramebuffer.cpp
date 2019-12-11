@@ -35,7 +35,7 @@ namespace tTexture::Renderer {
 		CreateFramebuffer();
 
 		OpenGLRenderTarget renderTarget;
-		renderTarget.ColorAttachment = std::make_shared<Renderer::OpenGLTexture2D>(width, height);
+		renderTarget.ColorAttachment = std::make_shared<Renderer::OpenGLTexture2D>(width, height, 4);
 		renderTarget.Width = width;
 		renderTarget.Height = height;
 		renderTarget.Format = format;
@@ -109,11 +109,21 @@ namespace tTexture::Renderer {
 		// this error occurs whether you have already bound a multi-target framebuffer, or you're using a single target framebuffer
 	}
 
+	void OpenGLFramebuffer::BindRenderTarget(const std::shared_ptr<OpenGLTexture2D>& targetTexture, uint32_t mipLevel)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, targetTexture->GetRendererID(), mipLevel);
+
+		uint32_t width = targetTexture->GetWidth() * (uint32_t)std::pow(0.5, mipLevel);
+		uint32_t height = targetTexture->GetHeight() * (uint32_t)std::pow(0.5, mipLevel);
+		TTEX_CORE_ASSERT(width > 0 && height > 0, "Invalid size");
+
+		glViewport(0, 0, width, height);
+	}
+
 	void OpenGLFramebuffer::BindAndRenderToCubeFace(const std::shared_ptr<OpenGLTextureCube>& targetTexture, uint32_t faceIndex, uint32_t mipLevel)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
-
-		//const OpenGLTextureCube* glCubeMap = static_cast<const OpenGLTextureCube*>(targetTexture.get());
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + faceIndex, targetTexture->GetRendererID(), mipLevel);
 
 		uint32_t size = (uint32_t)(targetTexture->GetFaceSize() * std::pow(0.5, mipLevel));
@@ -121,20 +131,7 @@ namespace tTexture::Renderer {
 
 		glViewport(0, 0, size, size);
 	}
-
-
-	byte* OpenGLFramebuffer::GetPixels(uint32_t& size, ReadingFormat format) const
-	{
-		TTEX_CORE_ASSERT(false, "Implement this function");
-		byte* pixels = nullptr;
-
-		//size = m_Width * m_Height * 3;
-		//byte* pixels = new byte[size];
-		//
-		//glReadPixels(0, 0, m_Width, m_Height, TinfoilToOpenGLFramebufferReadingFormat(format), GL_UNSIGNED_BYTE, pixels);
-		return pixels;
-	}
-
+	
 	uint32_t OpenGLFramebuffer::GetWidth(uint32_t attachmentIndex) const
 	{
 		if (IsValidAttachmentIndex(attachmentIndex))
@@ -240,5 +237,7 @@ namespace tTexture::Renderer {
 		m_Complete = result;
 		return result;
 	}
+
+
 
 }

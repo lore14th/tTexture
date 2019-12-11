@@ -1,6 +1,6 @@
 -- Project Setup -- 
-[DONE] - add simple logging system		
-[DONE] - add basic assertion system		
+[DONE] - add simple logging system
+[DONE] - add basic assertion system
 [DONE] - add pre-compiled headers
 
 -- Basic Lib Features --
@@ -8,7 +8,7 @@
 [DONE] - Use Buffer instead of byte*
 [DONE] - Read TextureCube from file (HCROSS / VCROSS)
 [DONE] - Export HCROSS files as .tga [more formats later]
-[TODO] - Test Reader and Exporter
+[DONE] - Test Reader and Exporter
 
 	-- Clean up 0 ----------------------------
 	[DONE] - Application Cleanup
@@ -18,7 +18,7 @@
 [DONE] - Read Texture from Equirectangular format
 [DONE] - Export Equirectangular
 
-	-- Clean up 1 ----------------------------
+	-- Clean up ----------------------------
 	[DONE] - Consider removing GLFW dependency
 		-> NO, creating a window is mandatory!
 
@@ -34,15 +34,27 @@
 [DONE] - Create Irradiance Map
 [DONE] - Export Irradiance Map
 
-[TODO] - Export files as VCROSS
+[DONE] - Test Release Mode
 ------------------------
 
 -- Advanced Lib Features --
 [TODO] - Create BRDF Luts
 
+[TODO] - Consider Exporting Prefiltered Radiance Map
+[TODO] - Find a way to load Prefiltered Radiance Map
+
+	-- Clean up ----------------------------
+	[TODO] - Handle Resize
+	[TODO] - Remove all the useless methods in Framebuffer and Texture
+	------------------------------------------
+
+[TODO] - Export files as VCROSS
+[TODO] - Export files as Equirectangular (consider)
+------------------------
+
+-- Release Features --
+
 [TODO] - Add GUI
 [TODO] - MacOS support
 [TODO] - Linus support
-
-[TODO] - Export files as Equirectangular (consider)
 ---------------------------

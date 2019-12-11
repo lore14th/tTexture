@@ -21,7 +21,6 @@ out vec4 outputColor;
 in vec3 v_WorldPosition;
 
 uniform float u_OutputAlpha;
-uniform float u_Exposure;
 uniform samplerCube u_Texture;
 
 const float PI = 3.14159265359;

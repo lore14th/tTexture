@@ -22,13 +22,17 @@ namespace tTexture {
 		std::shared_ptr<TextureCube> RenderEquirectangularTexture(const std::shared_ptr<Texture2D>& source);
 		std::shared_ptr<TextureCube> CreateIrradianceMap(const std::shared_ptr<TextureCube>& source);
 
+		std::shared_ptr<Texture2D> CreateBRDF();
+
 		std::pair<uint32_t, uint32_t> GetWindowSize() const { return m_Context->GetWindowSize(); }
 
 		void SetRendererResolution(uint32_t resolution) { m_Resolution = resolution; }
 	private:
 		void Init();
 		void Shutdown();
+
 		void CreateCube();
+		void CreateSquare();
 
 		glm::mat4 GetEquirectagularView(uint32_t faceIndex);
 		glm::mat4 GetIrradianceView(uint32_t faceIndex);
@@ -37,6 +41,9 @@ namespace tTexture {
 		uint32_t m_Resolution;
 		std::unique_ptr<Renderer::OpenGLContext> m_Context;
 		std::unique_ptr<Renderer::OpenGLFramebuffer> m_Framebuffer;
+
+		std::unique_ptr<Renderer::OpenGLVertexBuffer> m_SquareVertexBuffer;
+		std::unique_ptr<Renderer::OpenGLIndexBuffer> m_SquareIndexBuffer;
 
 		std::unique_ptr<Renderer::OpenGLVertexBuffer> m_CubeVertexBuffer;
 		std::unique_ptr<Renderer::OpenGLIndexBuffer> m_CubeIndexBuffer;

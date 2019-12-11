@@ -97,6 +97,8 @@ namespace tTexture::Renderer {
 		TTEX_CORE_ASSERT(gladInit, "Failed to initialize GLAD");
 
 		glEnable(GL_MULTISAMPLE);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_CCW);
 
 #if TTEX_DEBUG
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

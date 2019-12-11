@@ -23,6 +23,11 @@ namespace tTexture {
 		{
 		}
 
+		~Buffer()
+		{
+
+		}
+
 		void Allocate(uint32_t size)
 		{
 			delete[] Data;

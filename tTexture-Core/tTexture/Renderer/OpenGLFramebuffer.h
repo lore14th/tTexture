@@ -21,17 +21,17 @@ namespace tTexture::Renderer {
 		void Unbind() const;
 
 		void Resize(uint32_t width, uint32_t height);
-		void AddColorAttachment(std::shared_ptr<OpenGLTexture2D>& targetTexture, uint32_t mipLevel) ;
-		void BindAndRenderToCubeFace(const std::shared_ptr<OpenGLTextureCube>& targetTexture, uint32_t faceIndex, uint32_t mipLevel) ;
+		void AddColorAttachment(std::shared_ptr<OpenGLTexture2D>& targetTexture, uint32_t mipLevel);
 
-		byte* GetPixels(uint32_t& size, ReadingFormat format) const ;
+		void BindRenderTarget(const std::shared_ptr<OpenGLTexture2D>& targetTexture, uint32_t mipLevel);
+		void BindAndRenderToCubeFace(const std::shared_ptr<OpenGLTextureCube>& targetTexture, uint32_t faceIndex, uint32_t mipLevel);
 
-		uint32_t GetWidth(uint32_t attachmentIndex) const ;
-		uint32_t GetHeight(uint32_t attachmentIndex) const ;
-		FramebufferFormat GetFormat(uint32_t attachmentIndex) const ;
+		uint32_t GetWidth(uint32_t attachmentIndex) const;
+		uint32_t GetHeight(uint32_t attachmentIndex) const;
+		FramebufferFormat GetFormat(uint32_t attachmentIndex) const;
 		const std::optional<std::shared_ptr<OpenGLTexture2D>> GetColorAttachment(uint32_t attachmentIndex) const;
 
-		bool IsValidAttachmentIndex(uint32_t attachmentIndex) const ;
+		bool IsValidAttachmentIndex(uint32_t attachmentIndex) const;
 		uint32_t GetAttachmentCount() const { return (uint32_t)m_RenderTargets.size(); }
 
 		uint32_t GetRendererID() const { return m_RendererID; }

@@ -55,6 +55,12 @@ namespace tTexture {
 		return renderer->CreateIrradianceMap(sourceTexture);
 	}
 
+	std::shared_ptr<tTexture::Texture2D> Application::CreateBRDF()
+	{
+		auto& renderer = GetRenderer();
+		return renderer->CreateBRDF();
+	}
+
 	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
 	{
 		Exporter exporter(outputFilepath);

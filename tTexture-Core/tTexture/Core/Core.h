@@ -23,7 +23,7 @@ namespace tTexture { // types
 	{
 		int32_t Width, Height, Bpp;
 
-		TextureData();
+		TextureData() = default;
 		TextureData(int32_t width, int32_t height, int32_t bpp);
 	};
 
@@ -33,8 +33,11 @@ namespace tTexture { // types
 		TextureData Data;
 
 		Texture2D() = default;
+		Texture2D(int32_t width, int32_t height, int32_t bpp);
 		Texture2D(const Texture2D& other);
 		~Texture2D();
+
+		void AllocateTexture();
 	};
 
 	struct TextureCube
@@ -43,8 +46,11 @@ namespace tTexture { // types
 		TextureData Data;
 
 		TextureCube() = default;
+		TextureCube(int32_t faceSize, int32_t bpp);
 		TextureCube(const TextureCube& other);
 		~TextureCube();
+
+		void AllocateTexture();
 	};
 
 }
@@ -60,7 +66,7 @@ namespace tTexture { // helper functions
 	void FlipImageHorizontally(Texture2D& texture);
 	void FlipImageVertically(Texture2D& texture);
 
-	void RemoveAlphaChannel(Texture2D& texture);
+	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture);
 }
 
 namespace tTexture {

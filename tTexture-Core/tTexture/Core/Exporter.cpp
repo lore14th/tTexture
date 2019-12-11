@@ -113,7 +113,8 @@ namespace tTexture {
 
 	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture)
 	{
-		stbi_write_tga(m_Filepath.c_str(), texture->Data.Width, texture->Data.Height, texture->Data.Bpp, texture->Image.Data);
+		std::shared_ptr<Texture2D> outputTexture = RemoveAlphaChannel(texture);
+		stbi_write_tga(m_Filepath.c_str(), outputTexture->Data.Width, outputTexture->Data.Height, outputTexture->Data.Bpp, outputTexture->Image.Data);
 	}
 
 }

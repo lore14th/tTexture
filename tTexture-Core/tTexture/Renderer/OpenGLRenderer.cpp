@@ -38,7 +38,6 @@ namespace tTexture {
 		m_Framebuffer = std::make_unique<Renderer::OpenGLFramebuffer>();
 
 		Init();
-		CreateCube();
 	}
 
 	OpenGLRenderer::~OpenGLRenderer()
@@ -66,7 +65,6 @@ namespace tTexture {
 		m_CubeVertexBuffer->Bind();
 		m_CubeIndexBuffer->Bind();
 		// Render texture
-		m_Context->Clear(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 		for (uint32_t i = 0; i < 6; i++)
 		{
 			m_Framebuffer->BindAndRenderToCubeFace(targetTexture, i, 0);
@@ -77,7 +75,7 @@ namespace tTexture {
 			shader->SetUniformMat4f("u_ViewMatrix", GetEquirectagularView(i));
 			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
 		}
-		m_Framebuffer->Unbind();
+	
 		return targetTexture->ConvertToTextureCube();
 	}
 
@@ -92,7 +90,6 @@ namespace tTexture {
 		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
 		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
 		shader->SetUniform1i("u_Texture", m_TextureSlot);
-		shader->SetUniform1f("u_Exposure", m_Exposure);
 
 		// Create and bind source texture
 		std::unique_ptr<Renderer::OpenGLTextureCube> sourceTexture = std::make_unique<Renderer::OpenGLTextureCube>(source);
@@ -101,7 +98,6 @@ namespace tTexture {
 		m_CubeVertexBuffer->Bind();
 		m_CubeIndexBuffer->Bind();
 
-		m_Context->Clear(glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
 		for (uint32_t i = 0; i < 6; i++)
 		{
 			m_Framebuffer->BindAndRenderToCubeFace(targetTexture, i, 0);
@@ -112,9 +108,27 @@ namespace tTexture {
 			shader->SetUniformMat4f("u_ViewMatrix", GetIrradianceView(i));
 			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
 		}
-		m_Framebuffer->Unbind();
 
 		return targetTexture->ConvertToTextureCube();
+	}
+
+	std::shared_ptr<tTexture::Texture2D> OpenGLRenderer::CreateBRDF()
+	{
+		// Create Target Texture2D
+		std::shared_ptr<Renderer::OpenGLTexture2D> targetTexture = std::make_shared<Renderer::OpenGLTexture2D>(m_Resolution, m_Resolution, 4);
+
+		// Create shader and set uniforms
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/BRDF.glsl");
+		shader->Bind();
+		
+		m_SquareVertexBuffer->Bind();
+		m_SquareIndexBuffer->Bind();
+		
+		m_Framebuffer->BindRenderTarget(targetTexture, 0);
+		m_Context->Clear({ 0.8, 0.8, 0.2, 1 });
+		m_Context->DrawIndexed(m_SquareIndexBuffer->GetCount(), true);
+
+		return targetTexture->ConvertToTexture();
 	}
 
 	void OpenGLRenderer::Init()
@@ -122,6 +136,9 @@ namespace tTexture {
 		// Create a default vertex array
 		glCreateVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
+
+		CreateCube();
+		CreateSquare();
 	}
 
 	void OpenGLRenderer::Shutdown()
@@ -135,7 +152,7 @@ namespace tTexture {
 			{ Renderer::ShaderDataType::Float3, "a_Position" },
 		};
 
-		static float vertices[24 * 6] = {
+		static float cubeVertices[24 * 6] = {
 		// Front Face
 			-1.0f, -1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
 			-1.0f,  1.0f,  1.0f,	 0.0f,  0.0f,  -1.0f,
@@ -168,7 +185,7 @@ namespace tTexture {
 			-1.0f, -1.0f,  1.0f,	1.0f,  0.0f,  0.0f,
 		};
 
-		static uint32_t indices[36] = {
+		static uint32_t cubeIndices[36] = {
 			 0,  1,  2,  0,  2,  3,
 			 4,  5,  6,  4,  6,  7,
 			 8,  9, 10,  8, 10, 11,
@@ -177,11 +194,34 @@ namespace tTexture {
 			20, 21, 22, 20, 22, 23
 		};
 
-		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, sizeof(vertices));
-		m_CubeVertexBuffer->SetData(vertices, sizeof(vertices));
+		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, sizeof(cubeVertices));
+		m_CubeVertexBuffer->SetData(cubeVertices, sizeof(cubeVertices));
 		
-		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>(sizeof(indices));
-		m_CubeIndexBuffer->SetData(indices, sizeof(indices));
+		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>(sizeof(cubeIndices));
+		m_CubeIndexBuffer->SetData(cubeIndices, sizeof(cubeIndices));
+	}
+
+	void OpenGLRenderer::CreateSquare()
+	{
+		Renderer::VertexBufferLayout layout = {
+			{ Renderer::ShaderDataType::Float3, "a_Position" },
+			{ Renderer::ShaderDataType::Float2, "a_TexCoord" }
+		};
+
+		static float squareVertices[4 * 5] = {
+			-1.0f, -1.0f, 0.1f,		0.0f, 0.0f,
+			 1.0f, -1.0f, 0.1f,		1.0f, 0.0f,
+			 1.0f,  1.0f, 0.1f,		1.0f, 1.0f,
+			-1.0f,  1.0f, 0.1f,		0.0f, 1.0f,
+		};
+
+		static uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+
+		m_SquareVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, sizeof(squareVertices));
+		m_SquareVertexBuffer->SetData(squareVertices, sizeof(squareVertices));
+
+		m_SquareIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>(sizeof(squareIndices));
+		m_SquareIndexBuffer->SetData(squareIndices, sizeof(squareIndices));
 	}
 
 	glm::mat4 OpenGLRenderer::GetEquirectagularView(uint32_t faceIndex)
