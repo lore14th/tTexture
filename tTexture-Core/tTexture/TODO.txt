@@ -38,10 +38,7 @@
 ------------------------
 
 -- Advanced Lib Features --
-[TODO] - Create BRDF Luts
-
-[TODO] - Consider Exporting Prefiltered Radiance Map
-[TODO] - Find a way to load Prefiltered Radiance Map
+[DONE] - Create BRDF Luts
 
 	-- Clean up ----------------------------
 	[TODO] - Handle Resize
@@ -53,8 +50,12 @@
 ------------------------
 
 -- Release Features --
-
 [TODO] - Add GUI
 [TODO] - MacOS support
 [TODO] - Linus support
+
+[TODO] - Consider Exporting Prefiltered Radiance Map
+[TODO] - Find a way to load Prefiltered Radiance Map
+
+[TODO] - Add multiple BRDF luts
 ---------------------------

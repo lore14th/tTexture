@@ -95,55 +95,6 @@ namespace tTexture {
 		return { x - faceLimits.first, y - faceLimits.second };
 	}
 
-	void FlipImageHorizontally(Texture2D& texture)
-	{
-		const uint32_t width = texture.Data.Width;
-		const uint32_t height = texture.Data.Height;
-		const uint32_t bpp = texture.Data.Bpp;
-
-		const uint32_t h = height / 2;
-		for (uint32_t y = 0; y < h; y++)
-		{
-			for (uint32_t x = 0; x < width; x++)
-			{
-				uint32_t targetRow = height - y;
-
-				uint32_t sourceIndex = x + y * height;
-				uint32_t targetIndex = x + targetRow * height;
-
-				for (uint32_t channel = 0; channel < bpp; channel++)
-				{
-					byte tempValue = texture.Image.Data[sourceIndex * bpp + channel];
-					texture.Image.Data[sourceIndex * bpp + channel] = texture.Image.Data[targetIndex * bpp + channel];
-					texture.Image.Data[targetIndex * bpp + channel] = tempValue;
-				}
-			}
-		}
-	}
-
-	void FlipImageVertically(Texture2D& texture)
-	{
-		uint32_t width = texture.Data.Width;
-		uint32_t height = texture.Data.Height;
-		uint32_t bpp = texture.Data.Bpp;
-
-		uint32_t low = 0;
-		uint32_t high = (width * height * bpp) - bpp;
-
-		while (low < high)
-		{
-			for (uint32_t channel = 0; channel < bpp; channel++)
-			{
-				byte tempValue = texture.Image[high + channel];
-				texture.Image[high + channel] = texture.Image[low + channel];
-				texture.Image[low + channel] = tempValue;
-			}
-
-			low += bpp;
-			high -= bpp;
-		}
-	}
-
 	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture)
 	{
 		if (texture->Data.Bpp == 4)

@@ -63,9 +63,7 @@ namespace tTexture { // helper functions
 	// returns the coordinates relative to the cube face, given the x and y coordinates relative to the HCross file.
 	std::pair<uint32_t, uint32_t> GetCoordinatesRelativeToFace(uint32_t x, uint32_t y, uint32_t faceSize, Face face);
 
-	void FlipImageHorizontally(Texture2D& texture);
-	void FlipImageVertically(Texture2D& texture);
-
+	// returns an rgb copy of the source texture. If the texture is already rgb, it does nothing
 	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture);
 }
 
