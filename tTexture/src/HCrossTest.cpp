@@ -19,9 +19,13 @@ int main()
 
 	std::shared_ptr<tTexture::TextureCube> texture = app.LoadTextureCube(filepath, desiredChannels, format, flipOnLoad);
 	app.ExportTexture("exporter/CubemapTest.tga", texture);
+	app.ExportTexture("exporter/CubemapTest.png", texture);
+	app.ExportTexture("exporter/CubemapTest.jpg", texture);
 	std::shared_ptr<tTexture::TextureCube> irradianceMap = app.CreateIrradiance(texture);
 	app.ExportTexture("exporter/Irradiance.tga", irradianceMap);
 
 	std::shared_ptr<tTexture::Texture2D> brdf = app.CreateBRDF();
+	app.ExportTexture("exporter/BRDF.png", brdf);
 	app.ExportTexture("exporter/BRDF.tga", brdf);
+	app.ExportTexture("exporter/BRDF.jpg", brdf);
 }

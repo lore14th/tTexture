@@ -39,10 +39,13 @@
 
 -- Advanced Lib Features --
 [DONE] - Create BRDF Luts
+[DONE] - Support multiple output files format (Tga, Png, Jpg)
 
 	-- Clean up ----------------------------
+	[TODO] - Sandbox clean up. All tests in one file (maybe different funtions)
 	[TODO] - Handle Resize
 	[TODO] - Remove all the useless methods in Framebuffer and Texture
+	[TODO] - documentation comments
 	------------------------------------------
 
 [TODO] - Export files as VCROSS

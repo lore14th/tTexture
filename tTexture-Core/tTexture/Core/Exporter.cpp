@@ -12,51 +12,97 @@ namespace tTexture {
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format. Choose a different file extension");
 	}
 
-	void Exporter::WriteToDisk(const std::shared_ptr<Texture2D>& texure)
+	void Exporter::WriteToDisk(const std::shared_ptr<Texture2D>& texture) const
 	{
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
 
 		switch (m_OutputFormat)
 		{
-			case OutputFormat::Tga: StoreTGAStbi(texure);		break;
-			//case OutputFormat::Png:	
+			case OutputFormat::Tga: StoreTGAStbi(texture);		break;
+			case OutputFormat::Png:	StorePngStbi(texture);		break;
+			case OutputFormat::Jpg: StoreJpgStbi(texture);		break;
+			default: TTEX_CORE_ERROR("Exporter:Texture not exported, invalid output format");
 		}
 	}
 
-	void Exporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture)
+	void Exporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture) const
 	{
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
-
-		// TODO: Support multiple output formats
-		std::shared_ptr<Texture2D> convertedTexture = PrepareHCross(texture);
+		std::shared_ptr<Texture2D> crossTexture = ConvertToHCross(texture);
 
 		switch (m_OutputFormat)
 		{
-			case OutputFormat::Tga: StoreTGAStbi(convertedTexture);		break;
-			//case OutputFormat::Png:	
+			case OutputFormat::Tga: StoreTGAStbi(crossTexture);		break;
+			case OutputFormat::Png:	StorePngStbi(crossTexture);		break;
+			case OutputFormat::Jpg: StoreJpgStbi(crossTexture);		break;
+			default: TTEX_CORE_ERROR("Exporter:Texture not exported, invalid output format");
 		}	
 	}
 	
-	Exporter::OutputFormat Exporter::RetrieveOutputFormat(const std::string& filepath)
+	Exporter::OutputFormat Exporter::RetrieveOutputFormat(const std::string& filepath) const
 	{
 		size_t extensionFlag = filepath.find_last_of(".");
 		std::string_view extension(filepath.c_str() + extensionFlag, filepath.length() - extensionFlag);
 
-		// TODO: Support multiple output formats
 		if (extension == ".tga")
 			return OutputFormat::Tga;
-		//else if ...
+		else if (extension == ".png")
+			return OutputFormat::Png;
+		else if (extension == ".jpg")
+			return OutputFormat::Jpg;
 
+		TTEX_CORE_ASSERT(false, "Exporter:Invalid output format.");
 		return OutputFormat::NONE;
 	}
 
-	std::shared_ptr<Texture2D> Exporter::PrepareHCross(const std::shared_ptr<TextureCube>& sourceTexture)
+	std::shared_ptr<tTexture::Texture2D> Exporter::ConvertToHCross(const std::shared_ptr<TextureCube>& sourceTexture) const
+	{
+		if (m_OutputFormat == OutputFormat::Tga)
+			return PrepareHCrossNoAlpha(sourceTexture);
+		else
+			return PrepareHCross(sourceTexture);
+	}
+
+	std::shared_ptr<Texture2D> Exporter::PrepareHCross(const std::shared_ptr<TextureCube>& sourceTexture) const
+	{
+		TTEX_CORE_ASSERT(sourceTexture->Data.Width == sourceTexture->Data.Height, "Exporter: TextureCube cannot be converted. Non square faces");
+		std::shared_ptr<Texture2D> result = std::make_shared<Texture2D>();
+
+		const uint32_t faceSize = sourceTexture->Data.Width;
+		const int32_t width = 4 * faceSize;
+		const int32_t height = 3 * faceSize;
+		const int32_t bpp = sourceTexture->Data.Bpp;
+
+		result->Data.Width = width;
+		result->Data.Height = height;
+		result->Data.Bpp = bpp;
+		result->Image.Allocate(width * height * bpp);
+		result->Image.ZeroInitialze(); // write black to every pixel
+
+		for (int32_t y = 0; y < height; y++)
+		{
+			for (int32_t x = 0; x < width; x++)
+			{
+				Face face = SelectFace(faceSize, x, y);
+				if (face != Face::NONE) // read from actual pixels
+				{
+					std::pair<uint32_t, uint32_t> readCoords = GetCoordinatesRelativeToFace(x, y, faceSize, face);
+
+					for (byte channel = 0; channel < bpp; channel++)
+						result->Image[(x + y * width) * bpp + channel] = sourceTexture->Images[(int32_t)face][(readCoords.first + readCoords.second * faceSize) * sourceTexture->Data.Bpp + channel];
+				}
+			}
+		}
+		return result;
+	}
+
+	std::shared_ptr<tTexture::Texture2D> Exporter::PrepareHCrossNoAlpha(const std::shared_ptr<TextureCube>& sourceTexture) const
 	{
 		TTEX_CORE_ASSERT(sourceTexture->Data.Bpp == 4, "Exporter: sourceTexture must have bpp set to 4. bpp: {0}", sourceTexture->Data.Bpp);
 		TTEX_CORE_ASSERT(sourceTexture->Data.Width == sourceTexture->Data.Height, "Exporter: TextureCube cannot be converted. Non square faces");
 
 		std::shared_ptr<Texture2D> result = std::make_shared<Texture2D>();
-		
+
 		const uint32_t faceSize = sourceTexture->Data.Width;
 		const int32_t width = 4 * faceSize;
 		const int32_t height = 3 * faceSize;
@@ -76,8 +122,8 @@ namespace tTexture {
 				if (face != Face::NONE) // read from actual pixels
 				{
 					std::pair<uint32_t, uint32_t> readCoords = GetCoordinatesRelativeToFace(x, y, faceSize, face);
-					
-					for(byte channel = 0; channel < bpp; channel++)
+
+					for (byte channel = 0; channel < bpp; channel++)
 						result->Image[(x + y * width) * bpp + channel] = sourceTexture->Images[(int32_t)face][(readCoords.first + readCoords.second * faceSize) * sourceTexture->Data.Bpp + channel];
 				}
 			}
@@ -86,7 +132,7 @@ namespace tTexture {
 		return result;
 	}
 
-	Face Exporter::SelectFace(uint32_t faceSize, uint32_t x, uint32_t y)
+	Face Exporter::SelectFace(uint32_t faceSize, uint32_t x, uint32_t y) const
 	{
 		if (y < faceSize) // TOP Row
 		{
@@ -111,10 +157,30 @@ namespace tTexture {
 		}
 	}
 
-	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture)
+	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture) const
 	{
-		std::shared_ptr<Texture2D> outputTexture = RemoveAlphaChannel(texture);
-		stbi_write_tga(m_Filepath.c_str(), outputTexture->Data.Width, outputTexture->Data.Height, outputTexture->Data.Bpp, outputTexture->Image.Data);
+		std::shared_ptr<Texture2D> outTexture = RemoveAlphaChannel(texture);
+		int32_t status = stbi_write_tga(m_Filepath.c_str(), outTexture->Data.Width, outTexture->Data.Height, outTexture->Data.Bpp, outTexture->Image.Data);
+		TTEX_CORE_ASSERT(status != 0, "Exporter:Failed to write tga texture");
+
+		TTEX_CORE_INFO("Exporter:TGA texture exporter to {0}", m_Filepath);
+	}
+
+	void Exporter::StorePngStbi(const std::shared_ptr<Texture2D>& texture) const
+	{
+		int32_t stride = texture->Data.Width * texture->Data.Bpp;
+		int32_t status = stbi_write_png(m_Filepath.c_str(), texture->Data.Width, texture->Data.Height, texture->Data.Bpp, texture->Image.Data, stride);
+		TTEX_CORE_ASSERT(status != 0, "Exporter:Failed to write png texture");
+
+		TTEX_CORE_INFO("Exporter:PNG texture exporter to {0}", m_Filepath);
+	}
+
+	void Exporter::StoreJpgStbi(const std::shared_ptr<Texture2D>& texture) const
+	{
+		int32_t status = stbi_write_jpg(m_Filepath.c_str(), texture->Data.Width, texture->Data.Height, texture->Data.Bpp, texture->Image.Data, m_jpgMaxQuality);
+		TTEX_CORE_ASSERT(status != 0, "Exporter:Failed to write jpg texture");
+
+		TTEX_CORE_INFO("Exporter:JPG texture exporter to {0}", m_Filepath);
 	}
 
 }

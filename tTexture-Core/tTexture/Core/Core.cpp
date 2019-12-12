@@ -58,34 +58,30 @@ namespace tTexture {
 	std::pair<uint32_t, uint32_t> GetFaceLimits(CubeFormat format, Face face, uint32_t faceSize)
 	{
 		TTEX_ASSERT(format != CubeFormat::EQUIRECTANGULAR, "Loader:Cannot generate coordinates for Equirectangular conversion");
-		switch (format)
-		{
-		case CubeFormat::HCROSS:
+		if (format == CubeFormat::HCROSS)
 		{
 			switch (face)
 			{
-			case Face::POS_X: return { 0, faceSize };
-			case Face::NEG_X: return { 2 * faceSize, faceSize };
-			case Face::POS_Y: return { faceSize, 0 };
-			case Face::NEG_Y: return { faceSize, 2 * faceSize };
-			case Face::POS_Z: return { faceSize, faceSize };
-			case Face::NEG_Z: return { 3 * faceSize, faceSize };
+				case Face::POS_X: return { 0, faceSize };
+				case Face::NEG_X: return { 2 * faceSize, faceSize };
+				case Face::POS_Y: return { faceSize, 0 };
+				case Face::NEG_Y: return { faceSize, 2 * faceSize };
+				case Face::POS_Z: return { faceSize, faceSize };
+				case Face::NEG_Z: return { 3 * faceSize, faceSize };
 			}
-		} break;
-		case tTexture::CubeFormat::VCROSS:
-		{
-			switch (face)
-			{
-			case Face::POS_X: return { 0, faceSize };
-			case Face::NEG_X: return { 2 * faceSize, faceSize };
-			case Face::POS_Y: return { faceSize, 0 };
-			case Face::NEG_Y: return { faceSize, 2 * faceSize };
-			case Face::POS_Z: return { faceSize, faceSize };
-			case Face::NEG_Z: return { faceSize, 3 * faceSize };
-			}
-		} break;
 		}
-
+		else if (format == CubeFormat::VCROSS)
+		{
+			switch (face)
+			{
+				case Face::POS_X: return { 0, faceSize };
+				case Face::NEG_X: return { 2 * faceSize, faceSize };
+				case Face::POS_Y: return { faceSize, 0 };
+				case Face::NEG_Y: return { faceSize, 2 * faceSize };
+				case Face::POS_Z: return { faceSize, faceSize };
+				case Face::NEG_Z: return { faceSize, 3 * faceSize };
+			}
+		}
 		return { 0, 0 };
 	}
 
@@ -99,22 +95,24 @@ namespace tTexture {
 	{
 		if (texture->Data.Bpp == 4)
 		{
+			const uint32_t width = texture->Data.Width;
+			const uint32_t height = texture->Data.Height;
+			const uint32_t bpp = 3;
+
 			// create a rgb texture
-			std::shared_ptr<Texture2D> outTexture = std::make_shared<Texture2D>(texture->Data.Width, texture->Data.Height, 3);
+			std::shared_ptr<Texture2D> outTexture = std::make_shared<Texture2D>(width, height, bpp);
 			outTexture->AllocateTexture();
 
 			for (int32_t y = 0; y < texture->Data.Height; y++)
 			{
 				for (int32_t x = 0; x < texture->Data.Width; x++)
 				{
-					outTexture->Image[(x + y * outTexture->Data.Height) * 3 + 0] = texture->Image[(x + y * texture->Data.Height) * texture->Data.Bpp + 0];
-					outTexture->Image[(x + y * outTexture->Data.Height) * 3 + 1] = texture->Image[(x + y * texture->Data.Height) * texture->Data.Bpp + 1];
-					outTexture->Image[(x + y * outTexture->Data.Height) * 3 + 2] = texture->Image[(x + y * texture->Data.Height) * texture->Data.Bpp + 2];
+					for(byte channel = 0; channel < bpp; channel++)
+						outTexture->Image[(x + y * height) * bpp + channel] = texture->Image[(x + y * height) * texture->Data.Bpp + channel];
 				}
 			}
 			return outTexture;
 		}
-
 		return texture;
 	}
 
