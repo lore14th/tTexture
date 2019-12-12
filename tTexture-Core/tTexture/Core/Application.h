@@ -18,7 +18,7 @@ namespace tTexture {
 		std::shared_ptr<TextureCube> CreateIrradiance(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad = false);
 		std::shared_ptr<TextureCube> CreateIrradiance(const std::shared_ptr<TextureCube> sourceTexture);
 
-		std::shared_ptr<Texture2D> CreateBRDF();
+		std::shared_ptr<Texture2D> CreateBRDF(uint32_t size);
 
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture);
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture);

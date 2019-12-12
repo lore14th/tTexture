@@ -73,7 +73,7 @@ namespace tTexture {
 			m_Context->Clear(GetFaceColor(i));
 		#endif
 			shader->SetUniformMat4f("u_ViewMatrix", GetEquirectagularView(i));
-			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
+			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount());
 		}
 	
 		return targetTexture->ConvertToTextureCube();
@@ -106,16 +106,16 @@ namespace tTexture {
 			m_Context->Clear(GetFaceColor(i));
 		#endif
 			shader->SetUniformMat4f("u_ViewMatrix", GetIrradianceView(i));
-			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount(), true);
+			m_Context->DrawIndexed(m_CubeIndexBuffer->GetCount());
 		}
 
 		return targetTexture->ConvertToTextureCube();
 	}
 
-	std::shared_ptr<tTexture::Texture2D> OpenGLRenderer::CreateBRDF()
+	std::shared_ptr<tTexture::Texture2D> OpenGLRenderer::CreateBRDF(uint32_t size)
 	{
 		// Create Target Texture2D
-		std::shared_ptr<Renderer::OpenGLTexture2D> targetTexture = std::make_shared<Renderer::OpenGLTexture2D>(m_Resolution, m_Resolution, 4);
+		std::shared_ptr<Renderer::OpenGLTexture2D> targetTexture = std::make_shared<Renderer::OpenGLTexture2D>(size, size, 4);
 
 		// Create shader and set uniforms
 		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/BRDF.glsl");
@@ -126,7 +126,7 @@ namespace tTexture {
 		
 		m_Framebuffer->BindRenderTarget(targetTexture, 0);
 		m_Context->Clear({ 0.8, 0.8, 0.2, 1 });
-		m_Context->DrawIndexed(m_SquareIndexBuffer->GetCount(), true);
+		m_Context->DrawIndexed(m_SquareIndexBuffer->GetCount());
 
 		return targetTexture->ConvertToTexture();
 	}

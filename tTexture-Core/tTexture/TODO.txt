@@ -42,14 +42,14 @@
 [DONE] - Support multiple output files format (Tga, Png, Jpg)
 
 	-- Clean up ----------------------------
-	[TODO] - Sandbox clean up. All tests in one file (maybe different funtions)
-	[TODO] - Handle Resize
-	[TODO] - Remove all the useless methods in Framebuffer and Texture
+	[DONE] - Sandbox clean up. All tests in one file (maybe different funtions)
+	[DONE] - Remove all the useless methods in Framebuffer and Texture
 	[TODO] - documentation comments
 	------------------------------------------
 
 [TODO] - Export files as VCROSS
 [TODO] - Export files as Equirectangular (consider)
+[TODO] - Timing for every single operation
 ------------------------
 
 -- Release Features --

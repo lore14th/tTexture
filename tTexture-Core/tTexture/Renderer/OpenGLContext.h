@@ -15,7 +15,7 @@ namespace tTexture::Renderer {
 		void Clear(const glm::vec4& color = glm::vec4(1, 0, 1, 1));
 		void SwapBuffers(bool vsynch);
 
-		void DrawIndexed(uint32_t count, bool depthTest);
+		void DrawIndexed(uint32_t count);
 
 		std::pair<uint32_t, uint32_t> GetWindowSize() const { return { m_WindowWidth, m_WindowHeight }; }
 

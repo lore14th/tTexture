@@ -12,7 +12,7 @@ int main()
 	// Create an offline application to have access to all functionalities
 	tTexture::Application app(false);
 	// optional: Set the renderer resolution. By default, it is set to 512.
-	// this value is used to load Equirectangular images and generate the BRDF lut
+	// this value is used to load Equirectangular images
 	app.SetRendererResolution(512);
 
 	std::shared_ptr<tTexture::Texture2D> texture = app.LoadTexture2D("assets/textures/fst_paint-splatter.jpg", 3, false);
@@ -35,6 +35,6 @@ int main()
 	app.ExportTexture("exporter/Irradiance.png", irradianceMap);
 
 	// Create BRDF texture 
-	std::shared_ptr<tTexture::Texture2D> brdf = app.CreateBRDF();
+	std::shared_ptr<tTexture::Texture2D> brdf = app.CreateBRDF(256);
 	app.ExportTexture("exporter/BRDF.png", brdf);
 }

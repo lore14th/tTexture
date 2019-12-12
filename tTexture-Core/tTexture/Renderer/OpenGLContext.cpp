@@ -97,8 +97,8 @@ namespace tTexture::Renderer {
 		TTEX_CORE_ASSERT(gladInit, "Failed to initialize GLAD");
 
 		glEnable(GL_MULTISAMPLE);
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_CCW);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_CCW);
 
 #if TTEX_DEBUG
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -113,15 +113,9 @@ namespace tTexture::Renderer {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLContext::DrawIndexed(uint32_t count, bool depthTest)
+	void OpenGLContext::DrawIndexed(uint32_t count)
 	{
-		if (!depthTest)
-			glDisable(GL_DEPTH_TEST);
-
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-
-		if (!depthTest)
-			glEnable(GL_DEPTH_TEST);
 	}
 
 }
