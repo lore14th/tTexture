@@ -48,7 +48,7 @@
 		-> Logger is initialized by Application
 	------------------------------------------
 
-[TODO] - Create Application and OfflineApplication based on the usage
+[DONE] - Create Application and OfflineApplication based on the usage
 
 [TODO] - Consider Exporting Prefiltered Radiance Map
 [TODO] - Find a way to load Prefiltered Radiance Map

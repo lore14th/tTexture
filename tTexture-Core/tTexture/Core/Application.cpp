@@ -10,15 +10,12 @@ namespace tTexture {
 	Log* Application::s_Logger = nullptr;
 	uint32_t Application::s_ApplicationCount = 0;
 
-	Application::Application(Log::LogLevel logLevel, bool onlineApplication)
+	Application::Application(Log::LogLevel logLevel)
 	{
+		s_ApplicationCount++;
+
 		if (!s_Logger)
 			s_Logger->Init(logLevel);
-
-		if (!onlineApplication)
-			m_Renderer = std::make_optional(std::make_unique<OpenGLRenderer>());
-
-		s_ApplicationCount++;
 	}
 
 	Application::~Application()
@@ -29,7 +26,51 @@ namespace tTexture {
 			delete s_Logger;
 	}
 
-	std::shared_ptr<Texture2D> Application::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
+	std::unique_ptr<tTexture::OnlineApplication> Application::CreateOnlineApplication(Log::LogLevel logLevel)
+	{
+		return std::make_unique<tTexture::OnlineApplication>(logLevel);
+	}
+
+	std::unique_ptr<tTexture::OfflineApplication> Application::CreateOfflineApplication(Log::LogLevel logLevel)
+	{
+		return std::make_unique<tTexture::OfflineApplication>(logLevel);
+	}
+
+	OnlineApplication::OnlineApplication(Log::LogLevel logLevel)
+		: Application(logLevel)
+	{
+	}
+
+	std::shared_ptr<tTexture::Texture2D> OnlineApplication::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
+	{
+		Loader loader(filepath, imageChannels, flipOnLoad);
+		return loader.LoadImageFromFile();
+	}
+
+	std::shared_ptr<tTexture::TextureCube> OnlineApplication::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
+	{
+		if (format == CubeFormat::EQUIRECTANGULAR)
+		{
+			TTEX_CORE_ERROR("tTexture cannot load Equirectangular texture using an online application.\n\
+							Please use the offline application to convert the image and store the result to disk");
+			TTEX_CORE_ASSERT(false, "");
+		}
+		else
+		{
+			Loader loader(filepath, imageChannels, flipOnLoad);
+			return loader.LoadCubeMapFromFile(format);
+		}
+	}
+
+	// -- Offline Application --------------------------------
+
+	OfflineApplication::OfflineApplication(Log::LogLevel logLevel)
+		: Application(logLevel)
+	{
+		m_Renderer = std::make_unique<OpenGLRenderer>();
+	}
+
+	std::shared_ptr<Texture2D> OfflineApplication::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
 	{
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
@@ -37,26 +78,15 @@ namespace tTexture {
 		return loader.LoadImageFromFile();
 	}
 
-	std::shared_ptr<TextureCube> Application::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
+	std::shared_ptr<TextureCube> OfflineApplication::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
-		if (!m_Renderer.has_value() && format == CubeFormat::EQUIRECTANGULAR)
-		{
-			TTEX_CORE_ERROR("tTexture cannot load Equirectangular texture using an online application.\n\
-							Please use the offline application to convert the image and store the result to disk");
-			TTEX_CORE_ASSERT(false, "");
+		Loader loader(filepath, imageChannels, flipOnLoad);
+		loader.SetApplicationCallback(this);
 
-			return std::make_shared<TextureCube>();
-		}
-		else
-		{
-			Loader loader(filepath, imageChannels, flipOnLoad);
-			loader.SetApplicationCallback(this);
-
-			return loader.LoadCubeMapFromFile(format);
-		}
+		return loader.LoadCubeMapFromFile(format);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> Application::CreateIrradiance(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
+	std::shared_ptr<tTexture::TextureCube> OfflineApplication::CreateIrradiance(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
@@ -65,42 +95,31 @@ namespace tTexture {
 		return CreateIrradiance(texture);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> Application::CreateIrradiance(const std::shared_ptr<TextureCube> sourceTexture)
+	std::shared_ptr<tTexture::TextureCube> OfflineApplication::CreateIrradiance(const std::shared_ptr<TextureCube> sourceTexture)
 	{
-		auto& renderer = GetRenderer();
-		return renderer->CreateIrradianceMap(sourceTexture);
+		return m_Renderer->CreateIrradianceMap(sourceTexture);
 	}
 
-	std::shared_ptr<tTexture::Texture2D> Application::CreateBRDF(uint32_t size)
+	std::shared_ptr<tTexture::Texture2D> OfflineApplication::CreateBRDF(uint32_t size)
 	{
-		auto& renderer = GetRenderer();
-		return renderer->CreateBRDF(size);
+		return m_Renderer->CreateBRDF(size);
 	}
 
-	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
+	void OfflineApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
-	void Application::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture)
+	void OfflineApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture)
 	{
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
-	void Application::SetRendererResolution(uint32_t resolution)
+	void OfflineApplication::SetRendererResolution(uint32_t resolution)
 	{	
-		if (m_Renderer.has_value())
-			m_Renderer.value()->SetRendererResolution(resolution);
-		else
-			TTEX_CORE_WARN("Application cannot set Renderer resolution");
-	}
-
-	const std::unique_ptr<tTexture::OpenGLRenderer>& Application::GetRenderer() const
-	{
-		TTEX_CORE_ASSERT(m_Renderer.has_value(), "Application:No renderer instance. Make sure you are running offline mode");
-		return m_Renderer.value();
+		m_Renderer->SetRendererResolution(resolution);
 	}
 
 }

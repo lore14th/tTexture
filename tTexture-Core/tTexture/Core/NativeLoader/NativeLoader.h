@@ -4,7 +4,7 @@
 
 namespace tTexture::Native {
 
-	class Application;
+	class OfflineApplication;
 	
 	class NativeLoader
 	{

@@ -4,14 +4,14 @@
 
 namespace tTexture {
 
-	class Application;
+	class OfflineApplication;
 
 	class Loader
 	{
 	public:
 		Loader(const std::string& filepath, uint32_t desiredChannels = 3, bool flipOnLoad = false);
 
-		void SetApplicationCallback(Application* app) { m_ApplicationRef = app; }
+		void SetApplicationCallback(OfflineApplication* app) { m_ApplicationRef = app; }
 
 		std::shared_ptr<Texture2D> LoadImageFromFile();
 		// returns a 4 channels image spitted up into cube faces.
@@ -25,7 +25,7 @@ namespace tTexture {
 		bool m_FlipOnLoad;
 
 		
-		Application* m_ApplicationRef;
+		OfflineApplication* m_ApplicationRef;
 	};
 
 }

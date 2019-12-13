@@ -172,7 +172,13 @@ namespace tTexture::Native {
 
 	std::shared_ptr<TextureCube> EquirectangularLoader::ConvertToCubeMap(const std::shared_ptr<Texture2D>& sourceImage) const
 	{
-		return m_Renderer->RenderEquirectangularTexture(sourceImage);
+		if (m_Renderer)
+			return m_Renderer->RenderEquirectangularTexture(sourceImage);
+		else
+		{
+			TTEX_CORE_FATAL("Fatal Error:Cannot load equirectangular texture using Online Application. Create an Offline Application to convert this type of textures");
+			return std::make_shared<TextureCube>();
+		}
 	}
 
 }
