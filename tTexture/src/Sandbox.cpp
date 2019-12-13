@@ -1,16 +1,9 @@
 #include <tTexture/tTexture.h>
-#include <tTexture/EntryPoint.h>
 
 int main()
 {
-	// Call initialize before 
-
-	// TODO: initialize log as Assimp does
-	if (!tTexture::Initialize())
-		exit(-1);
-
 	// Create an offline application to have access to all functionalities
-	tTexture::Application app(false);
+	tTexture::Application app(tTexture::Log::LogLevel::Info, false);
 	// optional: Set the renderer resolution. By default, it is set to 512.
 	// this value is used to load Equirectangular images
 	app.SetRendererResolution(512);

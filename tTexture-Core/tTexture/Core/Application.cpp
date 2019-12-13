@@ -7,10 +7,26 @@
 
 namespace tTexture {
 
-	Application::Application(bool onlineApplication)
+	Log* Application::s_Logger = nullptr;
+	uint32_t Application::s_ApplicationCount = 0;
+
+	Application::Application(Log::LogLevel logLevel, bool onlineApplication)
 	{
+		if (!s_Logger)
+			s_Logger->Init(logLevel);
+
 		if (!onlineApplication)
 			m_Renderer = std::make_optional(std::make_unique<OpenGLRenderer>());
+
+		s_ApplicationCount++;
+	}
+
+	Application::~Application()
+	{
+		s_ApplicationCount--;
+
+		if (s_ApplicationCount == 0)
+			delete s_Logger;
 	}
 
 	std::shared_ptr<Texture2D> Application::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)

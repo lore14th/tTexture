@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Log.h"
+
 #include <optional>
 
 namespace tTexture {
@@ -9,8 +11,8 @@ namespace tTexture {
 	class Application
 	{
 	public:
-		Application(bool onlineApplication = true);
-		~Application() = default;
+		Application(Log::LogLevel logLevel, bool onlineApplication = true);
+		~Application();
 
 		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad = false);
 		std::shared_ptr<TextureCube> LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad = false);
@@ -32,6 +34,9 @@ namespace tTexture {
 		 
 	private:
 		std::optional<std::unique_ptr<OpenGLRenderer>> m_Renderer;
+
+		static uint32_t s_ApplicationCount;
+		static Log* s_Logger;
 
 		friend class Loader; // Loader need to access GetRenderer()
 	};

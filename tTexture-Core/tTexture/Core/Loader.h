@@ -24,6 +24,7 @@ namespace tTexture {
 		uint32_t m_DesiredChannels;
 		bool m_FlipOnLoad;
 
+		
 		Application* m_ApplicationRef;
 	};
 

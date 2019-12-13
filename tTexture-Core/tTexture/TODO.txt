@@ -44,21 +44,29 @@
 	-- Clean up ----------------------------
 	[DONE] - Sandbox clean up. All tests in one file (maybe different funtions)
 	[DONE] - Remove all the useless methods in Framebuffer and Texture
-	[TODO] - documentation comments
+	[DONE] - Clean up entry point. How to initialize the library? How the logger should work?
+		-> Logger is initialized by Application
 	------------------------------------------
 
-[TODO] - Export files as VCROSS
-[TODO] - Export files as Equirectangular (consider)
-[TODO] - Timing for every single operation
+[TODO] - Create Application and OfflineApplication based on the usage
+
+[TODO] - Consider Exporting Prefiltered Radiance Map
+[TODO] - Find a way to load Prefiltered Radiance Map
 ------------------------
 
 -- Release Features --
 [TODO] - Add GUI
 [TODO] - MacOS support
-[TODO] - Linus support
+[TODO] - Linux support
 
-[TODO] - Consider Exporting Prefiltered Radiance Map
-[TODO] - Find a way to load Prefiltered Radiance Map
+[TODO] - Clean all warnings
+[TODO] - documentation comments
+[TODO] - Timing for every single operation
+------------------------
 
+-- Extra Features --
 [TODO] - Add multiple BRDF luts
+
+[TODO] - Export files as VCROSS
+[TODO] - Export files as Equirectangular (consider)
 ---------------------------
