@@ -183,5 +183,15 @@ namespace tTexture {
 		TTEX_CORE_INFO("Exporter:JPG texture exporter to {0}", m_Filepath);
 	}
 
+	std::string Exporter::GetPrefilterFilepath(const std::string& filepath, uint32_t mipLevel)
+	{
+		size_t dotPosition = filepath.find_last_of(".");
+		std::string path(filepath.c_str(), dotPosition);
+		std::string extension(filepath.c_str() + dotPosition, filepath.length() - dotPosition);
+
+		std::stringstream ss;
+		ss << path << "-" << std::to_string(mipLevel) << extension;
+		return ss.str();
+	}
 }
 

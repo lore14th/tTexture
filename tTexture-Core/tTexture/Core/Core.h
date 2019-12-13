@@ -53,6 +53,17 @@ namespace tTexture { // types
 		void AllocateTexture();
 	};
 
+	struct PrefilteredTextureCube
+	{
+		std::vector<std::shared_ptr<TextureCube>> Levels;
+
+		inline void Allocate(uin32_t mipLevels) { Levels.reserve(mipLevels * sizeof(TextureCube)); }
+		inline uin32_t GetLevelsCount() { return Levels.size(); }
+
+		inline void PushLevel(std::shared_ptr<TextureCube> level) { Levels.push_back(level); }
+		inline const std::shared_ptr<TextureCube> GetLevel(uin32_t level) { return Levels[level]; }
+	};
+
 }
 
 namespace tTexture { // helper functions
@@ -65,6 +76,9 @@ namespace tTexture { // helper functions
 
 	// returns an rgb copy of the source texture. If the texture is already rgb, it does nothing
 	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture);
+
+	// returns the mip map count
+	int32_t CalculateMipMapCount(int32_t width, int32_t height);
 }
 
 namespace tTexture {

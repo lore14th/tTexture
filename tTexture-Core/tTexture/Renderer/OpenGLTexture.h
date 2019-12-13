@@ -38,7 +38,7 @@ namespace tTexture::Renderer {
 		void Bind(uint32_t slot) const;
 		void GenerateMips() const;
 
-		std::shared_ptr<TextureCube> ConvertToTextureCube() const;
+		std::shared_ptr<TextureCube> ConvertToTextureCube(uint32_t mipLevel = 0) const;
 		
 		int32_t GetFaceSize() const { return m_FaceSize; }
 		uint32_t GetBpp() const { return m_Bpp; }

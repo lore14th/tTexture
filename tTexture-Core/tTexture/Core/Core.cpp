@@ -116,5 +116,15 @@ namespace tTexture {
 		return texture;
 	}
 
+	int32_t CalculateMipMapCount(int32_t width, int32_t height)
+	{
+		int32_t levels = 1;
+		while ((width | height) >> levels)
+		{
+			levels++;
+		}
+		return levels;
+	}
+
 }
 

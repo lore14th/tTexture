@@ -19,8 +19,9 @@ namespace tTexture {
 		OpenGLRenderer();
 		~OpenGLRenderer();
 
-		std::shared_ptr<TextureCube> RenderEquirectangularTexture(const std::shared_ptr<Texture2D>& source);
-		std::shared_ptr<TextureCube> CreateIrradianceMap(const std::shared_ptr<TextureCube>& source);
+		std::shared_ptr<TextureCube> RenderEquirectangularTexture(const std::shared_ptr<Texture2D>& source) const;
+		std::shared_ptr<TextureCube> CreateIrradianceMap(const std::shared_ptr<TextureCube>& source) const;
+		std::shared_ptr<tTexture::PrefilteredTextureCube> PrefilterEnvironmentMap(const std::shared_ptr<tTexture::TextureCube>& source) const;
 
 		std::shared_ptr<Texture2D> CreateBRDF(uint32_t size);
 
@@ -34,8 +35,9 @@ namespace tTexture {
 		void CreateCube();
 		void CreateSquare();
 
-		glm::mat4 GetEquirectagularView(uint32_t faceIndex);
-		glm::mat4 GetIrradianceView(uint32_t faceIndex);
+		glm::mat4 GetEquirectagularView(uint32_t faceIndex) const;
+		glm::mat4 GetIrradianceView(uint32_t faceIndex) const;
+		glm::mat4 GetPrefilterView(uint32_t faceIndex) const;
 	private:
 		uint32_t m_VertexArray;
 		uint32_t m_Resolution;
@@ -51,6 +53,7 @@ namespace tTexture {
 		glm::mat4 m_CaptureProjection;
 		const float m_Exposure, m_OutputAlpha;
 		const uint32_t m_TextureSlot;
+
 	};
 
 }

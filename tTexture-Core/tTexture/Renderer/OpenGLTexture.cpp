@@ -5,16 +5,6 @@
 
 namespace tTexture::Renderer {
 
-	static int32_t CalculateMipMapCount(int32_t width, int32_t height)
-	{
-		int32_t levels = 1;
-		while ((width | height) >> levels)
-		{
-			levels++;
-		}
-		return levels;
-	}
-
 	static GLenum GetInternalFormat(uint32_t bpp)
 	{
 		if (bpp == 3)
@@ -95,8 +85,10 @@ namespace tTexture::Renderer {
 	// ------------------------------------------------------
 
 	OpenGLTextureCube::OpenGLTextureCube(int32_t faceSize, uint32_t bpp)
-		: m_RendererID(0), m_Bpp(bpp), m_FaceSize(faceSize), m_MipLevels(0)
+		: m_RendererID(0), m_Bpp(bpp), m_FaceSize(faceSize)
 	{
+		m_MipLevels = CalculateMipMapCount(m_FaceSize, m_FaceSize);
+
 		glGenTextures(1, &m_RendererID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_RendererID);
 
@@ -153,14 +145,16 @@ namespace tTexture::Renderer {
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	}
 
-	std::shared_ptr<TextureCube> OpenGLTextureCube::ConvertToTextureCube() const
+	std::shared_ptr<TextureCube> OpenGLTextureCube::ConvertToTextureCube(uint32_t mipLevel) const
 	{
-		std::shared_ptr<TextureCube> result = std::make_shared<TextureCube>(m_FaceSize, m_Bpp);
+		uint32_t faceSize = m_FaceSize * std::pow(0.5, mipLevel);
+
+		std::shared_ptr<TextureCube> result = std::make_shared<TextureCube>(faceSize, m_Bpp);
 		result->AllocateTexture();
 
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_RendererID);
 		for (uint32_t i = 0; i < 6; i++)
-			glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, m_Bpp == 3 ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, result->Images[i].Data);
+			glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, mipLevel, m_Bpp == 3 ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, result->Images[i].Data);
 
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		return result;

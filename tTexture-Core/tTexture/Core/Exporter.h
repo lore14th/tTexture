@@ -15,6 +15,7 @@ namespace tTexture {
 		void WriteToDisk(const std::shared_ptr<Texture2D>& texture) const;
 		void WriteToDisk(const std::shared_ptr<TextureCube>& texture) const;
 
+		static std::string GetPrefilterFilepath(const std::string& filepath, uint32_t mipLevel);
 	private:
 		OutputFormat RetrieveOutputFormat(const std::string& filepath) const;
 		Face SelectFace(uint32_t faceSize, uint32_t x, uint32_t y) const;
