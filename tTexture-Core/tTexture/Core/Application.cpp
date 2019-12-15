@@ -43,17 +43,22 @@ namespace tTexture {
 
 	std::shared_ptr<tTexture::Texture2D> OnlineApplication::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		return loader.LoadImageFromFile();
 	}
 
 	std::shared_ptr<tTexture::TextureCube> OnlineApplication::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		if (format == CubeFormat::EQUIRECTANGULAR)
 		{
 			TTEX_CORE_ERROR("tTexture cannot load Equirectangular texture using an online application.\n\
 							Please use the offline application to convert the image and store the result to disk");
 			TTEX_CORE_ASSERT(false, "");
+			return std::make_shared<tTexture::TextureCube>();
 		}
 		else
 		{
@@ -64,6 +69,8 @@ namespace tTexture {
 
 	std::shared_ptr<tTexture::PrefilteredTextureCube> OnlineApplication::LoadPrefilteredTexture(const char* filepath, uint32_t imageChannels, uint32_t mipCount, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		TTEX_CORE_ASSERT(format == CubeFormat::HCROSS, "");
 
 		std::shared_ptr<tTexture::PrefilteredTextureCube> result = std::make_shared<tTexture::PrefilteredTextureCube>();
@@ -90,6 +97,8 @@ namespace tTexture {
 
 	std::shared_ptr<Texture2D> OfflineApplication::LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
 
@@ -98,6 +107,8 @@ namespace tTexture {
 
 	std::shared_ptr<TextureCube> OfflineApplication::LoadTextureCube(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
 
@@ -106,6 +117,7 @@ namespace tTexture {
 
 	std::shared_ptr<tTexture::PrefilteredTextureCube> OfflineApplication::LoadPrefilteredTexture(const char* filepath, uint32_t imageChannels, uint32_t mipCount, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
 		TTEX_CORE_ASSERT(format == CubeFormat::HCROSS, "");
 
 		std::shared_ptr<tTexture::PrefilteredTextureCube> result = std::make_shared<tTexture::PrefilteredTextureCube>();
@@ -124,6 +136,8 @@ namespace tTexture {
 
 	std::shared_ptr<tTexture::TextureCube> OfflineApplication::CreateIrradiance(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
+
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
 		std::shared_ptr<TextureCube> texture = loader.LoadCubeMapFromFile(format);
@@ -133,22 +147,25 @@ namespace tTexture {
 
 	std::shared_ptr<tTexture::TextureCube> OfflineApplication::CreateIrradiance(const std::shared_ptr<TextureCube>& sourceTexture)
 	{
+		TTEX_TIME_FUNCTION;
 		return m_Renderer->CreateIrradianceMap(sourceTexture);
 	}
 
 	std::shared_ptr<tTexture::Texture2D> OfflineApplication::CreateBRDF(uint32_t size)
 	{
+		TTEX_TIME_FUNCTION;
 		return m_Renderer->CreateBRDF(size);
 	}
 
-
 	std::shared_ptr<tTexture::PrefilteredTextureCube> OfflineApplication::PrefilterEnvironmentMap(const std::shared_ptr<tTexture::TextureCube>& equirectangular) const
 	{
+		TTEX_TIME_FUNCTION;
 		return m_Renderer->PrefilterEnvironmentMap(equirectangular);
 	}
 
 	std::shared_ptr<tTexture::PrefilteredTextureCube> OfflineApplication::PrefilterEnvironmentMap(const char* filepath, uint32_t imageChannels, CubeFormat format, bool flipOnLoad)
 	{
+		TTEX_TIME_FUNCTION;
 		Loader loader(filepath, imageChannels, flipOnLoad);
 		loader.SetApplicationCallback(this);
 		std::shared_ptr<TextureCube> texture = loader.LoadCubeMapFromFile(format);
@@ -158,18 +175,21 @@ namespace tTexture {
 
 	void OfflineApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
 	{
+		TTEX_TIME_FUNCTION;
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
 	void OfflineApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture)
 	{
+		TTEX_TIME_FUNCTION;
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
 	void OfflineApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture)
 	{
+		TTEX_TIME_FUNCTION;
 		for (uint32_t mipLevel = 0; mipLevel < texture->GetLevelsCount(); mipLevel++)
 		{
 			std::string mipFilepath = Exporter::GetPrefilterFilepath(outputFilepath, mipLevel);
@@ -179,6 +199,7 @@ namespace tTexture {
 
 	void OfflineApplication::SetRendererResolution(uint32_t resolution)
 	{	
+		TTEX_TIME_FUNCTION;
 		m_Renderer->SetRendererResolution(resolution);
 	}
 

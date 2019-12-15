@@ -147,7 +147,7 @@ namespace tTexture::Renderer {
 
 	std::shared_ptr<TextureCube> OpenGLTextureCube::ConvertToTextureCube(uint32_t mipLevel) const
 	{
-		uint32_t faceSize = m_FaceSize * std::pow(0.5, mipLevel);
+		uint32_t faceSize = (uint32_t)(m_FaceSize * std::pow(0.5, mipLevel));
 
 		std::shared_ptr<TextureCube> result = std::make_shared<TextureCube>(faceSize, m_Bpp);
 		result->AllocateTexture();

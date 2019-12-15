@@ -1,7 +1,8 @@
 #pragma once
 
 #ifdef TTEX_PLATFORM_WINDOWS
-	#include <Windows.h>
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
 #endif
 
 #include <iostream>
@@ -21,3 +22,5 @@
 #include "Core/Core.h"
 #include "Core/Log.h"
 #include "Core/Buffer.h"
+
+#include "Debug/Timer.h"

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "OpenGLRenderer.h"
 
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -44,10 +43,6 @@ namespace tTexture {
 		: m_VertexArray(0), m_Resolution(512), m_CaptureProjection(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f)), 
 		m_Exposure(1.0f), m_OutputAlpha(1.0f), m_TextureSlot(0)
 	{
-// #ifdef TTEX_RENDERER_DEBUG
-// 		m_OutputAlpha = 0.9f;
-// #endif
-
 		m_Context = std::make_unique<Renderer::OpenGLContext>();
 		m_Framebuffer = std::make_unique<Renderer::OpenGLFramebuffer>();
 
@@ -252,11 +247,11 @@ namespace tTexture {
 			20, 21, 22, 20, 22, 23
 		};
 
-		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, sizeof(cubeVertices));
-		m_CubeVertexBuffer->SetData(cubeVertices, sizeof(cubeVertices));
+		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uin32_t)sizeof(cubeVertices));
+		m_CubeVertexBuffer->SetData(cubeVertices, (uin32_t)sizeof(cubeVertices));
 		
-		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>(sizeof(cubeIndices));
-		m_CubeIndexBuffer->SetData(cubeIndices, sizeof(cubeIndices));
+		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uin32_t)sizeof(cubeIndices));
+		m_CubeIndexBuffer->SetData(cubeIndices, (uin32_t)sizeof(cubeIndices));
 	}
 
 	void OpenGLRenderer::CreateSquare()
@@ -275,11 +270,11 @@ namespace tTexture {
 
 		static uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		m_SquareVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, sizeof(squareVertices));
-		m_SquareVertexBuffer->SetData(squareVertices, sizeof(squareVertices));
+		m_SquareVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uin32_t)sizeof(squareVertices));
+		m_SquareVertexBuffer->SetData(squareVertices, (uin32_t)sizeof(squareVertices));
 
-		m_SquareIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>(sizeof(squareIndices));
-		m_SquareIndexBuffer->SetData(squareIndices, sizeof(squareIndices));
+		m_SquareIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uin32_t)sizeof(squareIndices));
+		m_SquareIndexBuffer->SetData(squareIndices, (uin32_t)sizeof(squareIndices));
 	}
 
 	glm::mat4 OpenGLRenderer::GetEquirectagularView(uint32_t faceIndex) const

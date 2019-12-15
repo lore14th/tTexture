@@ -35,7 +35,7 @@ namespace tTexture { // types
 		Texture2D() = default;
 		Texture2D(int32_t width, int32_t height, int32_t bpp);
 		Texture2D(const Texture2D& other);
-		~Texture2D();
+		~Texture2D() = default;
 
 		void AllocateTexture();
 	};
@@ -48,7 +48,7 @@ namespace tTexture { // types
 		TextureCube() = default;
 		TextureCube(int32_t faceSize, int32_t bpp);
 		TextureCube(const TextureCube& other);
-		~TextureCube();
+		~TextureCube() = default;
 
 		void AllocateTexture();
 	};
@@ -58,7 +58,7 @@ namespace tTexture { // types
 		std::vector<std::shared_ptr<TextureCube>> Levels;
 
 		inline void Allocate(uin32_t mipLevels) { Levels.reserve(mipLevels * sizeof(TextureCube)); }
-		inline uin32_t GetLevelsCount() { return Levels.size(); }
+		inline uin32_t GetLevelsCount() { return (uint32_t)Levels.size(); }
 
 		inline void PushLevel(std::shared_ptr<TextureCube> level) { Levels.push_back(level); }
 		inline const std::shared_ptr<TextureCube> GetLevel(uin32_t level) { return Levels[level]; }

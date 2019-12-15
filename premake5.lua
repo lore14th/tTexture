@@ -6,6 +6,7 @@ workspace "tTexture"
 
 	configurations { 
 		"Debug", 
+		"Profile",
 		"Release",
 	}
 
@@ -89,6 +90,11 @@ project "tTexture-Core"
 		runtime "Debug"
 		symbols "on"
 
+	filter "configurations:Profile"
+		defines "TTEX_PROFILE"
+		runtime "Release"
+		symbols "on"
+
 	filter "configurations:Release"
 		defines "TTEX_RELEASE"
 		runtime "Release"
@@ -132,6 +138,11 @@ project "tTexture"
 		defines "TTEX_DEBUG" 
 		runtime "Debug"
 		symbols "on"	-- debug version --
+
+	filter "configurations:Profile"
+		defines "TTEX_PROFILE"
+		runtime "Release"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "TTEX_RELEASE"

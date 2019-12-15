@@ -3,7 +3,7 @@
 int main()
 {
 	// Create an offline application to have access to all functionalities
-	std::unique_ptr<tTexture::OfflineApplication> app = tTexture::Application::CreateOfflineApplication(tTexture::Log::LogLevel::Info);
+	std::unique_ptr<tTexture::OfflineApplication> app = tTexture::Application::CreateOfflineApplication(tTexture::Log::LogLevel::Trace);
 	// optional: Set the renderer resolution. By default, it is set to 512.
 	// this value is used to load Equirectangular images
 	app->SetRendererResolution(512);

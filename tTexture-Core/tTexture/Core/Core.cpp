@@ -19,11 +19,6 @@ namespace tTexture {
 	{
 	}
 
-	Texture2D::~Texture2D()
-	{
-		TTEX_CORE_TRACE("Texture2D deleted");
-	}
-
 	void Texture2D::AllocateTexture()
 	{
 		Image.Allocate(Data.Width * Data.Height * Data.Bpp);
@@ -39,11 +34,6 @@ namespace tTexture {
 	TextureCube::TextureCube(int32_t faceSize, int32_t bpp)
 		: Data{ faceSize, faceSize, bpp }
 	{
-	}
-
-	TextureCube::~TextureCube()
-	{
-		TTEX_CORE_TRACE("Texture2D deleted");
 	}
 
 	void TextureCube::AllocateTexture()

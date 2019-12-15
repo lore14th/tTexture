@@ -50,18 +50,18 @@
 
 [DONE] - Create Application and OfflineApplication based on the usage
 
-[TODO] - Consider Exporting Prefiltered Radiance Map
-[TODO] - Find a way to load Prefiltered Radiance Map
+[DONE] - Consider Exporting Prefiltered Radiance Map
+[DONE] - Find a way to load Prefiltered Radiance Map
+
+[DONE] - Timing for every single operation
+[DONE] - Clean all warnings
+[TODO] - documentation comments
 ------------------------
 
 -- Release Features --
 [TODO] - Add GUI
 [TODO] - MacOS support
 [TODO] - Linux support
-
-[TODO] - Clean all warnings
-[TODO] - documentation comments
-[TODO] - Timing for every single operation
 ------------------------
 
 -- Extra Features --
