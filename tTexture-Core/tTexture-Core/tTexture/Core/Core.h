@@ -6,8 +6,6 @@
 #include "Core/Buffer.h"
 #include "Core/tTextureTypes.h"
 
-#include "Debug/Assert.h"
-
 namespace tTexture {
 	
 	enum class CubeFormat
