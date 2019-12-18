@@ -1,14 +1,12 @@
--- If you want to compile tTexture-Core, generate the tTexture-Core Build solution using
--- this file and the build script inside the scripts folder. 
--- Compiled .lib file is inside tTexture-Core/bin/{outputdir}/tTexture-Core
+-- This file compiles tTexture and the GUI editor
 
--- If you want to link the source code with your application, use the premake5.lua file 
--- inside the tTexutre-Core folder and include it as shown at line 27.
+-- If you just want to compile tTexture-Core, or if you want to link the source code 
+-- with your application, the CoreLibrary branch
 
-workspace "tTexture-Core Build"
+workspace "tTexture"
 	architecture "x64"
 	targetdir "build"
-	startproject "tTexture-Core"
+	startproject "tTexture-Editor"
 	location ""
 
 	configurations { 
@@ -17,12 +15,5 @@ workspace "tTexture-Core Build"
 		"Release",
 	}
 
--- In order to compile tTexture-Core with your application code, 
--- you need to specify an outputdir. If you don't have one, you can
--- uncomment the default value inside the .lua file in the tTexture-Core folder 
--- targetdir ("bin/" .. outputdir .. "/%{prj.name}") or change this line to whatever you need.
--- Note: this stores the .lib files in the bin folder and organizes them depending on 
--- the outputdir value
-
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-include "tTexture-Core"
+include "tTexture-Editor"

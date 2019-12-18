@@ -10,3 +10,12 @@
 [submodule "tTexture-Core/vendor/spdlog"]
 	path = tTexture-Core/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "tTexture-Editor/tTexture-Editor/vendor/imgui"]
+	path = tTexture-Editor/tTexture-Editor/vendor/imgui
+	url = https://github.com/lore14th/imgui
+[submodule "tTexture-Editor/tTexture-Editor/vendor/glfw"]
+	path = tTexture-Editor/tTexture-Editor/vendor/glfw
+	url = https://github.com/lore14th/glfw
+[submodule "tTexture-Editor/tTexture-Editor/vendor/glm"]
+	path = tTexture-Editor/tTexture-Editor/vendor/glm
+	url = https://github.com/g-truc/glm
