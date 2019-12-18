@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CoreLoader.h"
 
+#include "Debug/Assert.h"
+
 #include <stb_image/stb_image.h>
 
 namespace tTexture {
