@@ -17,7 +17,7 @@ project "tTexture-Core"
 	files { 
 		"tTexture-Core/tTexture/**.h", 
 		"tTexture-Core/tTexture/**.c", 
-		"tTexture-Core/tTexture**.hpp", 
+		"tTexture-Core/tTexture/**.hpp", 
 		"tTexture-Core/tTexture/**.cpp",
 	}
 
@@ -33,7 +33,8 @@ project "tTexture-Core"
 	}
 
 	defines {
-		--"TTEX_LOADER_SINGLE_THREAD" -- to load images using a single thread. Do not define if you want to use multi-threading
+		-- to load images using a single thread. Do not define if you want to use multi-threading
+		--"TTEX_LOADER_SINGLE_THREAD",
 	}
 
 	filter "system:windows"

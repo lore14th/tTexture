@@ -44,12 +44,12 @@ namespace tTexture {
 		result->AllocateTexture();
 
 #ifdef TTEX_LOADER_SINGLE_THREAD
-		ReadSquareFace(Face::POS_X, sourceImage, result);
-		ReadSquareFace(Face::NEG_X, sourceImage, result);
-		ReadSquareFace(Face::POS_Y, sourceImage, result);
-		ReadSquareFace(Face::NEG_Y, sourceImage, result);
-		ReadSquareFace(Face::POS_Z, sourceImage, result);
-		ReadSquareFace(Face::NEG_Z, sourceImage, result);
+		ReadSquareFace(Face::POS_X, CubeFormat::HCROSS, sourceImage, result);
+		ReadSquareFace(Face::NEG_X, CubeFormat::HCROSS, sourceImage, result);
+		ReadSquareFace(Face::POS_Y, CubeFormat::HCROSS, sourceImage, result);
+		ReadSquareFace(Face::NEG_Y, CubeFormat::HCROSS, sourceImage, result);
+		ReadSquareFace(Face::POS_Z, CubeFormat::HCROSS, sourceImage, result);
+		ReadSquareFace(Face::NEG_Z, CubeFormat::HCROSS, sourceImage, result);
 #else
 		std::array<std::thread*, 6> threads;
 
