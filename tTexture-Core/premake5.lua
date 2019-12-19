@@ -15,17 +15,17 @@ project "tTexture-Core"
 	pchsource "tTexture-Core/tTexture/pch.cpp"
 
 	files { 
-		"tTexture-Core/tTexture/**.h", 
-		"tTexture-Core/tTexture/**.c", 
-		"tTexture-Core/tTexture/**.hpp", 
-		"tTexture-Core/tTexture/**.cpp",
+		"%{prj.name}/tTexture/**.h", 
+		"%{prj.name}/tTexture/**.c", 
+		"%{prj.name}/tTexture/**.hpp", 
+		"%{prj.name}/tTexture/**.cpp",
 	}
 
 	includedirs {
-		"tTexture-Core/tTexture",
+		"%{prj.name}/tTexture",
 
-		"tTexture-Core/vendor", 				--stb_image (includes the entire vendor folder)
-		"tTexture-Core/vendor/spdlog/include",	-- spdlog
+		"%{prj.name}/vendor", 				--stb_image (includes the entire vendor folder)
+		"%{prj.name}/vendor/spdlog/include",	-- spdlog
 	}
 
 	excludes {
@@ -43,7 +43,6 @@ project "tTexture-Core"
 		defines { 
 			"TTEX_PLATFORM_WINDOWS",
 			"_CRT_SECURE_NO_WARNINGS",
-			"GLFW_INCLUDE_NONE",
 		}
 		
 	filter "configurations:Debug"
