@@ -1,5 +1,7 @@
-#include "Debug/Log.h"
+#pragma once
+
 #include <chrono>
+#include "Debug/Log.h"
 
 #ifdef TTEX_PLATFORM_WINDOWS
 	#define TTEX_TIMER_FUNC_NAME __FUNCSIG__
@@ -8,7 +10,7 @@
 #ifndef TTEX_RELEASE
 	#define TTEX_TIME_FUNCTION tTexture::Debug::Timer timer(TTEX_TIMER_FUNC_NAME);
 #else
-	#define TTEX_TIME_FUNCTION	
+	#define TTEX_CORE_TIME_FUNCTION	
 #endif
 
 namespace tTexture::Debug {
@@ -32,7 +34,6 @@ namespace tTexture::Debug {
 			float ms = Duration.count() * 1000.0f;
 			TTEX_CORE_TRACE("Time {0} took {1} ms", TimerName, ms);
 		}
-
 	};
 
 }

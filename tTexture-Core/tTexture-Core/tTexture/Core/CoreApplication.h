@@ -9,7 +9,7 @@ namespace tTexture {
 	class CoreApplication
 	{
 	public:
-		CoreApplication(Debug::Log::LogLevel logLevel);
+		CoreApplication(Debug::Log::LogLevel logLevel = Debug::Log::LogLevel::Trace);
 		virtual ~CoreApplication();
 
 		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad = false);
