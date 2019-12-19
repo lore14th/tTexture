@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Buffer.h"
 
+#include "Debug/Assert.h"
+
 namespace tTexture {
 
 	Buffer::Buffer() 

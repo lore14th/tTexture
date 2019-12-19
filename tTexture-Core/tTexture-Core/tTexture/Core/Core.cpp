@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Core.h"
 
+#include "Debug/Assert.h"
+
 namespace tTexture {
 
 	TextureData::TextureData(int32_t width, int32_t height, int32_t bpp)
