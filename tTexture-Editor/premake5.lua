@@ -3,12 +3,13 @@ IncludeDir["GLFW"]		= "tTexture-Editor/vendor/glfw/include"
 IncludeDir["Glad"]		= "tTexture-Editor/vendor/GLAD/include"
 IncludeDir["ImGui"]		= "tTexture-Editor/vendor/imgui"
 IncludeDir["glm"]		= "tTexture-Editor/vendor/glm"
+IncludeDir["spdlog"]	= "../tTexture-Core/tTexture-Core/vendor/spdlog/include"
+
+IncludeDir["tTexture_Core"]	= "../tTexture-Core/tTexture-Core"
+IncludeDir["tTexture_Core_vendor"] = "../tTexture-Core/tTexture-Core/vendor"
 
 -- Remove these?
 --IncludeDir["stb"]		= "tTexture-Core/tTexture-Core/tTexture/vendor"
---IncludeDir["spdlog"]	= "tTexture-Core/tTexture-Core/tTexture/vendor/spdlog/include"
-
-IncludeDir["tTexture-Core"]	= "tTexture-Core/tTexture-Core/tTexture"
 -------------------------------------------------------------------------------
 
 group "Dependencies"
@@ -30,36 +31,39 @@ project "tTexture-Editor"
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "pch.h"
-	pchsource "tTexture-Editor/tTexture/pch.cpp"
+	pchsource "%{prj.name}/tTexture/pch.cpp"
 
 	links {
 		"tTexture-Core",
 	}
 
 	files {
-		"tTexture-Editor/tTexture/**.h",
-		"tTexture-Editor/tTexture/**.c",
+		"%{prj.name}/tTexture/**.h",
+		"%{prj.name}/tTexture/**.c",
 
-		"tTexture-Editor/tTexture/**.hpp",
-		"tTexture-Editor/tTexture/**.cpp",
+		"%{prj.name}/tTexture/**.hpp",
+		"%{prj.name}/tTexture/**.cpp",
 	}
-    
+
 	includedirs {
 		"%{prj.name}/tTexture",
-		"../tTexture-Core/tTexture-Core",
-		
 		"%{prj.name}/vendor", -- stbi_image_write includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.spdlog}",
+
+		"%{IncludeDir.tTexture_Core}",
+		"%{IncludeDir.tTexture_Core}/tTexture",
+		"%{IncludeDir.tTexture_Core_vendor}",
 	}
 	
 	filter "system:windows"
 		systemversion "latest"
 
 		defines {
-			"TEXT_PLATFORM_WINDOWS"
+			"TTEX_PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug"
