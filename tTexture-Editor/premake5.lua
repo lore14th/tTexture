@@ -34,7 +34,15 @@ project "tTexture-Editor"
 	pchsource "%{prj.name}/tTexture/pch.cpp"
 
 	links {
+		"GLFW",
+		"Glad",
+		"ImGui",
+
 		"tTexture-Core",
+	}
+
+	defines {
+		"GLFW_INCLUDE_NONE",
 	}
 
 	files {
@@ -49,7 +57,7 @@ project "tTexture-Editor"
 		"%{prj.name}/tTexture",
 		"%{prj.name}/vendor", -- stbi_image_write includes the entire vendor folder
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLAD}",
+		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.spdlog}",

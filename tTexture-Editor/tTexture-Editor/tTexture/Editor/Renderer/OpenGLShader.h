@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Core.h"
-
 #include <glm/glm.hpp>
 
 namespace tTexture::Renderer {
@@ -35,7 +33,7 @@ namespace tTexture::Renderer {
 	private:
 		std::string m_Filepath;
 		uint32_t m_RendererID;
-		// caching uniforms
+		// TODO: caching uniforms
 		std::unordered_map<std::string, int32_t> m_UniformLocationCache;
 	};
 

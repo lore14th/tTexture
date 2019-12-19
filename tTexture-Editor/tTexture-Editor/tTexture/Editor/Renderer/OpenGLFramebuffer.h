@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include "Renderer/OpenGLTexture.h"
+#include "Editor/Renderer/OpenGLTexture.h"
 
 #include <optional>
 

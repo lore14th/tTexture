@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Core/Core.h"
-
-#include "Renderer/OpenGLContext.h"
-#include "Renderer/OpenGLBuffer.h"
-#include "Renderer/OpenGLShader.h"
-#include "Renderer/OpenGLTexture.h"
-#include "Renderer/OpenGLFramebuffer.h"
+#include "Editor/Renderer/OpenGLContext.h"
+#include "Editor/Renderer/OpenGLBuffer.h"
+#include "Editor/Renderer/OpenGLShader.h"
+#include "Editor/Renderer/OpenGLTexture.h"
+#include "Editor/Renderer/OpenGLFramebuffer.h"
 
 #include <optional>
 #include <glm/glm.hpp>
+
+#include <tTexture/tTexture-Core.h>
 
 namespace tTexture {
 

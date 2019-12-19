@@ -140,7 +140,7 @@ namespace tTexture {
 		m_CubeIndexBuffer->Bind();
 
 		// allocate the result texture
-		const uin32_t maxMips = targetTexture->GetMipLevels();
+		const uint32_t maxMips = targetTexture->GetMipLevels();
 		std::shared_ptr<PrefilteredTextureCube> result = std::make_shared<PrefilteredTextureCube>();
 		result->Allocate(maxMips);
 
@@ -247,11 +247,11 @@ namespace tTexture {
 			20, 21, 22, 20, 22, 23
 		};
 
-		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uin32_t)sizeof(cubeVertices));
-		m_CubeVertexBuffer->SetData(cubeVertices, (uin32_t)sizeof(cubeVertices));
+		m_CubeVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uint32_t)sizeof(cubeVertices));
+		m_CubeVertexBuffer->SetData(cubeVertices, (uint32_t)sizeof(cubeVertices));
 		
-		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uin32_t)sizeof(cubeIndices));
-		m_CubeIndexBuffer->SetData(cubeIndices, (uin32_t)sizeof(cubeIndices));
+		m_CubeIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uint32_t)sizeof(cubeIndices));
+		m_CubeIndexBuffer->SetData(cubeIndices, (uint32_t)sizeof(cubeIndices));
 	}
 
 	void OpenGLRenderer::CreateSquare()
@@ -270,11 +270,11 @@ namespace tTexture {
 
 		static uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		m_SquareVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uin32_t)sizeof(squareVertices));
-		m_SquareVertexBuffer->SetData(squareVertices, (uin32_t)sizeof(squareVertices));
+		m_SquareVertexBuffer = std::make_unique<Renderer::OpenGLVertexBuffer>(layout, (uint32_t)sizeof(squareVertices));
+		m_SquareVertexBuffer->SetData(squareVertices, (uint32_t)sizeof(squareVertices));
 
-		m_SquareIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uin32_t)sizeof(squareIndices));
-		m_SquareIndexBuffer->SetData(squareIndices, (uin32_t)sizeof(squareIndices));
+		m_SquareIndexBuffer = std::make_unique<Renderer::OpenGLIndexBuffer>((uint32_t)sizeof(squareIndices));
+		m_SquareIndexBuffer->SetData(squareIndices, (uint32_t)sizeof(squareIndices));
 	}
 
 	glm::mat4 OpenGLRenderer::GetEquirectagularView(uint32_t faceIndex) const
@@ -326,4 +326,3 @@ namespace tTexture {
 	}
 
 }
-

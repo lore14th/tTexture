@@ -4,6 +4,8 @@
 #include <fstream>
 #include <glad/glad.h>
 
+#include <tTexture/tTexture-Core.h>
+
 namespace tTexture::Renderer {
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)

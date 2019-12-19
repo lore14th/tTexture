@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "OpenGLFramebuffer.h"
 
-#include "Core/Application.h"
-
 #include <glad/glad.h>
 
 namespace tTexture::Renderer {

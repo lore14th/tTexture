@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <tTexture/tTexture-Core.h>
+
 namespace tTexture::Renderer {
 
 	bool OpenGLContext::s_GLFWInitialized = false;

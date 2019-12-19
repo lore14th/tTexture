@@ -1,3 +1,4 @@
+#include "pch.h"
 #include<tTexture/tTexture-Core.h>
 
 int main()

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include <tTexture/tTexture-Core.h>
 
 namespace tTexture::Renderer {
 

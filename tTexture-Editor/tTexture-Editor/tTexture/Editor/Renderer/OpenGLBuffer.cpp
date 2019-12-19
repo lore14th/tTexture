@@ -22,7 +22,7 @@ namespace tTexture::Renderer {
 			case ShaderDataType::Int4:		return 4;
 			case ShaderDataType::Bool:		return 1;
 		}
-		TTEX_CORE_ASSERT(false, "Invalid ShaderDataType");
+		TTEX_ASSERT(false, "Invalid ShaderDataType");
 		return 0;
 	}
 
