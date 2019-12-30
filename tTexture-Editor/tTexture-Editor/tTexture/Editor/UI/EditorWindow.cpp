@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "EditorWindow.h"
 
-#include <QErrorMessage>
-
-#include <Editor/EditorApplication.h>
-#include <Editor/Exporter/Exporter.h>
+#include <QMessageBox>
 
 namespace tTexture {
 
@@ -18,65 +15,16 @@ namespace tTexture {
 	}
 
 	EditorWindow::EditorWindow(QWidget* parent)
-		: QMainWindow(parent)
+		: QMainWindow(parent), m_Converter(std::make_unique<Converter>()), m_FileDialog(std::make_unique<QFileDialog>(this))
 	{
-		m_Application = std::make_unique<tTexture::EditorApplication>();
-		m_ConversionData = std::make_shared<ConversionData>();
-
 		m_Ui.setupUi(this);
-		m_FileDialog = std::make_unique<QFileDialog>(this);
-
 		ResetUi();
 	}
 
-	ConversionDataError EditorWindow::CheckConversionData() const
+	void EditorWindow::Reset() const
 	{
-		ConversionDataError errorData;
-		errorData.InputFilepathError	= m_ConversionData->InputFilepath == std::string();
-		errorData.OutputFilepathError	= m_ConversionData->OutputFilepath == std::string();
-		errorData.FileExtensionError	= CheckOutputExtension(m_ConversionData->OutputFilepath);
-
-		return errorData;
-	}
-
-	void EditorWindow::PerformConversion(const std::shared_ptr<ConversionData>& conversionData) const
-	{
-		if (conversionData->InputType == InputFlag::Texture2D)
-		{
-			std::shared_ptr<Texture2D> texture = m_Application->LoadTexture2D(conversionData->InputFilepath.c_str(), conversionData->InputChannels, conversionData->FlipOnLoad);
-			m_Application->ExportTexture(conversionData->OutputFilepath.c_str(), texture);
-			UpdateUiLabel(m_Ui.ExportValue, "Exported Texture 2D.");
-		}
-		else
-		{
-			if (conversionData->Prefilter)
-			{
-				std::shared_ptr<PrefilteredTextureCube> texture = m_Application->PrefilterEnvironmentMap(conversionData->InputFilepath.c_str(), 
-					conversionData->InputChannels, InputTypeToCubeFormat(conversionData->InputType), conversionData->FlipOnLoad);
-				m_Application->ExportTexture(conversionData->OutputFilepath.c_str(), texture);
-				UpdateUiLabel(m_Ui.ExportValue, "Exported Pre-filtered Texture.");
-			}
-			else
-			{
-				std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(conversionData->InputFilepath.c_str(), 
-						conversionData->InputChannels, InputTypeToCubeFormat(conversionData->InputType), conversionData->FlipOnLoad);
-				m_Application->ExportTexture(conversionData->OutputFilepath.c_str(), texture);
-				UpdateUiLabel(m_Ui.ExportValue, "Exported Texture Cube.");
-			}
-		}
-		
-	}
-
-	tTexture::CubeFormat EditorWindow::InputTypeToCubeFormat(InputFlag type) const
-	{
-		switch (type)
-		{
-			case tTexture::InputFlag::H_Cross:			return CubeFormat::HCROSS;
-			case tTexture::InputFlag::V_Cross:			return CubeFormat::VCROSS;
-			case tTexture::InputFlag::Equirectangular:	return CubeFormat::EQUIRECTANGULAR;
-		}
-		TTEX_ASSERT(false, "Invalid Input Type");
-		return CubeFormat::HCROSS;
+		ResetUi();
+		m_Converter->ResetConversionData();
 	}
 
 	void EditorWindow::ResetUi() const
@@ -91,17 +39,14 @@ namespace tTexture {
 		UpdateButtonColor(m_Ui.EquirectangularButton, QColor(Qt::blue));
 	}
 
-	void EditorWindow::UpdateUiLabel(QLabel* label, const char* message) const
+	void EditorWindow::UpdateConversionType(InputFlag newFlag) const
 	{
-		label->setText(message);
-	}
-
-	void EditorWindow::UpdateConversionType(InputFlag newFlag, InputFlag oldFlag) const
-	{
-		UpdateButtonColor(GetConversionTypeButton(oldFlag), QColor(Qt::blue));
+		// reset the color of the current conversion type
+		UpdateButtonColor(GetConversionTypeButton(m_Converter->GetConversionType()), QColor(Qt::blue));
+		// set the color of the selected conversion type
 		UpdateButtonColor(GetConversionTypeButton(newFlag), QColor(Qt::red));
-
-		m_ConversionData->InputType = newFlag;
+		// updates the converter data
+		m_Converter->SetConversionType(newFlag);
 	}
 
 	QPushButton* EditorWindow::GetConversionTypeButton(InputFlag flag) const
@@ -126,65 +71,70 @@ namespace tTexture {
 			button->setPalette(pal);
 			button->update();
 		}
+		else 
+			TTEX_WARN("QPushButton is nullptr");
+	}
+	
+	void EditorWindow::UpdateUiLabel(QLabel* label, const QString& message) const
+	{
+		label->setText(message);
 	}
 
-	void EditorWindow::ShowErrorWidget(const char* errorMessage) const
+	void EditorWindow::ShowMessageBox(const char* message) const
 	{
-		QErrorMessage* errorDialog = new QErrorMessage();
-		errorDialog->showMessage(errorMessage);
-	}
-
-	bool EditorWindow::CheckOutputExtension(const std::string& filepath) const
-	{
-		Exporter::OutputFormat outputFormat = Exporter::RetrieveOutputFormat(filepath);
-		if (outputFormat == Exporter::OutputFormat::NONE)
-			return true;
-		
-		return false;
+		QMessageBox* messageBox = new QMessageBox();
+		messageBox->setText(message); 
+		messageBox->show();
 	}
 
 	// -- Ui Event handlers ---------------------------------------------
 
 	void EditorWindow::on_Texture2DButton_clicked()
 	{
-		UpdateConversionType(InputFlag::Texture2D, m_ConversionData->InputType);
+		UpdateConversionType(InputFlag::Texture2D);
 	}
 
 	void EditorWindow::on_HCrossButton_clicked()
 	{
-		UpdateConversionType(InputFlag::H_Cross, m_ConversionData->InputType);
+		UpdateConversionType(InputFlag::H_Cross);
 	}
 
 	void EditorWindow::on_VCrossButton_clicked()
 	{
-		UpdateConversionType(InputFlag::V_Cross, m_ConversionData->InputType);
+		UpdateConversionType(InputFlag::V_Cross);
 	}
 
 	void EditorWindow::on_EquirectangularButton_clicked()
 	{
-		UpdateConversionType(InputFlag::Equirectangular, m_ConversionData->InputType);
+		UpdateConversionType(InputFlag::Equirectangular);
 	}
 
 	void EditorWindow::on_InputFilepathButton_clicked()
 	{
+		// open file dialog
 		QString filepath = m_FileDialog->getOpenFileName(this);
 
+		// we need to check that the filepath is not empty to avoid errors
 		if (!filepath.isEmpty())
 		{
-			m_ConversionData->InputFilepath = filepath.toStdString();
+			// show the filepath to the ui
 			m_Ui.InputFilepathValue->setText(filepath);
+			// update the converter data
+			m_Converter->SetInputFilepath(filepath.toStdString());
 		}
 	}
 
 	void EditorWindow::on_InputChannelBox_currentIndexChanged()
 	{
+		// update the converter data
 		// TODO: when one and two channel textures are supported, we'll change this to pass the inputBoxIndex directly
-		m_ConversionData->InputChannels = InputIndexToImageChannels(m_Ui.InputChannelBox->currentIndex());
+		m_Converter->SetInputChannels(InputIndexToImageChannels(m_Ui.InputChannelBox->currentIndex()));
 	}
 
 	void EditorWindow::on_FlipOnLoadCheckbox_stateChanged()
 	{
-		m_ConversionData->FlipOnLoad = m_Ui.FlipOnLoadCheckbox->isChecked();
+		// update the converter data
+		m_Converter->SetFlipOnLoad(m_Ui.FlipOnLoadCheckbox->isChecked());
 	}
 
 	void EditorWindow::on_OutputFilepathButton_clicked()
@@ -195,38 +145,34 @@ namespace tTexture {
 		// we need to check that the filepath is not empty to avoid error in case the user doesn't enter a filepath
 		if (!filepath.isEmpty())
 		{
-			m_ConversionData->OutputFilepath = filepath.toStdString();
-			m_Ui.OutputFilepathValue->setText(filepath);
-			m_Ui.ExportValue->setText(filepath);
+			// show the output filepath to the ui
+			UpdateUiLabel(m_Ui.OutputFilepathValue, filepath);
+			UpdateUiLabel(m_Ui.ExportValue, filepath);
+
+			// update the converter data
+			m_Converter->SetOutputFilepath(filepath.toStdString());
 		}
 	}
 
 	void EditorWindow::on_PrefilterCheckbox_stateChanged()
 	{
-		m_ConversionData->Prefilter = m_Ui.PrefilterCheckbox->isChecked();
+		// update the converter data
+		m_Converter->SetPrefilter(m_Ui.PrefilterCheckbox->isChecked());
 	}
 
 	void EditorWindow::on_ButtonBox_accepted()
 	{
-		ConversionDataError e = CheckConversionData();
-		if (e.NoError())
-		{
-			PerformConversion(m_ConversionData);
+		// activates the Converter
+		std::string conversionMessage = m_Converter->PerformConversion();
+		// shows the conversion message to the screen
+		ShowMessageBox(conversionMessage.c_str());
 
-			ResetUi();
-			UpdateUiLabel(m_Ui.ExportValue, "Texture Exported");
-		}
-		else
-		{
-			ShowErrorWidget(e.GetErrorMessage().c_str());
-			ResetUi();
-		}
+		Reset();
 	}
 
 	void EditorWindow::on_ButtonBox_rejected()
 	{
-		m_ConversionData = std::make_shared<ConversionData>();
-		ResetUi();
+		Reset();
 	}
 
 }

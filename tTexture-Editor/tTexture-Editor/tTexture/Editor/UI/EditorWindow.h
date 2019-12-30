@@ -1,5 +1,4 @@
 #pragma once
-#include "Editor/EditorApplication.h"
 #include "Editor/UI/Conversion.h"
 
 #include <QApplication>
@@ -17,31 +16,23 @@ namespace tTexture {
 		EditorWindow(QWidget* parent = Q_NULLPTR);
 
 	private:
-		// Check ConversioData before performing the conversion operation
-		// if an error occurs, it shows an error message to the ui
-		ConversionDataError CheckConversionData() const;
-		// Sends all the information to the Application to perform the command
-		void PerformConversion(const std::shared_ptr<ConversionData>& conversionData) const;
-		// converts the input flag to the cubemap format
-		tTexture::CubeFormat InputTypeToCubeFormat(InputFlag type) const;
-	private: // Ui helper functions
+		void Reset() const;
 		// Reset UI to the default status
 		void ResetUi() const;
-		// Set message to the ui label
-		void UpdateUiLabel(QLabel* label, const char* message) const;
 		// updates the ConvesionTypeSection of the ui
-		void UpdateConversionType(InputFlag newFlag, InputFlag oldFlag) const;
-
+		void UpdateConversionType(InputFlag newFlag) const;
 		// returns from the ConversionTypeSection the button corresponding to the flag
 		QPushButton* GetConversionTypeButton(InputFlag flag) const;
+
+	private: // UI helper functions
 		// updates the color of a push button
 		void UpdateButtonColor(QPushButton* button, QColor color) const;
+		// Set message to the ui label
+		void UpdateUiLabel(QLabel* label, const QString& message) const;
+		// Prints a message to the screen into a new box
+		void ShowMessageBox(const char* message) const;
 
-		// Prints the error message into an Error Widget
-		void ShowErrorWidget(const char* errorMessage) const;
-
-		bool CheckOutputExtension(const std::string& filepath) const;
-	private slots:
+	private slots: // Ui events
 		// ConversionTypeSection events
 		void on_Texture2DButton_clicked();
 		void on_HCrossButton_clicked();
@@ -61,11 +52,10 @@ namespace tTexture {
 		void on_ButtonBox_accepted();
 		void on_ButtonBox_rejected();
 	private:
-		std::unique_ptr<EditorApplication> m_Application;
-
 		Ui::EditorWindow m_Ui;
 		std::unique_ptr<QFileDialog> m_FileDialog;
-		std::shared_ptr<ConversionData> m_ConversionData;
+
+		std::unique_ptr<Converter> m_Converter;
 	};
 
 }
