@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/EditorWindow">
+        <file>EditorWindow.ui</file>
+    </qresource>
+</RCC>

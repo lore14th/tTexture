@@ -18,12 +18,12 @@ namespace tTexture {
 		m_CoreLibrary = std::make_unique<tTexture::CoreApplication>(logLevel);
 	}
 
-	std::shared_ptr<Texture2D> EditorApplication::LoadTexture2D(const char* filepath, uint32_t fileChannels, bool flipOnLoad)
+	std::shared_ptr<Texture2D> EditorApplication::LoadTexture2D(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
 	{
 		return m_CoreLibrary->LoadTexture2D(filepath, fileChannels, flipOnLoad);
 	}
 
-	std::shared_ptr<TextureCube> EditorApplication::LoadTextureCube(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad)
+	std::shared_ptr<TextureCube> EditorApplication::LoadTextureCube(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad) const
 	{
 		switch (format)
 		{
@@ -59,10 +59,10 @@ namespace tTexture {
 		return m_Renderer->CreateBRDF(size);
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const std::shared_ptr<TextureCube>& equirectangular) const
+	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const std::shared_ptr<TextureCube>& texture) const
 	{
 		TTEX_TIME_FUNCTION;
-		return m_Renderer->PrefilterEnvironmentMap(equirectangular);
+		return m_Renderer->PrefilterEnvironmentMap(texture);
 	}
 
 	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad)
@@ -71,21 +71,21 @@ namespace tTexture {
 		return PrefilterEnvironmentMap(texture);
 	}
 
-	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture)
+	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const
 	{
 		TTEX_TIME_FUNCTION;
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
-	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture)
+	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture) const 
 	{
 		TTEX_TIME_FUNCTION;
 		Exporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
-	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture)
+	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const
 	{
 		TTEX_TIME_FUNCTION;
 		for (uint32_t mipLevel = 0; mipLevel < texture->GetLevelsCount(); mipLevel++)
@@ -101,19 +101,19 @@ namespace tTexture {
 		m_Renderer->SetRendererResolution(resolution);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadHCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad)
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadHCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
 	{
 		return m_CoreLibrary->LoadHCrossFromFile(filepath, fileChannels, flipOnLoad);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadVCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad)
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadVCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
 	{
 		TTEX_TIME_FUNCTION;
 		VCrossLoader loader(filepath, fileChannels, flipOnLoad);
 		return loader.LoadVCrossFromFile();
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadEquirectangularTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad)
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadEquirectangularTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
 	{
 		TTEX_TIME_FUNCTION;
 		EquirectangularLoader loader(filepath, fileChannels, flipOnLoad, m_Renderer);

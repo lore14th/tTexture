@@ -3,14 +3,18 @@
 -- If you just want to compile tTexture-Core, or if you want to link the source code 
 -- with your application, the CoreLibrary branch
 
+--include "vendor/premake/premake-Qt/qt.lua"
+
+require("premake-Qt/qt")
+
 workspace "tTexture"
 	architecture "x64"
 	targetdir "build"
 	startproject "tTexture-Editor"
 	location ""
 
-	configurations { 
-		"Debug", 
+	configurations {
+		"Debug",
 		"Profile",
 		"Release",
 	}

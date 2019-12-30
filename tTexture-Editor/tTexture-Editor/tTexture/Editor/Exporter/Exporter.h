@@ -6,7 +6,7 @@ namespace tTexture {
 
 	class Exporter
 	{
-	private:
+	public:
 		enum class OutputFormat { NONE = -1, Tga = 0, Png = 1, Jpg = 2 };
 	public:
 		Exporter(const std::string& outputFilepath);
@@ -14,8 +14,9 @@ namespace tTexture {
 
 		void WriteToDisk(const std::shared_ptr<Texture2D>& texture) const;
 		void WriteToDisk(const std::shared_ptr<TextureCube>& texture) const;
+
+		static OutputFormat RetrieveOutputFormat(const std::string& filepath);
 	private:
-		OutputFormat RetrieveOutputFormat(const std::string& filepath) const;
 		Face SelectFace(uint32_t faceSize, uint32_t x, uint32_t y) const;
 
 		std::shared_ptr<Texture2D> ConvertToHCross(const std::shared_ptr<TextureCube>& sourceTexture) const;
