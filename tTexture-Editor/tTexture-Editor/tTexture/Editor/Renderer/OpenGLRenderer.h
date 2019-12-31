@@ -53,7 +53,6 @@ namespace tTexture {
 		glm::mat4 m_CaptureProjection;
 		const float m_Exposure, m_OutputAlpha;
 		const uint32_t m_TextureSlot;
-
 	};
 
 }

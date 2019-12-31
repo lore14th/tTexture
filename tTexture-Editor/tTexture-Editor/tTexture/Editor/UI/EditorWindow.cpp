@@ -37,16 +37,18 @@ namespace tTexture {
 		UpdateButtonColor(m_Ui.HCrossButton, QColor(Qt::blue));
 		UpdateButtonColor(m_Ui.VCrossButton, QColor(Qt::blue));
 		UpdateButtonColor(m_Ui.EquirectangularButton, QColor(Qt::blue));
+
+		m_Ui.InputChannelBox->setCurrentIndex(0);
 	}
 
 	void EditorWindow::UpdateConversionType(InputFlag newFlag) const
 	{
 		// reset the color of the current conversion type
-		UpdateButtonColor(GetConversionTypeButton(m_Converter->GetConversionType()), QColor(Qt::blue));
+		UpdateButtonColor(GetConversionTypeButton(m_Converter->GetData()->InputType), QColor(Qt::blue));
 		// set the color of the selected conversion type
 		UpdateButtonColor(GetConversionTypeButton(newFlag), QColor(Qt::red));
 		// updates the converter data
-		m_Converter->SetConversionType(newFlag);
+		m_Converter->GetData()->InputType = newFlag;
 	}
 
 	QPushButton* EditorWindow::GetConversionTypeButton(InputFlag flag) const
@@ -120,7 +122,9 @@ namespace tTexture {
 			// show the filepath to the ui
 			m_Ui.InputFilepathValue->setText(filepath);
 			// update the converter data
-			m_Converter->SetInputFilepath(filepath.toStdString());
+			m_Converter->GetData()->InputFilepath = filepath.toStdString();
+
+			//m_Converter->SetInputFilepath(filepath.toStdString());
 		}
 	}
 
@@ -128,13 +132,13 @@ namespace tTexture {
 	{
 		// update the converter data
 		// TODO: when one and two channel textures are supported, we'll change this to pass the inputBoxIndex directly
-		m_Converter->SetInputChannels(InputIndexToImageChannels(m_Ui.InputChannelBox->currentIndex()));
+		m_Converter->GetData()->InputChannels = InputIndexToImageChannels(m_Ui.InputChannelBox->currentIndex());
 	}
 
 	void EditorWindow::on_FlipOnLoadCheckbox_stateChanged()
 	{
 		// update the converter data
-		m_Converter->SetFlipOnLoad(m_Ui.FlipOnLoadCheckbox->isChecked());
+		m_Converter->GetData()->FlipOnLoad = m_Ui.FlipOnLoadCheckbox->isChecked();
 	}
 
 	void EditorWindow::on_OutputFilepathButton_clicked()
@@ -150,14 +154,14 @@ namespace tTexture {
 			UpdateUiLabel(m_Ui.ExportValue, filepath);
 
 			// update the converter data
-			m_Converter->SetOutputFilepath(filepath.toStdString());
+			m_Converter->GetData()->OutputFilepath = filepath.toStdString();
 		}
 	}
 
 	void EditorWindow::on_PrefilterCheckbox_stateChanged()
 	{
 		// update the converter data
-		m_Converter->SetPrefilter(m_Ui.PrefilterCheckbox->isChecked());
+		m_Converter->GetData()->Prefilter = m_Ui.PrefilterCheckbox->isChecked();
 	}
 
 	void EditorWindow::on_ButtonBox_accepted()

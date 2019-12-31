@@ -35,29 +35,34 @@ namespace tTexture {
 
 	std::string Converter::PerformConversion()
 	{
+		// Check input data
 		ConversionDataError e = CheckConversionData();
-		if (e.NoError())
+		if (e.NoError()) // if input data are correct, convert the texture
 		{
-			if (m_Data->Prefilter)
+			ConvertionType conversion = GetConversionType();
+			switch (conversion)
 			{
-				PrefilteredTextureConversion();
-				return "Pre-filtered Texture exported to " + m_Data->OutputFilepath;
+				case tTexture::Converter::ConvertionType::Tex_2D:	 Texture2DConversion();				return "Texture 2D exported to " + m_Data->OutputFilepath;
+				case tTexture::Converter::ConvertionType::Tex_Cube:	 TextureCubeConversion();			return "Texture Cube exported to " + m_Data->OutputFilepath;
+				case tTexture::Converter::ConvertionType::Prefilter: PrefilteredTextureConversion();	return "Pre-filtered Texture exported to " + m_Data->OutputFilepath;
 			}
-			else if(m_Data->InputType == InputFlag::Texture2D)
-			{
-				Texture2DConversion();
-				return "Texture 2D exported to " + m_Data->OutputFilepath;
-			}
-			else
-			{
-				TextureCubeConversion();
-				return "Texture Cube exported to " + m_Data->OutputFilepath;
-			}
+			TTEX_ASSERT(false, "Invalid conversion type");
+			return "Invalid ConversionType";
 		}
-		else
+		else // show error message
 		{
 			return e.GetErrorMessage();
 		}
+	}
+
+	ConversionDataError Converter::CheckConversionData() const
+	{
+		ConversionDataError errorData;
+		errorData.InputFilepathError = m_Data->InputFilepath == std::string();
+		errorData.OutputFilepathError = m_Data->OutputFilepath == std::string();
+		errorData.FileExtensionError = CheckOutputExtension(m_Data->OutputFilepath);
+
+		return errorData;
 	}
 
 	void Converter::ResetConversionData()
@@ -77,22 +82,27 @@ namespace tTexture {
 		return CubeFormat::HCROSS;
 	}
 
-	ConversionDataError Converter::CheckConversionData() const
-	{
-		ConversionDataError errorData;
-		errorData.InputFilepathError = m_Data->InputFilepath == std::string();
-		errorData.OutputFilepathError = m_Data->OutputFilepath == std::string();
-		errorData.FileExtensionError = CheckOutputExtension(m_Data->OutputFilepath);
-
-		return errorData;
-	}
-
 	bool Converter::CheckOutputExtension(const std::string& filepath) const
 	{
 		Exporter::OutputFormat outputFormat = Exporter::RetrieveOutputFormat(filepath);
 		if (outputFormat == Exporter::OutputFormat::NONE)
 			return true;
 		return false;
+	}
+
+	Converter::ConvertionType Converter::GetConversionType() const
+	{
+		if (m_Data->Prefilter)
+		{
+			return ConvertionType::Prefilter;
+		}
+		else
+		{
+			if (m_Data->InputType == InputFlag::Texture2D)
+				return ConvertionType::Tex_2D;
+			else
+				return ConvertionType::Tex_Cube;
+		}
 	}
 
 	void Converter::Texture2DConversion() const

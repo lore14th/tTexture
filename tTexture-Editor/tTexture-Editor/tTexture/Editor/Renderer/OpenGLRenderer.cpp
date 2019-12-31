@@ -60,7 +60,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/Equirectangular.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Equirectangular.glsl");
 		shader->Bind();
 		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
 		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
@@ -94,7 +94,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/Irradiance.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Irradiance.glsl");
 		shader->Bind();
 		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
 		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
@@ -127,7 +127,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(source->Data.Width);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/Prefilter.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Prefilter.glsl");
 		shader->Bind();
  		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
  		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
