@@ -48,8 +48,10 @@ namespace tTexture {
 	private:
 		// converts the input flag to the cubemap format
 		tTexture::CubeFormat InputTypeToCubeFormat(InputFlag type) const;
+
 		// checks if the extension of the output filepath is valid
 		bool CheckOutputExtension(const std::string& filepath) const;
+
 		// Identifies the conversion to perform
 		ConvertionType GetConversionType() const;
 

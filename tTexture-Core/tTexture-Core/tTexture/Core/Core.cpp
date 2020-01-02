@@ -101,17 +101,17 @@ namespace tTexture {
 	{
 		if (texture->Data.Bpp == 4)
 		{
-			const uint32_t width = texture->Data.Width;
-			const uint32_t height = texture->Data.Height;
-			const uint32_t bpp = 3;
+			const int32_t width = texture->Data.Width;
+			const int32_t height = texture->Data.Height;
+			const int32_t bpp = 3;
 
 			// create a rgb texture
 			std::shared_ptr<Texture2D> outTexture = std::make_shared<Texture2D>(width, height, bpp);
 			outTexture->AllocateTexture();
 
-			for (int32_t y = 0; y < texture->Data.Height; y++)
+			for (int32_t y = 0; y < height; y++)
 			{
-				for (int32_t x = 0; x < texture->Data.Width; x++)
+				for (int32_t x = 0; x < width; x++)
 				{
 					for(byte channel = 0; channel < bpp; channel++)
 						outTexture->Image[(x + y * height) * bpp + channel] = texture->Image[(x + y * height) * texture->Data.Bpp + channel];

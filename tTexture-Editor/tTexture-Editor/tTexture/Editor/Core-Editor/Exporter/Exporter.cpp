@@ -158,6 +158,10 @@ namespace tTexture {
 
 	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture) const
 	{
+		// TODO: remove this
+		Exporter pngExporter("C:/Users/Lore1/Desktop/check.png");
+		pngExporter.StorePngStbi(texture);
+
 		std::shared_ptr<Texture2D> outTexture = RemoveAlphaChannel(texture);
 		int32_t status = stbi_write_tga(m_Filepath.c_str(), outTexture->Data.Width, outTexture->Data.Height, outTexture->Data.Bpp, outTexture->Image.Data);
 		TTEX_ASSERT(status != 0, "Exporter:Failed to write tga texture");

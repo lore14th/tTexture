@@ -2,6 +2,7 @@
 .vs/
 bin/
 bin-int/
+Qt-GeneratedFiles/
 
 tTexture/exporter/
 

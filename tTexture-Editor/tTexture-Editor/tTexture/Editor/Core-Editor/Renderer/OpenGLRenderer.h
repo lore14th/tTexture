@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Editor/Renderer/OpenGLContext.h"
-#include "Editor/Renderer/OpenGLBuffer.h"
-#include "Editor/Renderer/OpenGLShader.h"
-#include "Editor/Renderer/OpenGLTexture.h"
-#include "Editor/Renderer/OpenGLFramebuffer.h"
+#include "Editor/Core-Editor/Renderer/OpenGLContext.h"
+#include "Editor/Core-Editor/Renderer/OpenGLBuffer.h"
+#include "Editor/Core-Editor/Renderer/OpenGLShader.h"
+#include "Editor/Core-Editor/Renderer/OpenGLTexture.h"
+#include "Editor/Core-Editor/Renderer/OpenGLFramebuffer.h"
 
 #include <optional>
 #include <glm/glm.hpp>

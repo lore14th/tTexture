@@ -4,7 +4,7 @@ local qt = premake.extensions.qt
 qtpath "C:/Qt/5.9.9/msvc2017_64" 	-- TODO: UPDATE depending on Qt location
 qtmodules { "core", "gui", "widgets" }
 qtprefix "Qt5"
-qtgenerateddir "tTexture-Editor/vendor/Qt-GeneratedFiles"
+qtgenerateddir "tTexture-Editor/tTexture/Qt-GeneratedFiles"
 ------------------------------------------------------------
 
 IncludeDir = {}
@@ -67,7 +67,11 @@ project "tTexture-Editor"
 
 	excludes 
 	{
-		"%{prj.name}/tTexture/Sandbox.cpp"
+		"%{prj.name}/tTexture/Sandbox.cpp",
+
+		-- Temp: remove these files
+		"%{prj.name}/tTexture/OLDCODE/**",
+
 	}
 
 	includedirs {

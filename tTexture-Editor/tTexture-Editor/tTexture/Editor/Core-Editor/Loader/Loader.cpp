@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Loader.h"
-#include "Editor/Renderer/OpenGLRenderer.h"
+#include "Editor/Core-Editor/Renderer/OpenGLRenderer.h"
 
 #include <tTexture/Core/CoreLoader.h>
 

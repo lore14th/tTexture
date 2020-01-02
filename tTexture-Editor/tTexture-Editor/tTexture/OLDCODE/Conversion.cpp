@@ -58,8 +58,8 @@ namespace tTexture {
 	ConversionDataError Converter::CheckConversionData() const
 	{
 		ConversionDataError errorData;
-		errorData.InputFilepathError = m_Data->InputFilepath == std::string();
-		errorData.OutputFilepathError = m_Data->OutputFilepath == std::string();
+		errorData.InputFilepathError = m_Data->InputFilepath.empty();
+		errorData.OutputFilepathError = m_Data->OutputFilepath.empty();
 		errorData.FileExtensionError = CheckOutputExtension(m_Data->OutputFilepath);
 
 		return errorData;

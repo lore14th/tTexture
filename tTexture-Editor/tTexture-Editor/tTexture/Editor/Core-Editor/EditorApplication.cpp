@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "EditorApplication.h"
 
-#include "Editor/Loader/Loader.h"
-#include "Editor/Exporter/Exporter.h"
-#include "Editor/Renderer/OpenGLRenderer.h"
+#include "Editor/Core-Editor/Loader/Loader.h"
+#include "Editor/Core-Editor/Exporter/Exporter.h"
+#include "Editor/Core-Editor/Renderer/OpenGLRenderer.h"
 
 #include <tTexture/tTexture-Core.h>
 #include <tTexture/Core/CoreLoader.h> 

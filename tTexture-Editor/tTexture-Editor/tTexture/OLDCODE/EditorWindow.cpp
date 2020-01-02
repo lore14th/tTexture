@@ -19,6 +19,9 @@ namespace tTexture {
 	{
 		m_Ui.setupUi(this);
 		ResetUi();
+
+		QWidget* wid = new QWidget();
+		wid->show();
 	}
 
 	void EditorWindow::Reset() const
@@ -123,8 +126,6 @@ namespace tTexture {
 			m_Ui.InputFilepathValue->setText(filepath);
 			// update the converter data
 			m_Converter->GetData()->InputFilepath = filepath.toStdString();
-
-			//m_Converter->SetInputFilepath(filepath.toStdString());
 		}
 	}
 

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/MainMenu">
+        <file>MainMenu.ui</file>
+    </qresource>
+    <qresource prefix="/ConversionMenu">
+        <file>ConversionMenu.ui</file>
+    </qresource>
+    <qresource prefix="/CubemapMenu">
+        <file>CubemapMenuui.ui</file>
+    </qresource>
+    <qresource prefix="/CreateMenu">
+        <file>CreateMenu.ui</file>
+    </qresource>
+</RCC>
