@@ -1,37 +1,55 @@
 #include "pch.h"
 #include "MainMenu.h"
 
-#include <iostream>
+#include <QFrame>
 
-namespace tTexture {
+namespace tTexture::Ui {
 
-	MainMenu::MainMenu(QWidget* parent)
+	MainMenuUi::MainMenuUi(QWidget* parent)
 	{
 		m_Ui.setupUi(this);
 
-		m_ConversionMenu = std::make_unique<ConversionMenuUi>(this);
-		m_ConversionMenu->setModal(true);
+		// Set up action Menu to return to main menu window
+		connect(m_Ui.actionMenu, &QAction::triggered, [=]() {
+			ShowMainMenu();
+		});
 
-		m_CubemapMenu = std::make_unique<CubemapMenuUi>(this);
-		m_CubemapMenu->setModal(true);
+		// TODO: consider removing sub menus from member variables
+		m_ConvertWidget = std::make_unique<ConvertMenuUi>(this);
+		m_ConvertWidget->SetBackAction(m_Ui.actionMenu);
+		m_Ui.stackedWidget->addWidget(m_ConvertWidget.get());
 
-		m_CreateMenu = std::make_unique<CreateMenuUi>(this);
-		m_CreateMenu->setModal(true);
+		m_CubemapWidget = std::make_unique<CubemapMenuUi>(this);
+		m_Ui.stackedWidget->addWidget(m_CubemapWidget.get());
+
+		m_CreateWidget = std::make_unique<CreateMenuUi>(this);
+		m_Ui.stackedWidget->addWidget(m_CreateWidget.get());
 	}
 
-	void MainMenu::on_ConvertButton_clicked()
+	void MainMenuUi::ShowMainMenu() const
 	{
-		m_ConversionMenu->exec();
+		SwapWidget(MAIN_MENU);
 	}
 
-	void MainMenu::on_CubemapButton_clicked()
+	void MainMenuUi::SwapWidget(uint32_t widgetIndex) const
 	{
-		m_CubemapMenu->exec();
+		m_Ui.stackedWidget->setCurrentIndex(widgetIndex);
 	}
 
-	void MainMenu::on_CreateButton_clicked()
+	// -- Ui "events" -----------------------------------------
+	void MainMenuUi::on_ConvertButton_clicked()
 	{
-		m_CreateMenu->exec();
+		SwapWidget(CONVERT_MENU);
+	}
+
+	void MainMenuUi::on_CubemapButton_clicked()
+	{
+		SwapWidget(CUBEMAP_MENU);
+	}
+
+	void MainMenuUi::on_CreateButton_clicked()
+	{
+		SwapWidget(CREATE_MENU);
 	}
 
 }

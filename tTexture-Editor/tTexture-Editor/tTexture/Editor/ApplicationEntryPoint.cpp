@@ -6,7 +6,7 @@
 int main(int argc, char** argv)
 {
 	QApplication app(argc, argv);
-	tTexture::MainMenu menu;
+	tTexture::Ui::MainMenuUi menu;
 	menu.show();
 
 	return app.exec();

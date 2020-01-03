@@ -1,31 +1,40 @@
 #pragma once
+
+#include "Editor/UI/Convert.h"
+#include "Editor/UI/Cubemap.h"
+#include "Editor/UI/Create.h"
+
 #include <QMainWindow>
+#include "ui_MainWindow.h"
 
-#include "Editor/UI/ConversionMenu.h"
-#include "Editor/UI/CubemapMenu.h"
-#include "Editor/UI/CreateMenu.h"
+namespace tTexture::Ui {
 
-#include "ui_MainMenu.h"
+#define MAIN_MENU		0
+#define CONVERT_MENU	1
+#define CUBEMAP_MENU	2
+#define CREATE_MENU		3
 
-namespace tTexture {
-
-	class MainMenu : public QMainWindow
+	class MainMenuUi : public QMainWindow
 	{
 	Q_OBJECT
 	public:
-		MainMenu(QWidget* parent = Q_NULLPTR);
+		MainMenuUi(QWidget* parent = Q_NULLPTR);
 
-	private slots:
+		void ShowMainMenu() const;
+	private:
+		void SwapWidget(uint32_t widgetIndex) const;
+
+	private slots: // Ui signals
 		void on_ConvertButton_clicked();
 		void on_CubemapButton_clicked();
 		void on_CreateButton_clicked();
 
 	private:
-		Ui::MainWindow m_Ui;
+		::Ui::MainWindow m_Ui;
 
-		std::unique_ptr<ConversionMenuUi> m_ConversionMenu;
-		std::unique_ptr<CubemapMenuUi> m_CubemapMenu;
-		std::unique_ptr<CreateMenuUi> m_CreateMenu;
+		std::unique_ptr<ConvertMenuUi> m_ConvertWidget;
+		std::unique_ptr<CubemapMenuUi> m_CubemapWidget;
+		std::unique_ptr<CreateMenuUi> m_CreateWidget;
 	};
 
 }

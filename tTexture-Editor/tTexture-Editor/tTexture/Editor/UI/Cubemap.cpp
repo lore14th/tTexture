@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "CubemapMenu.h"
+#include "Cubemap.h"
 
-namespace tTexture {
+namespace tTexture::Ui {
 
 	CubemapMenuUi::CubemapMenuUi(QWidget* parent)
 	{

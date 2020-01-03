@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "CreateMenu.h"
+#include "Create.h"
 
-namespace tTexture {
+namespace tTexture::Ui {
 
 	CreateMenuUi::CreateMenuUi(QWidget* parent)
 	{
