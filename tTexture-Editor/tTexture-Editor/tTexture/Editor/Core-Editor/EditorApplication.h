@@ -26,7 +26,7 @@ namespace tTexture {
 		std::shared_ptr<Texture2D> CreateBRDF(BRDFType type, uint32_t size);
 
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const;
-		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture) const;
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat = CubeFormat::HCROSS) const;
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const;
 
 		// Set the resolution for texture renderer.

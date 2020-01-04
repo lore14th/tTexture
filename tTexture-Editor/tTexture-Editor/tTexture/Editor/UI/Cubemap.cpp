@@ -76,6 +76,11 @@ namespace tTexture::Ui {
 		m_Controller->GetData()->InputFlipOnLoad = m_Ui.InputFlipOnLoadCheckbox->isChecked(); // update the converter data
 	}
 
+	void CubemapMenuUi::on_OutputCubeFormatBox_currentIndexChanged()
+	{
+		m_Controller->GetData()->OutputCubeFormat = IndexToCubeFormat(m_Ui.OutputCubeFormatBox->currentIndex());
+	}
+
 	void CubemapMenuUi::on_CommandButton_accepted()
 	{
 		// Perform conversion and show message to the screen

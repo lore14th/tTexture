@@ -78,11 +78,11 @@ namespace tTexture {
 		exporter.WriteToDisk(texture);
 	}
 
-	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture) const 
+	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const 
 	{
 		TTEX_TIME_FUNCTION;
 		Exporter exporter(outputFilepath);
-		exporter.WriteToDisk(texture);
+		exporter.WriteToDisk(texture, outputFormat);
 	}
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const

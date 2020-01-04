@@ -25,7 +25,7 @@ namespace tTexture {
 		}
 	}
 
-	void Exporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture) const
+	void Exporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const
 	{
 		TTEX_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
 		std::shared_ptr<Texture2D> crossTexture = ConvertToHCross(texture);
@@ -156,12 +156,33 @@ namespace tTexture {
 		}
 	}
 
+	std::shared_ptr<tTexture::Texture2D> Exporter::ConvertTextureCubeToFormat(const std::shared_ptr<TextureCube>& sourceTexture, CubeFormat desiredFormat)
+	{
+		switch (desiredFormat)
+		{
+			case tTexture::CubeFormat::HCROSS:			return ConvertToHCross(sourceTexture);
+			case tTexture::CubeFormat::VCROSS:			return ConvertToVCross(sourceTexture);
+			case tTexture::CubeFormat::EQUIRECTANGULAR: return ConvertToEquirectangular(sourceTexture);
+		}
+
+		TTEX_ASSERT(false, "Invalid format");
+		return std::make_shared<tTexture::Texture2D>();
+	}
+
+	std::shared_ptr<tTexture::Texture2D> Exporter::ConvertToVCross(const std::shared_ptr<TextureCube>& sourceTexture) const
+	{
+		TTEX_ASSERT(false, "Implement this");
+		return std::make_shared<tTexture::Texture2D>();
+	}
+
+	std::shared_ptr<tTexture::Texture2D> Exporter::ConvertToEquirectangular(const std::shared_ptr<TextureCube>& sourceTexture) const
+	{
+		TTEX_ASSERT(false, "Implement this");
+		return std::make_shared<tTexture::Texture2D>();
+	}
+
 	void Exporter::StoreTGAStbi(const std::shared_ptr<Texture2D>& texture) const
 	{
-		// TODO: remove this
-		Exporter pngExporter("C:/Users/Lore1/Desktop/check.png");
-		pngExporter.StorePngStbi(texture);
-
 		std::shared_ptr<Texture2D> outTexture = RemoveAlphaChannel(texture);
 		int32_t status = stbi_write_tga(m_Filepath.c_str(), outTexture->Data.Width, outTexture->Data.Height, outTexture->Data.Bpp, outTexture->Image.Data);
 		TTEX_ASSERT(status != 0, "Exporter:Failed to write tga texture");

@@ -94,6 +94,7 @@ namespace tTexture::Ui {
 	{
 		if (size == 0)
 			return true;
+		return false;
 	}
 
 	void UpdateUiLabel(QLabel* label, const QString& message)

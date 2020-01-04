@@ -18,6 +18,7 @@ namespace tTexture {
 		bool InputFlipOnLoad = false;
 		
 		std::string OutputFilepath = std::string();
+		CubeFormat OutputCubeFormat = CubeFormat::HCROSS;
 	};
 
 	struct CubemapDataError
@@ -68,6 +69,7 @@ namespace tTexture::Ui {
 		void on_InputCubeFormatBox_currentIndexChanged();
 		void on_InputChannelBox_currentIndexChanged();
 		void on_FlipOnLoadCheckbox_stateChanged();
+		void on_OutputCubeFormatBox_currentIndexChanged();
 		
 		void on_CommandButton_accepted();
 		void on_CommandButton_rejected();
