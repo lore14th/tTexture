@@ -7,9 +7,9 @@
 
 namespace tTexture::Ui {
 
-	CreateMenuUi::CreateMenuUi(QWidget* parent)
+	CreateMenuUi::CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QWidget* parent)
 		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
-		m_Controller(std::make_unique<CreateController>())
+		m_Controller(std::make_unique<CreateController>(app))
 	{
 		m_Ui.setupUi(this);
 	}
@@ -180,9 +180,9 @@ namespace tTexture {
 
 	// -- Create Controller ------------------------
 
-	CreateController::CreateController()
-		: m_Application(std::make_unique<tTexture::EditorApplication>()),
-		m_IrradianceData(std::make_unique<CreateIrradianceData>()), m_BRDFData(std::make_unique<CreateBRDFData>())
+	CreateController::CreateController(const std::shared_ptr<EditorApplication>& application)
+		: m_Application(application), m_IrradianceData(std::make_unique<CreateIrradianceData>()), 
+		m_BRDFData(std::make_unique<CreateBRDFData>())
 	{
 	}
 

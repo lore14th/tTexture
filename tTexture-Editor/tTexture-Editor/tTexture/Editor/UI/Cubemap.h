@@ -34,7 +34,7 @@ namespace tTexture {
 	class CubemapController
 	{
 	public:
-		CubemapController();
+		CubemapController(const std::shared_ptr<EditorApplication>& application);
 		~CubemapController() = default;
 
 		std::shared_ptr<CubemapData>& GetData() { return m_Data; }
@@ -44,7 +44,7 @@ namespace tTexture {
 	private:
 		CubemapDataError ValidateInputData() const;
 	private:
-		std::unique_ptr<EditorApplication> m_Application;
+		const std::shared_ptr<EditorApplication>& m_Application;
 		std::shared_ptr<CubemapData> m_Data;
 	};
 
@@ -56,7 +56,7 @@ namespace tTexture::Ui {
 	{
 	Q_OBJECT
 	public:
-		CubemapMenuUi(QWidget* parent = Q_NULLPTR);
+		CubemapMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent = Q_NULLPTR);
 
 		void SetBackAction(QAction* action) { m_BackAction = action; }
 	private:

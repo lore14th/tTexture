@@ -31,7 +31,7 @@ namespace tTexture {
 	class ConversionController
 	{
 	public:
-		ConversionController();
+		ConversionController(const std::shared_ptr<EditorApplication>& app);
 		~ConversionController() = default;
 
 		std::shared_ptr<ConversionData>& GetData() { return m_Data; }
@@ -41,7 +41,7 @@ namespace tTexture {
 	private:
 		ConversionDataError ValidateInputData() const;
 	private:
-		std::unique_ptr<EditorApplication> m_Application;
+		const std::shared_ptr<EditorApplication>& m_Application;
 		std::shared_ptr<ConversionData> m_Data;
 	};
 
@@ -53,8 +53,7 @@ namespace tTexture::Ui {
 	{
 	Q_OBJECT
 	public:
-		ConvertMenuUi(QWidget* parent = Q_NULLPTR);
-
+		ConvertMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent = Q_NULLPTR);
 		void SetBackAction(QAction* action) { m_BackAction = action; }
 
 	private:

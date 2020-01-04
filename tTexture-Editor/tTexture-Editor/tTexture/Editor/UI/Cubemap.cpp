@@ -8,9 +8,9 @@
 
 namespace tTexture::Ui {
 
-	CubemapMenuUi::CubemapMenuUi(QWidget* parent)
+	CubemapMenuUi::CubemapMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent)
 		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
-		m_Controller(std::make_unique<CubemapController>())
+		m_Controller(std::make_unique<CubemapController>(app))
 	{
 		m_Ui.setupUi(this);
 	}
@@ -125,8 +125,8 @@ namespace tTexture {
 
 	// -- Cubemap Controller -------------
 
-	CubemapController::CubemapController()
-		: m_Application(std::make_unique<tTexture::EditorApplication>()), m_Data(std::make_shared<CubemapData>())
+	CubemapController::CubemapController(const std::shared_ptr<EditorApplication>& application)
+		: m_Application(application), m_Data(std::make_shared<CubemapData>())
 	{
 	}
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Editor/Core-Editor/EditorApplication.h"
+
 #include "Editor/UI/Convert.h"
 #include "Editor/UI/Cubemap.h"
 #include "Editor/UI/Create.h"
@@ -35,6 +37,8 @@ namespace tTexture::Ui {
 		std::unique_ptr<ConvertMenuUi> m_ConvertWidget;
 		std::unique_ptr<CubemapMenuUi> m_CubemapWidget;
 		std::unique_ptr<CreateMenuUi> m_CreateWidget;
+
+		std::shared_ptr<::tTexture::EditorApplication> m_Application;
 	};
 
 }

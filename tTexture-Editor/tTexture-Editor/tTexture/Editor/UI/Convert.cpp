@@ -8,9 +8,9 @@
 
 namespace tTexture::Ui {
 
-	ConvertMenuUi::ConvertMenuUi(QWidget* parent)
+	ConvertMenuUi::ConvertMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent)
 		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
-		m_Controller(std::make_unique<ConversionController>())
+		m_Controller(std::make_unique<ConversionController>(app))
 	{
 		m_Ui.setupUi(this);
 	}
@@ -114,8 +114,8 @@ namespace tTexture {
 
 	// -- Conversion Controller ----------------
 
-	ConversionController::ConversionController()
-		: m_Application(std::make_unique<tTexture::EditorApplication>()), m_Data(std::make_shared<ConversionData>())
+	ConversionController::ConversionController(const std::shared_ptr<::tTexture::EditorApplication>& app)
+		: m_Application(app), m_Data(std::make_shared<ConversionData>())
 	{
 	}
 

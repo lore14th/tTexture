@@ -52,7 +52,7 @@ namespace tTexture {
 	class CreateController
 	{
 	public:
-		CreateController();
+		CreateController(const std::shared_ptr<EditorApplication>& application);
 		~CreateController() = default;
 
 		std::shared_ptr<CreateBRDFData>& GetBRDFData() { return m_BRDFData; }
@@ -66,7 +66,7 @@ namespace tTexture {
 		CreateBRDFDataError ValidateBRDFInputData() const;
 		CreateIrradianceDataError ValidateIrradianceInputData() const;
 	private:
-		std::unique_ptr<EditorApplication> m_Application;
+		const std::shared_ptr<EditorApplication>& m_Application;
 		std::shared_ptr<CreateIrradianceData> m_IrradianceData;
 		std::shared_ptr<CreateBRDFData> m_BRDFData;
 	};
@@ -79,7 +79,7 @@ namespace tTexture::Ui {
 	{
 	Q_OBJECT
 	public:
-		CreateMenuUi(QWidget* parent = Q_NULLPTR);
+		CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QWidget* parent = Q_NULLPTR);
 		void SetBackAction(QAction* action) { m_BackAction = action; }
 
 	private:
