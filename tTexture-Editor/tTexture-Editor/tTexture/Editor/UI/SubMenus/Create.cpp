@@ -7,23 +7,11 @@
 
 namespace tTexture::Ui {
 
-	CreateMenuUi::CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QWidget* parent)
-		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
+	CreateMenuUi::CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent)
+		: SubMenu(backAction, parent), m_FileDialog(std::make_unique<QFileDialog>(this)),
 		m_Controller(std::make_unique<CreateController>(app))
 	{
 		m_Ui.setupUi(this);
-	}
-
-	void CreateMenuUi::BackToMainMenu() const
-	{
-		// Return to main menu, by triggering the action
-		if (m_BackAction)
-		{
-			m_Controller->ResetData();
-			ResetUi();
-
-			m_BackAction->trigger();
-		}
 	}
 
 	void CreateMenuUi::ResetUi() const
@@ -37,6 +25,11 @@ namespace tTexture::Ui {
 		SetComboBoxIndex(m_Ui.BRFDTextureSizeBox, Ui::TextureSizeToIndex(m_Controller->GetBRDFData()->Size));
 		SetComboBoxIndex(m_Ui.BRDFTypeBox, BRDFTypeToIndex(m_Controller->GetBRDFData()->Type));
 		UpdateUiLabel(m_Ui.BRDFOutputFilepathValue, m_Controller->GetBRDFData()->OutputFilepath.c_str());
+	}
+
+	void CreateMenuUi::ResetControllerData() const
+	{
+		m_Controller->ResetData();
 	}
 
 	void CreateMenuUi::on_IrradianceInputFilepathButton_clicked()

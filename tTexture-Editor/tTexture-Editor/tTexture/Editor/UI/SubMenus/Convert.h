@@ -1,9 +1,10 @@
 #pragma once
 
 #include <QWidget>
-#include <QFileDialog>
-
 #include "ui_ConvertWidget.h"
+
+#include <QFileDialog>
+#include "Editor/UI/SubMenus/SubMenu.h"
 
 namespace tTexture {
 
@@ -49,16 +50,15 @@ namespace tTexture {
 
 namespace tTexture::Ui {
 
-	class ConvertMenuUi : public QWidget
+	class ConvertMenuUi : public SubMenu
 	{
 	Q_OBJECT
 	public:
-		ConvertMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent = Q_NULLPTR);
-		void SetBackAction(QAction* action) { m_BackAction = action; }
+		ConvertMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent = Q_NULLPTR);
 
 	private:
-		void BackToMainMenu() const;
-		void ResetUi() const;
+		virtual void ResetUi() const override;
+		virtual void ResetControllerData() const override;
 
 	private slots:
 		void on_InputFilepathButton_clicked();
@@ -70,7 +70,6 @@ namespace tTexture::Ui {
 		void on_ButtonBox_rejected();
 	private:
 		::Ui::ConvertWidget m_Ui;
-		QAction* m_BackAction;
 		std::unique_ptr<QFileDialog> m_FileDialog;
 
 		std::unique_ptr<::tTexture::ConversionController> m_Controller;

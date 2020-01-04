@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "MainMenu.h"
 
-#include <QFrame>
+#include "Editor/UI/SubMenus/Convert.h"
+#include "Editor/UI/SubMenus/Cubemap.h"
+#include "Editor/UI/SubMenus/Create.h"
 
 namespace tTexture::Ui {
 
@@ -15,17 +17,9 @@ namespace tTexture::Ui {
 			ShowMainMenu();
 		});
 
-		m_ConvertWidget = std::make_unique<ConvertMenuUi>(m_Application, this);
-		m_ConvertWidget->SetBackAction(m_Ui.actionMenu);
-		m_Ui.stackedWidget->addWidget(m_ConvertWidget.get());
-
-		m_CubemapWidget = std::make_unique<CubemapMenuUi>(m_Application, this);
-		m_CubemapWidget->SetBackAction(m_Ui.actionMenu);
-		m_Ui.stackedWidget->addWidget(m_CubemapWidget.get());
-
-		m_CreateWidget = std::make_unique<CreateMenuUi>(m_Application, this);
-		m_CreateWidget->SetBackAction(m_Ui.actionMenu);
-		m_Ui.stackedWidget->addWidget(m_CreateWidget.get());
+		m_Ui.stackedWidget->addWidget(new ConvertMenuUi(m_Application, m_Ui.actionMenu, this));
+		m_Ui.stackedWidget->addWidget(new CubemapMenuUi(m_Application, m_Ui.actionMenu, this));
+		m_Ui.stackedWidget->addWidget(new CreateMenuUi(m_Application, m_Ui.actionMenu, this));
 	}
 
 	void MainMenuUi::ShowMainMenu() const

@@ -6,6 +6,8 @@
 
 #include <tTexture/tTexture-Core.h>
 
+#include "Editor/UI/SubMenus/SubMenu.h"
+
 namespace tTexture {
 
 	class EditorApplication;
@@ -52,16 +54,15 @@ namespace tTexture {
 
 namespace tTexture::Ui {
 
-	class CubemapMenuUi : public QWidget
+	class CubemapMenuUi : public SubMenu
 	{
 	Q_OBJECT
 	public:
-		CubemapMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent = Q_NULLPTR);
+		CubemapMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent = Q_NULLPTR);
 
-		void SetBackAction(QAction* action) { m_BackAction = action; }
 	private:
-		void BackToMainMenu() const;
-		void ResetUi() const;
+		virtual void ResetUi() const override;
+		virtual void ResetControllerData() const override;
 
 	private slots:
 		void on_InputFilepathButton_clicked();
@@ -75,7 +76,6 @@ namespace tTexture::Ui {
 		void on_CommandButton_rejected();
 	private:
 		::Ui::CubemapWidget m_Ui;
-		QAction* m_BackAction;
 		std::unique_ptr<QFileDialog> m_FileDialog;
 
 		std::unique_ptr<::tTexture::CubemapController> m_Controller;

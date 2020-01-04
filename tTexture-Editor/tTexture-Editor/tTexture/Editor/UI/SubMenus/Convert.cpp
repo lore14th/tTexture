@@ -8,23 +8,11 @@
 
 namespace tTexture::Ui {
 
-	ConvertMenuUi::ConvertMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent)
-		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
+	ConvertMenuUi::ConvertMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent)
+		: SubMenu(backAction, parent), m_FileDialog(std::make_unique<QFileDialog>(this)),
 		m_Controller(std::make_unique<ConversionController>(app))
 	{
 		m_Ui.setupUi(this);
-	}
-
-	void ConvertMenuUi::BackToMainMenu() const
-	{
-		// Return to main menu, by triggering the action
-		if (m_BackAction)
-		{
-			m_Controller->ResetData();
-			ResetUi();
-
-			m_BackAction->trigger();
-		}
 	}
 
 	void ConvertMenuUi::ResetUi() const
@@ -33,6 +21,11 @@ namespace tTexture::Ui {
 		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
 		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
 		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
+	}
+
+	void ConvertMenuUi::ResetControllerData() const
+	{
+		m_Controller->ResetData();
 	}
 
 	// -- Ui events --------
@@ -83,6 +76,8 @@ namespace tTexture::Ui {
 	{
 		BackToMainMenu();
 	}
+
+
 
 }
 

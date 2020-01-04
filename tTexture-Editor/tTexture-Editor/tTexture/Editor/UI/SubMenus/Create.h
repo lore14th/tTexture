@@ -7,6 +7,8 @@
 #include <tTexture/tTexture-Core.h>
 #include "Editor/Core-Editor/Renderer/OpenGLRenderer.h"
 
+#include "Editor/UI/SubMenus/SubMenu.h"
+
 namespace tTexture {
 
 	class EditorApplication;
@@ -75,16 +77,15 @@ namespace tTexture {
 
 namespace tTexture::Ui {
 
-	class CreateMenuUi : public QWidget
+	class CreateMenuUi : public SubMenu
 	{
 	Q_OBJECT
 	public:
-		CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QWidget* parent = Q_NULLPTR);
-		void SetBackAction(QAction* action) { m_BackAction = action; }
+		CreateMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent = Q_NULLPTR);
 
 	private:
-		void BackToMainMenu() const;
-		void ResetUi() const;
+		virtual void ResetUi() const override;
+		virtual void ResetControllerData() const override;
 
 	private slots:
 		// -- Irradiance --
@@ -106,7 +107,6 @@ namespace tTexture::Ui {
 		void on_BRDFCommandBox_rejected();
 	private:
 		::Ui::CreateWidget m_Ui;
-		QAction* m_BackAction;
 		std::unique_ptr<QFileDialog> m_FileDialog;
 
 		std::unique_ptr<::tTexture::CreateController> m_Controller;

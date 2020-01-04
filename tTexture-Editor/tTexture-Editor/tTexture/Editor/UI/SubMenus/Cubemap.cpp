@@ -8,23 +8,11 @@
 
 namespace tTexture::Ui {
 
-	CubemapMenuUi::CubemapMenuUi(const std::shared_ptr<EditorApplication>& app, QWidget* parent)
-		: m_BackAction(nullptr), m_FileDialog(std::make_unique<QFileDialog>(this)),
+	CubemapMenuUi::CubemapMenuUi(const std::shared_ptr<::tTexture::EditorApplication>& app, QAction* backAction, QWidget* parent)
+		: SubMenu(backAction, parent), m_FileDialog(std::make_unique<QFileDialog>(this)),
 		m_Controller(std::make_unique<CubemapController>(app))
 	{
 		m_Ui.setupUi(this);
-	}
-
-	void CubemapMenuUi::BackToMainMenu() const
-	{
-		// Return to main menu, by triggering the action
-		if (m_BackAction)
-		{
-			m_Controller->ResetData();
-			ResetUi();
-
-			m_BackAction->trigger();
-		}
 	}
 
 	void CubemapMenuUi::ResetUi() const
@@ -34,6 +22,11 @@ namespace tTexture::Ui {
 		SetComboBoxIndex(m_Ui.InputChannelBox, ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
 		SetComboBoxIndex(m_Ui.InputCubeFormatBox, CubeFormatToIndex(m_Controller->GetData()->InputCubeFormat));
 		SetCheckboxStatus(m_Ui.InputFlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
+	}
+
+	void CubemapMenuUi::ResetControllerData() const
+	{
+		m_Controller->ResetData();
 	}
 
 	// -- Ui events -------------------
