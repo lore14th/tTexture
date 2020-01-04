@@ -13,7 +13,7 @@ namespace tTexture::Ui {
 		m_Ui.setupUi(this);
 
 		// Set up action Menu to return to main menu window
-		connect(m_Ui.actionMenu, &QAction::triggered, [=]() {
+		auto connection = connect(m_Ui.actionMenu, &QAction::triggered, [=]() {
 			ShowMainMenu();
 		});
 

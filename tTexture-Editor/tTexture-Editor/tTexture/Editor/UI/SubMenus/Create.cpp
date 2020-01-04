@@ -159,9 +159,6 @@ namespace tTexture {
 		std::stringstream ss;
 		ss << "Error! Please check: \n";
 
-		if (SizeError)
-			ss << " - Size must be grater than 1 and multiple of 2";
-
 		if (OutputFilepathError)
 			ss << " - Output filepath. \n";
 
@@ -221,7 +218,6 @@ namespace tTexture {
 	CreateBRDFDataError CreateController::ValidateBRDFInputData() const
 	{
 		CreateBRDFDataError errorData;
-		errorData.SizeError = !Ui::CheckTextureSize(m_BRDFData->Size); // check if the size is non-zero and power of 2
 		errorData.OutputFilepathError = m_BRDFData->OutputFilepath.empty();
 		errorData.FileExtensionError = Ui::CheckFileExtensionIsSupported(m_BRDFData->OutputFilepath);
 

@@ -43,7 +43,6 @@ namespace tTexture {
 
 	struct CreateBRDFDataError
 	{
-		bool SizeError;
 		bool OutputFilepathError;
 		bool FileExtensionError;
 
