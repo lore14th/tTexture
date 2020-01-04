@@ -53,10 +53,10 @@ namespace tTexture {
 		return m_Renderer->CreateIrradianceMap(sourceTexture);
 	}
 
-	std::shared_ptr<Texture2D> EditorApplication::CreateBRDF(uint32_t size)
+	std::shared_ptr<Texture2D> EditorApplication::CreateBRDF(BRDFType type, uint32_t size)
 	{
 		TTEX_TIME_FUNCTION;
-		return m_Renderer->CreateBRDF(size);
+		return m_Renderer->CreateBRDF(type, size);
 	}
 
 	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const std::shared_ptr<TextureCube>& texture) const

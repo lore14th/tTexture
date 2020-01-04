@@ -20,9 +20,11 @@ namespace tTexture::Ui {
 		m_Ui.stackedWidget->addWidget(m_ConvertWidget.get());
 
 		m_CubemapWidget = std::make_unique<CubemapMenuUi>(this);
+		//m_CubemapWidget->SetBackAction(m_Ui.actionMenu);
 		m_Ui.stackedWidget->addWidget(m_CubemapWidget.get());
 
 		m_CreateWidget = std::make_unique<CreateMenuUi>(this);
+		m_CreateWidget->SetBackAction(m_Ui.actionMenu);
 		m_Ui.stackedWidget->addWidget(m_CreateWidget.get());
 	}
 

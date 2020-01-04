@@ -25,7 +25,6 @@ namespace tTexture {
 		// fileChannels is 3 or 4
 		byte* pixels = stbi_load(m_Filepath.c_str(), &data.Width, &data.Height, &data.Bpp, m_FileChannels);
 
-		// MOD
 		//if (data.Bpp == 3)
 		//	pixels = AddAlphaChannel(pixels, data);
 	

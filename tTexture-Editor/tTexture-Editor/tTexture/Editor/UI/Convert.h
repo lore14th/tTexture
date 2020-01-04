@@ -51,7 +51,7 @@ namespace tTexture::Ui {
 
 	class ConvertMenuUi : public QWidget
 	{
-		Q_OBJECT
+	Q_OBJECT
 	public:
 		ConvertMenuUi(QWidget* parent = Q_NULLPTR);
 

@@ -5,9 +5,10 @@
 namespace tTexture {
 
 	class OpenGLRenderer;
+	enum class BRDFType;
 
 	class EditorApplication
-	{
+	{		
 	public:
 		EditorApplication();
 		virtual ~EditorApplication() = default;
@@ -22,7 +23,7 @@ namespace tTexture {
 		std::shared_ptr<PrefilteredTextureCube> PrefilterEnvironmentMap(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad = false);
 		std::shared_ptr<PrefilteredTextureCube> PrefilterEnvironmentMap(const std::shared_ptr<TextureCube>& texture) const;
 
-		std::shared_ptr<Texture2D> CreateBRDF(uint32_t size);
+		std::shared_ptr<Texture2D> CreateBRDF(BRDFType type, uint32_t size);
 
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const;
 		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture) const;

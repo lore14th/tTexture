@@ -15,6 +15,28 @@ namespace tTexture::Ui {
 		m_Ui.setupUi(this);
 	}
 
+	void ConvertMenuUi::BackToMainMenu() const
+	{
+		// Return to main menu, by triggering the action
+		if (m_BackAction)
+		{
+			ResetUi();
+			m_Controller->ResetData();
+
+			m_BackAction->trigger();
+		}
+	}
+
+	void ConvertMenuUi::ResetUi() const
+	{
+		UpdateUiLabel(m_Ui.InputFilepathValue, "");
+		UpdateUiLabel(m_Ui.OutputFilepathLabel, "");
+		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(3));
+		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, false);
+	}
+
+	// -- Ui events --------
+
 	void ConvertMenuUi::on_InputFilepathButton_clicked()
 	{
 		QString filepath = m_FileDialog->getOpenFileName(this); // open file dialog
@@ -40,7 +62,7 @@ namespace tTexture::Ui {
 	void ConvertMenuUi::on_InputChannelBox_currentIndexChanged()
 	{
 		// TODO: when one and two channel textures are supported, we'll change this to pass the inputBoxIndex directly
-		m_Controller->GetData()->InputChannels = InputIndexToImageChannels(m_Ui.InputChannelBox->currentIndex()); // update the converter data
+		m_Controller->GetData()->InputChannels = IndexToImageChannels(m_Ui.InputChannelBox->currentIndex()); // update the converter data
 	}
 
 	void ConvertMenuUi::on_FlipOnLoadCheckbox_stateChanged()
@@ -62,26 +84,6 @@ namespace tTexture::Ui {
 		BackToMainMenu();
 	}
 
-	void ConvertMenuUi::BackToMainMenu() const
-	{
-		// Return to main menu, by triggering the action
-		if (m_BackAction)
-		{
-			ResetUi();
-			m_Controller->ResetData();
-
-			m_BackAction->trigger();
-		}
-	}
-
-	void ConvertMenuUi::ResetUi() const
-	{
-		UpdateUiLabel(m_Ui.InputFilepathValue, "");
-		UpdateUiLabel(m_Ui.OutputFilepathLabel, "");
-		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(3));
-		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, false);
-	}
-
 }
 
 namespace tTexture {
@@ -99,13 +101,13 @@ namespace tTexture {
 		ss << "Error! Please check: \n";
 
 		if (InputFilepathError)
-			ss << "\tInput filepath. \n";
+			ss << " - Input filepath. \n";
 
 		if (OutputFilepathError)
-			ss << "\tOutput filepath. \n";
+			ss << " - Output filepath. \n";
 
 		if (FileExtensionError)
-			ss << "\tFile extension. tTexture only supports [.tga, .png, .jpg] \n";
+			ss << " - File extension. tTexture only supports [.tga, .png, .jpg] \n";
 
 		return ss.str();
 	}
@@ -124,12 +126,13 @@ namespace tTexture {
 
 	std::string ConversionController::Convert()
 	{
-		ConversionDataError err = ValidateInputData(); // validate the input data
+		ConversionDataError err = ValidateInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, perform the conversion
 		{
 			std::shared_ptr<Texture2D> texture = m_Application->LoadTexture2D(m_Data->InputFilepath.c_str(), m_Data->InputChannels, m_Data->InputFlipOnLoad);
 			m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
-			return "Texture Converted and stored to " + m_Data->OutputFilepath + ".";
+
+			return "Texture converted and stored to " + m_Data->OutputFilepath + ".";
 		}
 		else // return the error message
 		{

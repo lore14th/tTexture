@@ -60,7 +60,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Equirectangular.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Core-Editor/Renderer/shaders/Equirectangular.glsl");
 		shader->Bind();
 		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
 		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
@@ -94,7 +94,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(m_Resolution);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Irradiance.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Core-Editor/Renderer/shaders/Irradiance.glsl");
 		shader->Bind();
 		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
 		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
@@ -127,7 +127,7 @@ namespace tTexture {
 		std::shared_ptr<Renderer::OpenGLTextureCube> targetTexture = std::make_shared<Renderer::OpenGLTextureCube>(source->Data.Width);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Renderer/shaders/Prefilter.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Core-Editor/Renderer/shaders/Prefilter.glsl");
 		shader->Bind();
  		shader->SetUniformMat4f("u_ProjectionMatrix", m_CaptureProjection);
  		shader->SetUniform1f("u_OutputAlpha", m_OutputAlpha);
@@ -165,13 +165,15 @@ namespace tTexture {
 		return result;
 	}
 
-	std::shared_ptr<tTexture::Texture2D> OpenGLRenderer::CreateBRDF(uint32_t size)
+	std::shared_ptr<tTexture::Texture2D> OpenGLRenderer::CreateBRDF(BRDFType type, uint32_t size)
 	{
+		// TODO: depending on the type, change shader and uniforms
+
 		// Create Target Texture2D
 		std::shared_ptr<Renderer::OpenGLTexture2D> targetTexture = std::make_shared<Renderer::OpenGLTexture2D>(size, size, 4);
 
 		// Create shader and set uniforms
-		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("../tTexture-Core/tTexture/Renderer/shaders/BRDF.glsl");
+		std::unique_ptr<Renderer::OpenGLShader> shader = std::make_unique<Renderer::OpenGLShader>("tTexture/Editor/Core-Editor//Renderer/shaders/BRDF.glsl");
 		shader->Bind();
 		
 		m_SquareVertexBuffer->Bind();

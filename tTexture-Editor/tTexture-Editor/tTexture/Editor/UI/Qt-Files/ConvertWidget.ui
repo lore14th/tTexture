@@ -48,7 +48,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="InputChannelsLabel">
           <property name="text">
-           <string>Channel</string>
+           <string>Channels</string>
           </property>
          </widget>
         </item>

@@ -13,6 +13,8 @@
 
 namespace tTexture {
 
+	enum class BRDFType { Epic_Games_Brdf = 0 };
+
 	class OpenGLRenderer
 	{
 	public:
@@ -23,7 +25,7 @@ namespace tTexture {
 		std::shared_ptr<TextureCube> CreateIrradianceMap(const std::shared_ptr<TextureCube>& source) const;
 		std::shared_ptr<tTexture::PrefilteredTextureCube> PrefilterEnvironmentMap(const std::shared_ptr<tTexture::TextureCube>& source) const;
 
-		std::shared_ptr<Texture2D> CreateBRDF(uint32_t size);
+		std::shared_ptr<Texture2D> CreateBRDF(BRDFType type, uint32_t size);
 
 		std::pair<uint32_t, uint32_t> GetWindowSize() const { return m_Context->GetWindowSize(); }
 

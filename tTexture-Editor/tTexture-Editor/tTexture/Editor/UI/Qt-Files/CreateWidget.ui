@@ -6,26 +6,360 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>889</width>
+    <height>767</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">CreateMenu</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>20</y>
-     <width>231</width>
-     <height>261</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Create</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="BoxLayout">
+     <item>
+      <layout class="QVBoxLayout" name="IrradianceBoxLayout">
+       <item>
+        <widget class="QGroupBox" name="IrradianceFieldsLayout">
+         <property name="title">
+          <string>Irradiance</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QGridLayout" name="IrradianceLayout">
+            <item row="1" column="2">
+             <widget class="QComboBox" name="IrradianceInputFormatBox">
+              <item>
+               <property name="text">
+                <string>HCross</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>VCross</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Equirectangular</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="IrradianceInputFilepathValue">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QComboBox" name="IrradianceInputChannelsBox">
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="IrradianceFlipOnLoad">
+              <property name="text">
+               <string>Flip On Load</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="IrradianceInputFilepathLabel">
+              <property name="text">
+               <string>Input Filepath</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="IrradianceInputFormat">
+              <property name="text">
+               <string>Input Format</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="IrradianceInputChannels">
+              <property name="text">
+               <string>InputChannels</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QToolButton" name="IrradianceInputFilepathButton">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="IrradianceFlipOnLoadCheckbox">
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="IrradianceOutputFilepath">
+              <property name="text">
+               <string>Output Filepath</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="IrradianceOutputFilepathValue">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QToolButton" name="IrradianceOutputFilepathButton">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="IrradianceCommandBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="BRDFBoxLayout">
+       <item>
+        <widget class="QGroupBox" name="BRDFFieldsBox">
+         <property name="title">
+          <string>BRDF</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QGridLayout" name="BRDFLayout">
+            <item row="2" column="1">
+             <widget class="QLabel" name="BRDFOutputFilepathValue">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="BRDFOutputFIlepathLabel">
+              <property name="text">
+               <string>OutputFilepath</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QToolButton" name="BRDFOutputFilepathButton">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QComboBox" name="BRDFTypeBox">
+              <item>
+               <property name="text">
+                <string>Epic_Games</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="BRDFTypeLabel">
+              <property name="text">
+               <string>BRDF Type</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QComboBox" name="BRFDTextureSizeBox">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="editable">
+               <bool>false</bool>
+              </property>
+              <property name="currentIndex">
+               <number>8</number>
+              </property>
+              <property name="maxVisibleItems">
+               <number>11</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>8</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>16</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>32</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>64</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>128</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>256</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>512</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>1024</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2048</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="BRDFTextureSizeLabel">
+              <property name="text">
+               <string>Texture Size</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="BRDFCommandBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="2">
+    <spacer name="RightSpace">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <spacer name="TopSpace">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <spacer name="BottomSpace">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="LeftSpace">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

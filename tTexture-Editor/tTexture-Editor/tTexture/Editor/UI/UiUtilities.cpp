@@ -8,7 +8,7 @@
 
 namespace tTexture::Ui {
 
-	uint32_t InputIndexToImageChannels(int32_t index)
+	uint32_t IndexToImageChannels(int32_t index)
 	{
 		if (index == 0)
 			return 3;
@@ -22,6 +22,57 @@ namespace tTexture::Ui {
 			return 0;
 		else
 			return 1;
+	}
+
+	uint32_t CubeFormatToIndex(::tTexture::CubeFormat format)
+	{
+		switch (format)
+		{
+			case tTexture::CubeFormat::HCROSS:				return 0;
+			case tTexture::CubeFormat::VCROSS:				return 1;
+			case tTexture::CubeFormat::EQUIRECTANGULAR:		return 2;
+		}
+
+		TTEX_ASSERT(false, "");
+		return 0;
+	}
+
+	::tTexture::CubeFormat IndexToCubeFormat(int32_t index)
+	{
+		switch (index)
+		{
+			case 0:	return ::tTexture::CubeFormat::HCROSS;
+			case 1:	return ::tTexture::CubeFormat::VCROSS;
+			case 2:	return ::tTexture::CubeFormat::EQUIRECTANGULAR;
+		}
+
+		TTEX_ASSERT(false, "");
+		return ::tTexture::CubeFormat::HCROSS;
+	}
+
+
+	uint32_t BRDFTypeToIndex(::tTexture::BRDFType type)
+	{
+		// TODO: add other cases 
+		switch (type)
+		{
+			case BRDFType::Epic_Games_Brdf: return 0;
+		}
+
+		TTEX_ASSERT(false, "");
+		return 0;
+	}
+
+	::tTexture::BRDFType IndexToBRDFType(int32_t index)
+	{
+		// TODO: add other cases 
+		switch (index)
+		{
+			case 0: return BRDFType::Epic_Games_Brdf;
+		}
+
+		TTEX_ASSERT(false, "");
+		return BRDFType::Epic_Games_Brdf;
 	}
 
 	QString ExtractFileNameFromFilepath(const QString& filepath)
@@ -39,9 +90,30 @@ namespace tTexture::Ui {
 		return format == Exporter::OutputFormat::NONE;
 	}
 
+	bool CheckTextureSize(uint32_t size)
+	{
+		if (size == 0)
+			return true;
+	}
+
 	void UpdateUiLabel(QLabel* label, const QString& message)
 	{
 		label->setText(message);
+	}
+
+	bool GetCheckBoxStatus(QCheckBox* checkbox)
+	{
+		TTEX_ASSERT(!checkbox->isTristate(), "Cannot convert tri-state checkbox to bool");
+		if (!checkbox->isTristate())
+		{
+			Qt::CheckState state = checkbox->checkState();
+			return state == Qt::CheckState::Checked;
+		}
+		else
+		{
+			TTEX_ERROR("Cannot convert tri-state checkbox to bool");
+			return false;
+		}
 	}
 
 	void SetCheckboxStatus(QCheckBox* checkbox, bool status)
@@ -61,6 +133,7 @@ namespace tTexture::Ui {
 		messageBox->setText(message);
 		messageBox->show();
 	}
+
 
 
 

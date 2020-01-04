@@ -5,8 +5,8 @@ qtpath "C:/Qt/5.9.9/msvc2017_64" 	-- TODO: UPDATE depending on Qt location
 qtmodules { "core", "gui", "widgets" }
 qtprefix "Qt5"
 qtgenerateddir "tTexture-Editor/tTexture/Qt-GeneratedFiles"
-------------------------------------------------------------
 
+------------------------------------------------------------
 IncludeDir = {}
 IncludeDir["GLFW"]		= "tTexture-Editor/vendor/glfw/include"
 IncludeDir["Glad"]		= "tTexture-Editor/vendor/GLAD/include"
@@ -15,9 +15,6 @@ IncludeDir["glm"]		= "tTexture-Editor/vendor/glm"
 IncludeDir["spdlog"]	= "../tTexture-Core/tTexture-Core/vendor/spdlog/include"
 IncludeDir["tTexture_Core"]	= "../tTexture-Core/tTexture-Core"
 IncludeDir["tTexture_Core_vendor"] = "../tTexture-Core/tTexture-Core/vendor"
-
--- Remove these?
---IncludeDir["stb"]		= "tTexture-Core/tTexture-Core/tTexture/vendor"
 -------------------------------------------------------------------------------
 
 group "Dependencies"
@@ -41,7 +38,6 @@ project "tTexture-Editor"
 	pchheader "pch.h"
 	pchsource "%{prj.name}/tTexture/pch.cpp"
 	
-
 	links {
 		"GLFW",
 		"Glad",
@@ -63,15 +59,6 @@ project "tTexture-Editor"
 
 		"%{prj.name}/tTexture/**.ui",
 		"%{prj.name}/tTexture/**.qrc",
-	}
-
-	excludes 
-	{
-		"%{prj.name}/tTexture/Sandbox.cpp",
-
-		-- Temp: remove these files
-		"%{prj.name}/tTexture/OLDCODE/**",
-
 	}
 
 	includedirs {
