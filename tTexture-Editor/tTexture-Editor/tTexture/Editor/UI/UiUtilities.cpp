@@ -75,6 +75,17 @@ namespace tTexture::Ui {
 		return BRDFType::Epic_Games_Brdf;
 	}
 
+	int32_t TextureSizeToIndex(uint32_t size)
+	{
+		uint32_t counter = 0;
+		while (size > 1)
+		{
+			size = size / 2;
+			counter++;
+		}
+		return counter;
+	}
+
 	QString ExtractFileNameFromFilepath(const QString& filepath)
 	{
 		std::string filepathStd(filepath.toStdString());
@@ -134,8 +145,5 @@ namespace tTexture::Ui {
 		messageBox->setText(message);
 		messageBox->show();
 	}
-
-
-
 
 }

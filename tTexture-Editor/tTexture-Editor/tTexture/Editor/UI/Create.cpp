@@ -19,8 +19,8 @@ namespace tTexture::Ui {
 		// Return to main menu, by triggering the action
 		if (m_BackAction)
 		{
-			ResetUi();
 			m_Controller->ResetData();
+			ResetUi();
 
 			m_BackAction->trigger();
 		}
@@ -28,16 +28,15 @@ namespace tTexture::Ui {
 
 	void CreateMenuUi::ResetUi() const
 	{
-		// TODO: why not use data directly??
-		UpdateUiLabel(m_Ui.IrradianceInputFilepathValue, "");
-		UpdateUiLabel(m_Ui.IrradianceOutputFilepathValue, "");
-		SetComboBoxIndex(m_Ui.IrradianceInputChannelsBox, ImageChannelsToIndex(3));
-		SetComboBoxIndex(m_Ui.IrradianceInputFormatBox, CubeFormatToIndex(CubeFormat::HCROSS));
-		SetCheckboxStatus(m_Ui.IrradianceFlipOnLoadCheckbox, false);
+		UpdateUiLabel(m_Ui.IrradianceInputFilepathValue, m_Controller->GetIrradianceData()->InputFilepath.c_str());
+		UpdateUiLabel(m_Ui.IrradianceOutputFilepathValue, m_Controller->GetIrradianceData()->OutputFilepath.c_str());
+		SetComboBoxIndex(m_Ui.IrradianceInputChannelsBox, ImageChannelsToIndex(m_Controller->GetIrradianceData()->InputChannels));
+		SetComboBoxIndex(m_Ui.IrradianceInputFormatBox, CubeFormatToIndex(m_Controller->GetIrradianceData()->InputCubeFormat));
+		SetCheckboxStatus(m_Ui.IrradianceFlipOnLoadCheckbox, m_Controller->GetIrradianceData()->InputFlipOnLoad);
 
-		SetComboBoxIndex(m_Ui.BRFDTextureSizeBox, 8); // 256
-		SetComboBoxIndex(m_Ui.BRDFTypeBox, BRDFTypeToIndex(BRDFType::Epic_Games_Brdf));
-		UpdateUiLabel(m_Ui.BRDFOutputFilepathValue, "");
+		SetComboBoxIndex(m_Ui.BRFDTextureSizeBox, Ui::TextureSizeToIndex(m_Controller->GetBRDFData()->Size));
+		SetComboBoxIndex(m_Ui.BRDFTypeBox, BRDFTypeToIndex(m_Controller->GetBRDFData()->Type));
+		UpdateUiLabel(m_Ui.BRDFOutputFilepathValue, m_Controller->GetBRDFData()->OutputFilepath.c_str());
 	}
 
 	void CreateMenuUi::on_IrradianceInputFilepathButton_clicked()
@@ -164,8 +163,6 @@ namespace tTexture {
 
 	const std::string CreateBRDFDataError::GetErrorMessage() const
 	{
-		// TODO: no need to check multiple of two because the UI is a non-editable combo box 
-
 		std::stringstream ss;
 		ss << "Error! Please check: \n";
 

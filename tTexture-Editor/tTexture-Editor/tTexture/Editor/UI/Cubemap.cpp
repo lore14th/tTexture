@@ -20,8 +20,8 @@ namespace tTexture::Ui {
 		// Return to main menu, by triggering the action
 		if (m_BackAction)
 		{
-			ResetUi();
 			m_Controller->ResetData();
+			ResetUi();
 
 			m_BackAction->trigger();
 		}
@@ -29,11 +29,11 @@ namespace tTexture::Ui {
 
 	void CubemapMenuUi::ResetUi() const
 	{
-		UpdateUiLabel(m_Ui.InputFilepathValue, "");
-		UpdateUiLabel(m_Ui.OutputFilepathValue, "");
-		SetComboBoxIndex(m_Ui.InputChannelBox, IndexToImageChannels(3));
-		SetComboBoxIndex(m_Ui.InputCubeFormatBox, CubeFormatToIndex(CubeFormat::HCROSS));
-		SetCheckboxStatus(m_Ui.InputFlipOnLoadCheckbox, false);
+		UpdateUiLabel(m_Ui.InputFilepathValue, m_Controller->GetData()->InputFilepath.c_str());
+		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
+		SetComboBoxIndex(m_Ui.InputChannelBox, ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
+		SetComboBoxIndex(m_Ui.InputCubeFormatBox, CubeFormatToIndex(m_Controller->GetData()->InputCubeFormat));
+		SetCheckboxStatus(m_Ui.InputFlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
 	}
 
 	// -- Ui events -------------------

@@ -20,8 +20,8 @@ namespace tTexture::Ui {
 		// Return to main menu, by triggering the action
 		if (m_BackAction)
 		{
-			ResetUi();
 			m_Controller->ResetData();
+			ResetUi();
 
 			m_BackAction->trigger();
 		}
@@ -29,10 +29,10 @@ namespace tTexture::Ui {
 
 	void ConvertMenuUi::ResetUi() const
 	{
-		UpdateUiLabel(m_Ui.InputFilepathValue, "");
-		UpdateUiLabel(m_Ui.OutputFilepathLabel, "");
-		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(3));
-		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, false);
+		UpdateUiLabel(m_Ui.InputFilepathValue, m_Controller->GetData()->InputFilepath.c_str());
+		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
+		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
+		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
 	}
 
 	// -- Ui events --------

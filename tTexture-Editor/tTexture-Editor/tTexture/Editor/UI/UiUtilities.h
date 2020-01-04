@@ -20,6 +20,8 @@ namespace tTexture::Ui {
 	uint32_t BRDFTypeToIndex(::tTexture::BRDFType type);
 	::tTexture::BRDFType IndexToBRDFType(int32_t index);
 
+	int32_t TextureSizeToIndex(uint32_t size);
+
 	QString ExtractFileNameFromFilepath(const QString& filepath);
 	bool CheckFileExtensionIsSupported(const std::string& extension);
 
