@@ -27,24 +27,41 @@ namespace tTexture::Debug {
 		static bool s_Initialized;
 	};
 
-#ifndef TTEX_RELEASE
-
-	#define TTEX_CORE_ERROR(...)	::tTexture::Debug::Log::GetCoreLogger()->error(__VA_ARGS__)
-	#define TTEX_CORE_WARN(...)		::tTexture::Debug::Log::GetCoreLogger()->warn(__VA_ARGS__)
-	#define TTEX_CORE_INFO(...)		::tTexture::Debug::Log::GetCoreLogger()->info(__VA_ARGS__)
-	#define TTEX_CORE_TRACE(...)	::tTexture::Debug::Log::GetCoreLogger()->trace(__VA_ARGS__)
-	#define TTEX_CORE_FATAL(...)	::tTexture::Debug::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#ifdef TTEX_APP
+	#ifndef TTEX_RELEASE
 	
-	#define TTEX_CORE_CHECK(x, ...)	{ if(x) { ::tTexture::Log::GetCoreLogger()->info(__VA_ARGS__); __debugbreak(); } }
+		#define TTEX_CORE_ERROR(...)	::tTexture::Debug::Log::GetCoreLogger()->error(__VA_ARGS__)
+		#define TTEX_CORE_WARN(...)		::tTexture::Debug::Log::GetCoreLogger()->warn(__VA_ARGS__)
+		#define TTEX_CORE_INFO(...)		::tTexture::Debug::Log::GetCoreLogger()->info(__VA_ARGS__)
+		#define TTEX_CORE_TRACE(...)	::tTexture::Debug::Log::GetCoreLogger()->trace(__VA_ARGS__)
+		#define TTEX_CORE_FATAL(...)	::tTexture::Debug::Log::GetCoreLogger()->critical(__VA_ARGS__)
+		
+		#define TTEX_CORE_CHECK(x, ...)	{ if(x) { ::tTexture::Log::GetCoreLogger()->info(__VA_ARGS__); __debugbreak(); } }
+		
+		#define TTEX_ERROR(...)		::tTexture::Debug::Log::GetClientLogger()->error(__VA_ARGS__)
+		#define TTEX_WARN(...)		::tTexture::Debug::Log::GetClientLogger()->warn(__VA_ARGS__)
+		#define TTEX_INFO(...)		::tTexture::Debug::Log::GetClientLogger()->info(__VA_ARGS__)
+		#define TTEX_TRACE(...)		::tTexture::Debug::Log::GetClientLogger()->trace(__VA_ARGS__)
+		#define TTEX_FATAL(...)		::tTexture::Debug::Log::GetClientLogger()->critical(__VA_ARGS__)
 	
-	#define TTEX_ERROR(...)		::tTexture::Debug::Log::GetClientLogger()->error(__VA_ARGS__)
-	#define TTEX_WARN(...)		::tTexture::Debug::Log::GetClientLogger()->warn(__VA_ARGS__)
-	#define TTEX_INFO(...)		::tTexture::Debug::Log::GetClientLogger()->info(__VA_ARGS__)
-	#define TTEX_TRACE(...)		::tTexture::Debug::Log::GetClientLogger()->trace(__VA_ARGS__)
-	#define TTEX_FATAL(...)		::tTexture::Debug::Log::GetClientLogger()->critical(__VA_ARGS__)
-
+	#else
+	
+		#define TTEX_CORE_ERROR(...)
+		#define TTEX_CORE_WARN(...)	
+		#define TTEX_CORE_INFO(...)	
+		#define TTEX_CORE_TRACE(...)
+		#define TTEX_CORE_FATAL(...)
+		
+		#define TTEX_CORE_CHECK(x, ...)	
+		
+		#define TTEX_ERROR(...)
+		#define TTEX_WARN(...)
+		#define TTEX_INFO(...)
+		#define TTEX_TRACE(...)
+		#define TTEX_FATAL(...)
+	
+	#endif
 #else
-
 	#define TTEX_CORE_ERROR(...)
 	#define TTEX_CORE_WARN(...)	
 	#define TTEX_CORE_INFO(...)	
@@ -58,6 +75,5 @@ namespace tTexture::Debug {
 	#define TTEX_INFO(...)
 	#define TTEX_TRACE(...)
 	#define TTEX_FATAL(...)
-
 #endif
 }

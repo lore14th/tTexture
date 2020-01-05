@@ -3,14 +3,19 @@
 #include <chrono>
 #include "Debug/Log.h"
 
-#ifdef TTEX_PLATFORM_WINDOWS
-	#define TTEX_TIMER_FUNC_NAME __FUNCSIG__
-#endif
-
-#ifndef TTEX_RELEASE
-	#define TTEX_TIME_FUNCTION tTexture::Debug::Timer timer(TTEX_TIMER_FUNC_NAME);
+#ifdef TTEX_APP
+	#ifdef TTEX_PLATFORM_WINDOWS
+		#define TTEX_TIMER_FUNC_NAME __FUNCSIG__
+	#endif
+	
+	#ifndef TTEX_RELEASE
+		#define TTEX_TIME_FUNCTION tTexture::Debug::Timer timer(TTEX_TIMER_FUNC_NAME);
+	#else
+		#define TTEX_TIME_FUNCTION	
+	#endif
 #else
-	#define TTEX_CORE_TIME_FUNCTION	
+	#define TTEX_TIME_FUNCTION	
+
 #endif
 
 namespace tTexture::Debug {
