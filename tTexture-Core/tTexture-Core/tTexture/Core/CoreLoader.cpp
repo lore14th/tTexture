@@ -21,12 +21,10 @@ namespace tTexture {
 		stbi_set_flip_vertically_on_load((int)m_FlipOnLoad);
 		byte* pixels = stbi_load(m_Filepath.c_str(), &data.Width, &data.Height, &data.Bpp, STBI_default);
 
-		std::shared_ptr<tTexture::Texture2D> texture = PrepareTexture2D(pixels, data);
+		if (addAlpha && data.Bpp == 3)
+			pixels = AddAlphaChannel(pixels, data);
 
-		if (addAlpha)
-			texture = AddAlphaChannel(texture);
-
-		return texture;
+		return PrepareTexture2D(pixels, data);
 	}
 
 	std::shared_ptr<tTexture::TextureCube> CoreLoader::LoadHCrossFromFile()
@@ -98,6 +96,27 @@ namespace tTexture {
 		result->Image.Data = source;
 		result->Image.Size = data.Width * data.Height * data.Bpp;
 		return result;
+	}
+
+	byte* CoreLoader::AddAlphaChannel(byte* source, TextureData& data)
+	{
+		TTEX_CORE_ASSERT(data.Bpp == 3, "CoreLoader:Cannot add alpha channel to texture with {0} bpp", data.Bpp);
+
+		const uint32_t newBpp = 4;
+		byte* sourceWithAlpha = new byte[(uint32_t)(data.Width * data.Height * newBpp)];
+		for (int32_t y = 0; y < data.Height; y++)
+		{
+			for (int32_t x = 0; x < data.Width; x++)
+			{
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 0] = source[(x + y * data.Height) * data.Bpp + 0];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 1] = source[(x + y * data.Height) * data.Bpp + 1];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 2] = source[(x + y * data.Height) * data.Bpp + 2];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 3] = 255;
+			}
+		}
+		data.Bpp = newBpp;
+		delete[] source;
+		return sourceWithAlpha;
 	}
 
 	void CoreLoader::FlipFaceVertically(Face face, std::shared_ptr<TextureCube>& result)

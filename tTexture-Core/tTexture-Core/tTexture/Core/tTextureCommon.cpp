@@ -97,31 +97,6 @@ namespace tTexture {
 		return { x - faceLimits.first, y - faceLimits.second };
 	}
 
-	std::shared_ptr<tTexture::Texture2D> AddAlphaChannel(const std::shared_ptr<Texture2D>& texture)
-	{
-		if (texture->Data.Bpp == 3)
-		{
-			const uint32_t width = texture->Data.Width;
-			const uint32_t height = texture->Data.Height;
-			const uint32_t bpp = 4;
-
-			std::shared_ptr<Texture2D> outTexture = std::make_shared<Texture2D>(width, height, bpp);
-			outTexture->AllocateTexture();
-
-			for (int32_t y = 0; y < height; y++)
-			{
-				for (int32_t x = 0; x < width; x++)
-				{
-					outTexture->Image.Data[(x + y * height) * bpp + 0] = texture->Image.Data[(x + y * height) * 3 + 0];
-					outTexture->Image.Data[(x + y * height) * bpp + 1] = texture->Image.Data[(x + y * height) * 3 + 1];
-					outTexture->Image.Data[(x + y * height) * bpp + 2] = texture->Image.Data[(x + y * height) * 3 + 2];
-					outTexture->Image.Data[(x + y * height) * bpp + 3] = 255;
-				}
-			}
-		}
-		return texture;
-	}
-
 	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture)
 	{
 		if (texture->Data.Bpp == 4)
