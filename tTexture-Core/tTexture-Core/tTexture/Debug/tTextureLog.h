@@ -8,10 +8,14 @@ namespace tTexture::Debug {
 	class Log
 	{
 	public:
-		enum class LogLevel { Fatal, Error, Warn, Info, Trace };
+#ifdef TTEX_APP
+		enum class LogLevel { Fatal, Error, Warn, Info, Trace, None };
+#else
+		enum class LogLevel { None };
+#endif
 
 	public:
-		static bool Init(LogLevel level = LogLevel::Trace);
+		static void Init(LogLevel level = LogLevel::None);
 
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }

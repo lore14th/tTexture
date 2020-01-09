@@ -1,7 +1,7 @@
 #pragma once
 
 #include <chrono>
-#include "Debug/Log.h"
+#include "Debug/tTextureLog.h"
 
 #ifdef TTEX_APP
 	#ifdef TTEX_PLATFORM_WINDOWS

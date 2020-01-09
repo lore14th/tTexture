@@ -19,8 +19,8 @@
 #include <unordered_set>
 #include <deque>
 
-#include "Core/Core.h"
+#include "Core/tTextureCommon.h"
 #include "Core/Buffer.h"
 
-#include "Debug/Log.h"
-#include "Debug/Timer.h"
+#include "Debug/tTextureLog.h"
+#include "Debug/tTextureTimer.h"

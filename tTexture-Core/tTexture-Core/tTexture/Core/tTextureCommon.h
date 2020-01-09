@@ -7,7 +7,7 @@
 #include "Core/tTextureTypes.h"
 
 namespace tTexture {
-	
+
 	enum class CubeFormat
 	{
 		HCROSS = 0, VCROSS = 1, EQUIRECTANGULAR = 2

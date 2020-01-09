@@ -1,30 +1,33 @@
 #pragma once
 
-#ifdef TTEX_APP
-	#include "Debug/Log.h"
-#endif
+#include "Debug/tTextureLog.h"
 
 namespace tTexture {
-
-	// TODO: add proper documentation since this should be the client API
 
 	class CoreApplication
 	{
 	public:
-#ifdef TTEX_APP
-		CoreApplication(Debug::Log::LogLevel logLevel = Debug::Log::LogLevel::Trace);
+		CoreApplication(Debug::Log::LogLevel logLevel = Debug::Log::LogLevel::None);
 		virtual ~CoreApplication();
 
-#else
-		CoreApplication() = default;
-		~CoreApplication() = default;
-#endif
+		// Loads a texture 2D from file. This returns RGB/RGBA texture. If you want to load a RGB texture as RGBA, set addAlpha to true
+		// * filepath:		path to the actual file on disk.
+		// * add alpha:		if you want to add the alpha channel to an rgb texture. By default is false.
+		// * filepath:		path to the actual file on disk.
+		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, bool addAlpha = false, bool flipOnLoad = false);
 
-		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, uint32_t imageChannels, bool flipOnLoad = false);
-		std::shared_ptr<TextureCube> LoadHCrossFromFile(const char* filepath, uint32_t imageChannels, bool flipOnLoad = false);
-		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* filepath, uint32_t imageChannels, uint32_t mipCount, bool flipOnLoad = false);
-	private:
+		// Loads a texture cube(HCross) from file. This returns a RGBA texture.
+		// * filepath:		path to the actual file on disk.
+		// * filepath:		path to the actual file on disk.
+		std::shared_ptr<TextureCube> LoadHCrossFromFile(const char* filepath, bool flipOnLoad = false);
+
+		// Loads all the mip maps from a texture cube(HCross). All mips are loaded as RGBA textures.
+		// * baseFilepath:	path to the actual file on disk. Note that you should not inset the mip number in the filepath. (ex. texture.png -> { texture-0.png, texture-1.png ... })
+		// * filepath:		path to the actual file on disk.
+		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* baseFilepath, bool flipOnLoad = false);
+
 #ifdef TTEX_APP
+	private:
 		static uint32_t s_ApplicationCount;
 		static Debug::Log* s_Logger;
 #endif

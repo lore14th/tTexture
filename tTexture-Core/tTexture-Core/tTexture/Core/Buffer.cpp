@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Buffer.h"
 
-#include "Debug/Assert.h"
+#include "Debug/tTextureAssert.h"
 
 namespace tTexture {
 
