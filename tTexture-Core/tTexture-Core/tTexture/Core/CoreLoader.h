@@ -42,7 +42,6 @@ namespace tTexture {
 		byte* AddAlphaChannel(byte* source, TextureData& data);
 	private:
 		std::string m_Filepath;
-		uint32_t m_FileChannels; // TODO: remove
 		bool m_FlipOnLoad;
 	};
 
