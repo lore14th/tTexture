@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Log.h"
+#include "tTextureLog.h"
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 
@@ -10,9 +10,9 @@ namespace tTexture::Debug {
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
-	bool Log::Init(LogLevel logLevel)
+	void Log::Init(LogLevel logLevel)
 	{
-		if (!s_Initialized)
+		if (!s_Initialized && logLevel != LogLevel::None)
 		{
 			// [timestamp] loggerName: message
 			spdlog::set_pattern("%^[%T] %n: %v%$");
@@ -28,22 +28,27 @@ namespace tTexture::Debug {
 			s_Initialized = true;
 			TTEX_CORE_TRACE("Log:Initialized");
 		}
-
-		return s_Initialized;
 	}
+
 
 	spdlog::level::level_enum Log::GetLogLevel(LogLevel level)
 	{
+#ifdef TTEX_APP
 		switch (level)
 		{
-			case LogLevel::Fatal: return spdlog::level::critical; break;
-			case LogLevel::Error: return spdlog::level::err;   	  break;
-			case LogLevel::Warn: return spdlog::level::warn;	  break;
-			case LogLevel::Info: return spdlog::level::info;	  break;
-			case LogLevel::Trace: return spdlog::level::trace;	  break;
+			case LogLevel::None: return spdlog::level::off; 
+			case LogLevel::Fatal: return spdlog::level::critical; 
+			case LogLevel::Error: return spdlog::level::err;   	  
+			case LogLevel::Warn: return spdlog::level::warn;	  
+			case LogLevel::Info: return spdlog::level::info;	  
+			case LogLevel::Trace: return spdlog::level::trace;	  
 		}
 		std::cout << "Error: Invalid LogLevel. Exit.\n";
 		exit(-1);
+#else
+		return spdlog::level::off;
+#endif
+
 	}
 
 }

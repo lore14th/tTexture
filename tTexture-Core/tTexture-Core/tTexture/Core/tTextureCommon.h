@@ -7,7 +7,7 @@
 #include "Core/tTextureTypes.h"
 
 namespace tTexture {
-	
+
 	enum class CubeFormat
 	{
 		HCROSS = 0, VCROSS = 1, EQUIRECTANGULAR = 2
@@ -64,12 +64,11 @@ namespace tTexture {
 
 }
 
-// TODO: consider removing them from Core.h depending on which class needs them
 // Note: Some functions are now accessible from CoreLoader as static functions
 namespace tTexture { // helper functions
 
 	// returns the coordinates of the upper left corner of the face on the HCross file
-	std::pair<uint32_t, uint32_t> GetFaceLimits(CubeFormat format, Face face, uint32_t faceSize); //TODO: divide this function 
+	std::pair<uint32_t, uint32_t> GetFaceLimits(CubeFormat format, Face face, uint32_t faceSize);
 
 	// returns the coordinates relative to the cube face, given the x and y coordinates relative to the HCross file.
 	std::pair<uint32_t, uint32_t> GetCoordinatesRelativeToFace(uint32_t x, uint32_t y, uint32_t faceSize, Face face);

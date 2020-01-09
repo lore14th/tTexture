@@ -35,6 +35,10 @@ project "tTexture-Core"
 	defines {
 		-- to load images using a single thread. Do not define if you want to use multi-threading
 		--"TTEX_LOADER_SINGLE_THREAD",
+
+		-- this macro is used by the tTexture Editor app, and enables Assertions, Logging and Timing.
+		-- Note: this could interfere with your code base. Do not include this if you are unsure.
+		--"TTEX_APP",
 	}
 
 	filter "system:windows"

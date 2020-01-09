@@ -1,40 +1,36 @@
 #include "pch.h"
 #include "CoreLoader.h"
 
-#include "Debug/Assert.h"
+#include "Debug/tTextureAssert.h"
 
 #include <stb_image/stb_image.h>
 
 namespace tTexture {
-	
-	CoreLoader::CoreLoader(const std::string& filepath, uint32_t fileChannels, bool flipOnLoad)
-		: m_Filepath(filepath), m_FileChannels(fileChannels), m_FlipOnLoad(flipOnLoad)
+
+	CoreLoader::CoreLoader(const std::string& filepath, bool flipOnLoad)
+		: m_Filepath(filepath), m_FlipOnLoad(flipOnLoad)
 	{
-		TTEX_CORE_ASSERT(!m_Filepath.empty(), "Loader: You must provide a valid filepath");
-		// TODO: stb_image supports 0...4 file channels. Add support
-		// TODO: this should support every number of channels now. Test this, and remove assertion
-		TTEX_CORE_ASSERT(m_FileChannels > 2 && m_FileChannels < 5, "TextureLoader: desiredChannels must be 3 or 4. desiredChannels = {0}", m_FileChannels);
+		TTEX_CORE_ASSERT(!m_Filepath.empty(), "Loader: You must provide a valid filepath");;
 	}
 
-	std::shared_ptr<tTexture::Texture2D> CoreLoader::LoadImageFromFile()
+	std::shared_ptr<tTexture::Texture2D> CoreLoader::LoadImageFromFile(bool addAlpha)
 	{
 		TTEX_CORE_INFO("Loader: Loading Texture {0}, Flip on Load = {1}", m_Filepath, m_FlipOnLoad);
+
 		TextureData data;
-
 		stbi_set_flip_vertically_on_load((int)m_FlipOnLoad);
-		// fileChannels is 3 or 4
-		byte* pixels = stbi_load(m_Filepath.c_str(), &data.Width, &data.Height, &data.Bpp, m_FileChannels);
+		byte* pixels = stbi_load(m_Filepath.c_str(), &data.Width, &data.Height, &data.Bpp, STBI_default);
 
-		if (data.Bpp == 3)
+		if (addAlpha && data.Bpp == 3)
 			pixels = AddAlphaChannel(pixels, data);
-	
+
 		return PrepareTexture2D(pixels, data);
 	}
 
 	std::shared_ptr<tTexture::TextureCube> CoreLoader::LoadHCrossFromFile()
 	{
 		// Loads the image from file as a Texture2D
-		std::shared_ptr<Texture2D> sourceImage = LoadImageFromFile();
+		std::shared_ptr<Texture2D> sourceImage = LoadImageFromFile(false);
 
 		const uint32_t faceSize = sourceImage->Data.Width / 4;
 		const uint32_t bpp = 4;
@@ -70,16 +66,27 @@ namespace tTexture {
 		return result;
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> CoreLoader::LoadPrefilteredTextureHCrossFromFile(uint32_t mipLevels)
+	std::shared_ptr<PrefilteredTextureCube> CoreLoader::LoadPrefilteredTextureHCrossFromFile()
 	{
+		// Load mip Zero
+		CoreLoader mipZeroLoader(GeneratePrefilteredTextureFilepath(m_Filepath, 0), m_FlipOnLoad);
+		std::shared_ptr<TextureCube> mipZero = mipZeroLoader.LoadHCrossFromFile();
+
+		// Allocate the result based on the mip count
+		uint32_t mipLevels = CalculateMipMapCount(mipZero->Data.Width, mipZero->Data.Height);
 		std::shared_ptr<tTexture::PrefilteredTextureCube> result = std::make_shared<tTexture::PrefilteredTextureCube>();
 		result->Allocate(mipLevels);
 
-		for (uint32_t mipLevel = 0; mipLevel < mipLevels; mipLevel++)
+		// insert mip Zero into result
+		result->PushLevel(mipZero);
+
+		// Load all the other mip levels
+		for (uint32_t mipLevel = 1; mipLevel < mipLevels; mipLevel++)
 		{
-			CoreLoader loader(GeneratePrefilteredTextureFilepath(m_Filepath, mipLevel), m_FileChannels, m_FlipOnLoad);
+			CoreLoader loader(GeneratePrefilteredTextureFilepath(m_Filepath, mipLevel), m_FlipOnLoad);
 			result->PushLevel(loader.LoadHCrossFromFile());
 		}
+
 		return result;
 	}
 
@@ -87,23 +94,24 @@ namespace tTexture {
 	{
 		std::shared_ptr<Texture2D> result = std::make_shared<Texture2D>(data.Width, data.Height, data.Bpp);
 		result->Image.Data = source;
+		result->Image.Size = data.Width * data.Height * data.Bpp;
 		return result;
 	}
 
 	byte* CoreLoader::AddAlphaChannel(byte* source, TextureData& data)
 	{
 		TTEX_CORE_ASSERT(data.Bpp == 3, "CoreLoader:Cannot add alpha channel to texture with {0} bpp", data.Bpp);
-		
+
 		const uint32_t newBpp = 4;
 		byte* sourceWithAlpha = new byte[(uint32_t)(data.Width * data.Height * newBpp)];
 		for (int32_t y = 0; y < data.Height; y++)
 		{
 			for (int32_t x = 0; x < data.Width; x++)
 			{
-					sourceWithAlpha[(x + y * data.Height) * newBpp + 0] = source[(x + y * data.Height) * data.Bpp + 0];
-					sourceWithAlpha[(x + y * data.Height) * newBpp + 1] = source[(x + y * data.Height) * data.Bpp + 1];
-					sourceWithAlpha[(x + y * data.Height) * newBpp + 2] = source[(x + y * data.Height) * data.Bpp + 2];
-					sourceWithAlpha[(x + y * data.Height) * newBpp + 3] = 255;
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 0] = source[(x + y * data.Height) * data.Bpp + 0];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 1] = source[(x + y * data.Height) * data.Bpp + 1];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 2] = source[(x + y * data.Height) * data.Bpp + 2];
+				sourceWithAlpha[(x + y * data.Height) * newBpp + 3] = 255;
 			}
 		}
 		data.Bpp = newBpp;
@@ -166,7 +174,7 @@ namespace tTexture {
 					result->Images[faceIndex][(x + y * faceSize) * newBPP + 0] = sourceImage->Image[(xOffset + yOffset * sourceImage->Data.Width) * sourceImage->Data.Bpp + 0];
 					result->Images[faceIndex][(x + y * faceSize) * newBPP + 1] = sourceImage->Image[(xOffset + yOffset * sourceImage->Data.Width) * sourceImage->Data.Bpp + 1];
 					result->Images[faceIndex][(x + y * faceSize) * newBPP + 2] = sourceImage->Image[(xOffset + yOffset * sourceImage->Data.Width) * sourceImage->Data.Bpp + 2];
-					result->Images[faceIndex][(x + y * faceSize) * newBPP + 3] = alphaValue;
+					result->Images[faceIndex][(x + y * faceSize) * newBPP + 3] = 255;
 				}
 				else
 					TTEX_CORE_ASSERT("Loader:Invalid convertion. source bpp: {0}, result bpp: {1}", sourceImage->Data.Bpp, result->Data.Bpp);
