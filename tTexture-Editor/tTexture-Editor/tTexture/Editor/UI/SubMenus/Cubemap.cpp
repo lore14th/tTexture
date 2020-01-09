@@ -133,7 +133,7 @@ namespace tTexture {
 		CubemapDataError err = ValidateInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, perform the conversion
 		{
-			std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputChannels, m_Data->InputCubeFormat, m_Data->InputFlipOnLoad);
+			std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, m_Data->InputFlipOnLoad);
 			m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
 
 			return "TextureCube converted and stored to " + m_Data->OutputFilepath + ".";

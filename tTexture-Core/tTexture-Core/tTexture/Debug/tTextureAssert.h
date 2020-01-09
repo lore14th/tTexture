@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Debug/Log.h"
+#include "Debug/tTextureLog.h"
 
 #ifdef TTEX_PLATFORM_WINDOWS
 	#define TTEX_debugbreak __debugbreak();

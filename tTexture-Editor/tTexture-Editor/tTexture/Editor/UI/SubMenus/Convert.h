@@ -13,7 +13,6 @@ namespace tTexture {
 	struct ConversionData
 	{
 		std::string InputFilepath = std::string();
-		uint32_t InputChannels = 3;
 		bool InputFlipOnLoad = false;
 
 		std::string OutputFilepath = std::string();

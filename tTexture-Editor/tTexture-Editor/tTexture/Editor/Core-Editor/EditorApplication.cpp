@@ -18,32 +18,32 @@ namespace tTexture {
 		m_CoreLibrary = std::make_unique<tTexture::CoreApplication>(logLevel);
 	}
 
-	std::shared_ptr<Texture2D> EditorApplication::LoadTexture2D(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
+	std::shared_ptr<Texture2D> EditorApplication::LoadTexture2D(const char* filepath, bool addAlpha, bool flipOnLoad) const
 	{
-		return m_CoreLibrary->LoadTexture2D(filepath, fileChannels, flipOnLoad);
+		return m_CoreLibrary->LoadTexture2D(filepath, addAlpha, flipOnLoad);
 	}
 
-	std::shared_ptr<TextureCube> EditorApplication::LoadTextureCube(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad) const
+	std::shared_ptr<TextureCube> EditorApplication::LoadTextureCube(const char* filepath, CubeFormat format, bool flipOnLoad) const
 	{
 		switch (format)
 		{
-			case CubeFormat::HCROSS: return LoadHCrossTextureCube(filepath, fileChannels, flipOnLoad);
-			case CubeFormat::VCROSS: return LoadVCrossTextureCube(filepath, fileChannels, flipOnLoad);
-			case CubeFormat::EQUIRECTANGULAR: return LoadEquirectangularTextureCube(filepath, fileChannels, flipOnLoad);
+			case CubeFormat::HCROSS: return LoadHCrossTextureCube(filepath, flipOnLoad);
+			case CubeFormat::VCROSS: return LoadVCrossTextureCube(filepath, flipOnLoad);
+			case CubeFormat::EQUIRECTANGULAR: return LoadEquirectangularTextureCube(filepath, flipOnLoad);
 		}
 
 		TTEX_ASSERT(false, "Invalid format");
 		return std::make_shared<TextureCube>();
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> EditorApplication::LoadPrefilteredTextureHCross(const char* filepath, uint32_t fileChannels, uint32_t mipCount, bool flipOnLoad)
+	std::shared_ptr<PrefilteredTextureCube> EditorApplication::LoadPrefilteredTextureHCross(const char* filepath, bool flipOnLoad)
 	{
-		return m_CoreLibrary->LoadPrefilteredHCrossFromFile(filepath, fileChannels, mipCount, flipOnLoad);
+		return m_CoreLibrary->LoadPrefilteredHCrossFromFile(filepath, flipOnLoad);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::CreateIrradiance(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad)
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::CreateIrradiance(const char* filepath, CubeFormat format, bool flipOnLoad)
 	{
-		std::shared_ptr<TextureCube> texture = LoadTextureCube(filepath, fileChannels, format, flipOnLoad);
+		std::shared_ptr<TextureCube> texture = LoadTextureCube(filepath, format, flipOnLoad);
 		return CreateIrradiance(texture);
 	}
 
@@ -65,9 +65,9 @@ namespace tTexture {
 		return m_Renderer->PrefilterEnvironmentMap(texture);
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const char* filepath, uint32_t fileChannels, CubeFormat format, bool flipOnLoad)
+	std::shared_ptr<PrefilteredTextureCube> EditorApplication::PrefilterEnvironmentMap(const char* filepath, CubeFormat format, bool flipOnLoad)
 	{
-		std::shared_ptr<TextureCube> texture = LoadTextureCube(filepath, fileChannels, format, flipOnLoad);
+		std::shared_ptr<TextureCube> texture = LoadTextureCube(filepath, format, flipOnLoad);
 		return PrefilterEnvironmentMap(texture);
 	}
 
@@ -101,22 +101,22 @@ namespace tTexture {
 		m_Renderer->SetRendererResolution(resolution);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadHCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadHCrossTextureCube(const char* filepath, bool flipOnLoad) const
 	{
-		return m_CoreLibrary->LoadHCrossFromFile(filepath, fileChannels, flipOnLoad);
+		return m_CoreLibrary->LoadHCrossFromFile(filepath, flipOnLoad);
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadVCrossTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadVCrossTextureCube(const char* filepath, bool flipOnLoad) const
 	{
 		TTEX_TIME_FUNCTION;
-		VCrossLoader loader(filepath, fileChannels, flipOnLoad);
+		VCrossLoader loader(filepath, flipOnLoad);
 		return loader.LoadVCrossFromFile();
 	}
 
-	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadEquirectangularTextureCube(const char* filepath, uint32_t fileChannels, bool flipOnLoad) const
+	std::shared_ptr<tTexture::TextureCube> EditorApplication::LoadEquirectangularTextureCube(const char* filepath, bool flipOnLoad) const
 	{
 		TTEX_TIME_FUNCTION;
-		EquirectangularLoader loader(filepath, fileChannels, flipOnLoad, m_Renderer);
+		EquirectangularLoader loader(filepath, flipOnLoad, m_Renderer);
 		return loader.LoadEquirectangularFromFile();
 	}
 

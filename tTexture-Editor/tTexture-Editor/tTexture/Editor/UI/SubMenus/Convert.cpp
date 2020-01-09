@@ -124,7 +124,7 @@ namespace tTexture {
 		ConversionDataError err = ValidateInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, perform the conversion
 		{
-			std::shared_ptr<Texture2D> texture = m_Application->LoadTexture2D(m_Data->InputFilepath.c_str(), m_Data->InputChannels, m_Data->InputFlipOnLoad);
+			std::shared_ptr<Texture2D> texture = m_Application->LoadTexture2D(m_Data->InputFilepath.c_str(), false, m_Data->InputFlipOnLoad);
 			m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
 
 			return "Texture converted and stored to " + m_Data->OutputFilepath + ".";

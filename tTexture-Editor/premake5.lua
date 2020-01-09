@@ -37,6 +37,11 @@ project "tTexture-Editor"
 	
 	pchheader "pch.h"
 	pchsource "%{prj.name}/tTexture/pch.cpp"
+
+	defines {
+		"GLFW_INCLUDE_NONE",
+		"TTEX_APP"
+	}
 	
 	links {
 		"GLFW",
@@ -44,10 +49,6 @@ project "tTexture-Editor"
 		"ImGui",
 
 		"tTexture-Core",
-	}
-
-	defines {
-		"GLFW_INCLUDE_NONE",
 	}
 
 	files {

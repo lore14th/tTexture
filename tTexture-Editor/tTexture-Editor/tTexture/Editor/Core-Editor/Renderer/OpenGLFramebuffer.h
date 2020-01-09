@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Core/tTextureCommon.h"
 #include "Editor/Core-Editor/Renderer/OpenGLTexture.h"
 
 #include <optional>
