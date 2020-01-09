@@ -24,7 +24,7 @@ project "tTexture-Core"
 	includedirs {
 		"%{prj.name}/tTexture",
 
-		"%{prj.name}/vendor", 				--stb_image (includes the entire vendor folder)
+		"%{prj.name}/vendor", 					--stb_image (includes the entire vendor folder)
 		"%{prj.name}/vendor/spdlog/include",	-- spdlog
 	}
 
@@ -39,6 +39,7 @@ project "tTexture-Core"
 		-- this macro is used by the tTexture Editor Application,and enables Log, Timer and Assertions. 
 		-- Note: Could be unnecessary and could interfear with your code base.
 		"TTEX_APP",
+
 	}
 
 	filter "system:windows"
