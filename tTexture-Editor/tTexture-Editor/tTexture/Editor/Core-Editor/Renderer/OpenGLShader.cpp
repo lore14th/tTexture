@@ -134,7 +134,9 @@ namespace tTexture::Renderer {
 		int32_t location = glGetUniformLocation(m_RendererID, name.c_str());
 
 		if (location == -1)
+		{
 			TTEX_CORE_WARN("OpenGLShader:Uniform {0} does not exist", name);
+		}
 
 		m_UniformLocationCache[name] = location;
 		return location;

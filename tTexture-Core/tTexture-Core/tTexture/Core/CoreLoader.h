@@ -39,6 +39,7 @@ namespace tTexture {
 		static std::string GeneratePrefilteredTextureFilepath(const std::string& baseFilepath, const uint32_t mipLevel);
 	private:
 		std::shared_ptr<Texture2D> PrepareTexture2D(byte* source, const TextureData& data);
+		byte* AddAlphaChannel(byte* source, TextureData& data);
 	private:
 		std::string m_Filepath;
 		bool m_FlipOnLoad;

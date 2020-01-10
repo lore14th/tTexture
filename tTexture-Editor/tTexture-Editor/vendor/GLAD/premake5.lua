@@ -22,7 +22,7 @@ project "Glad"
 	filter "system:windows"
 		systemversion "latest"
 
-		filter "configurations:Debug"
+	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"	-- debug version --
 

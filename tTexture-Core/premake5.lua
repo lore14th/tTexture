@@ -24,7 +24,7 @@ project "tTexture-Core"
 	includedirs {
 		"%{prj.name}/tTexture",
 
-		"%{prj.name}/vendor", 					--stb_image (includes the entire vendor folder)
+		"%{prj.name}/vendor", 				--stb_image (includes the entire vendor folder)
 		"%{prj.name}/vendor/spdlog/include",	-- spdlog
 	}
 
@@ -36,10 +36,9 @@ project "tTexture-Core"
 		-- to load images using a single thread. Do not define if you want to use multi-threading
 		--"TTEX_LOADER_SINGLE_THREAD",
 
-		-- this macro is used by the tTexture Editor Application,and enables Log, Timer and Assertions. 
-		-- Note: Could be unnecessary and could interfear with your code base.
+		-- this macro is used by the tTexture Editor app, and enables Assertions, Logging and Timing.
+		-- Note: this could interfere with your code base. Do not include this if you are unsure.
 		"TTEX_APP",
-
 	}
 
 	filter "system:windows"

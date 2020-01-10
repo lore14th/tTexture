@@ -192,10 +192,8 @@ namespace tTexture {
 
 	void Exporter::StorePngStbi(const std::shared_ptr<Texture2D>& texture) const
 	{
-		std::shared_ptr<Texture2D> outTexture = AddAlphaChannel(texture);
-
-		int32_t stride = outTexture->Data.Width * outTexture->Data.Bpp;
-		int32_t status = stbi_write_png(m_Filepath.c_str(), outTexture->Data.Width, outTexture->Data.Height, outTexture->Data.Bpp, outTexture->Image.Data, stride);
+		int32_t stride = texture->Data.Width * texture->Data.Bpp;
+		int32_t status = stbi_write_png(m_Filepath.c_str(), texture->Data.Width, texture->Data.Height, texture->Data.Bpp, texture->Image.Data, stride);
 		TTEX_ASSERT(status != 0, "Exporter:Failed to write png texture");
 
 		TTEX_INFO("Exporter:PNG texture exporter to {0}", m_Filepath);
