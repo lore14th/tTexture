@@ -38,19 +38,19 @@ namespace tTexture {
 		return loader.LoadImageFromFile(addAlpha);
 	}
 
-	std::shared_ptr<TextureCube> CoreApplication::LoadHCrossFromFile(const char* filepath, bool flipOnLoad)
+	std::shared_ptr<TextureCube> CoreApplication::LoadHCrossFromFile(const char* filepath)
 	{
 		TTEX_TIME_FUNCTION;
 
-		CoreLoader loader(filepath, flipOnLoad);
+		CoreLoader loader(filepath, false);
 		return loader.LoadHCrossFromFile();
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> CoreApplication::LoadPrefilteredHCrossFromFile(const char* baseFilepath, bool flipOnLoad)
+	std::shared_ptr<PrefilteredTextureCube> CoreApplication::LoadPrefilteredHCrossFromFile(const char* baseFilepath)
 	{
 		TTEX_TIME_FUNCTION;
 
-		CoreLoader loader(baseFilepath, flipOnLoad);
+		CoreLoader loader(baseFilepath, false);
 		return loader.LoadPrefilteredTextureHCrossFromFile();
 	}
 
