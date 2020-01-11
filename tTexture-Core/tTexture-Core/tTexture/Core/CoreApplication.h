@@ -13,18 +13,16 @@ namespace tTexture {
 		// Loads a texture 2D from file. This returns RGB/RGBA texture. If you want to load a RGB texture as RGBA, set addAlpha to true
 		// * filepath:		path to the actual file on disk.
 		// * add alpha:		if you want to add the alpha channel to an rgb texture. By default is false.
-		// * filepath:		path to the actual file on disk.
+		// * flipOnLoad:	if you want to flip the texture vertically. By default is false.
 		std::shared_ptr<Texture2D> LoadTexture2D(const char* filepath, bool addAlpha = false, bool flipOnLoad = false);
 
 		// Loads a texture cube(HCross) from file. This returns a RGBA texture.
 		// * filepath:		path to the actual file on disk.
-		// * filepath:		path to the actual file on disk.
-		std::shared_ptr<TextureCube> LoadHCrossFromFile(const char* filepath, bool flipOnLoad = false);
+		std::shared_ptr<TextureCube> LoadHCrossFromFile(const char* filepath);
 
 		// Loads all the mip maps from a texture cube(HCross). All mips are loaded as RGBA textures.
 		// * baseFilepath:	path to the actual file on disk. Note that you should not inset the mip number in the filepath. (ex. texture.png -> { texture-0.png, texture-1.png ... })
-		// * filepath:		path to the actual file on disk.
-		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* baseFilepath, bool flipOnLoad = false);
+		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* baseFilepath);
 
 #ifdef TTEX_APP
 	private:
