@@ -9,8 +9,6 @@
 
 #include "Editor/UI/SubMenus/SubMenu.h"
 
-// TODO: Use only one Command Box. Detect which action to perform by checking the data.
-
 namespace tTexture {
 
 	class EditorApplication;
@@ -20,7 +18,6 @@ namespace tTexture {
 	{
 		std::string InputFilepath = std::string();
 		CubeFormat InputCubeFormat = CubeFormat::HCROSS;
-		//bool InputFlipOnLoad = false;
 
 		std::string OutputFilepath = std::string();
 

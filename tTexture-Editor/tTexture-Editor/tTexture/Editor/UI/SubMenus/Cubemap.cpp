@@ -128,14 +128,14 @@ namespace tTexture {
 		{
 			if (m_Data->Prefilter)
 			{
-				std::shared_ptr<PrefilteredTextureCube> texutures = m_Application->PrefilterEnvironmentMap(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, false);
+				std::shared_ptr<PrefilteredTextureCube> texutures = m_Application->PrefilterEnvironmentMap(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat);
 				m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texutures);
 
 				return "TextureCube converted, pre-filtered and stored to " + m_Data->OutputFilepath + ".";
 			}
 			else
 			{
-				std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, false);
+				std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat);
 				m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
 
 				return "TextureCube converted and stored to " + m_Data->OutputFilepath + ".";

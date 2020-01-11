@@ -6,8 +6,8 @@
 
 namespace tTexture {
 
-	VCrossLoader::VCrossLoader(const std::string& filepath, bool flipOnLoad)
-		: m_Filepath(filepath), m_FlipOnLoad(flipOnLoad)
+	VCrossLoader::VCrossLoader(const std::string& filepath)
+		: m_Filepath(filepath)
 	{
 		TTEX_ASSERT(!m_Filepath.empty(), "Loader: You must provide a valid filepath");
 	}
@@ -15,7 +15,7 @@ namespace tTexture {
 	std::shared_ptr<TextureCube> VCrossLoader::LoadVCrossFromFile() const
 	{
 		// Loads the image from file as a Texture2D
-		tTexture::CoreLoader loader(m_Filepath, m_FlipOnLoad);
+		tTexture::CoreLoader loader(m_Filepath, false);
 		std::shared_ptr<Texture2D> sourceImage = loader.LoadImageFromFile(false);
 
 		const uint32_t faceSize = sourceImage->Data.Width / 3;
@@ -53,15 +53,15 @@ namespace tTexture {
 	}
 
 	// -- Equirectangular Loader --
-	EquirectangularLoader::EquirectangularLoader(const std::string& filepath, bool flipOnLoad, const std::unique_ptr<OpenGLRenderer>& renderer)
-		: m_Renderer(renderer), m_Filepath(filepath), m_FlipOnLoad(flipOnLoad)
+	EquirectangularLoader::EquirectangularLoader(const std::string& filepath, const std::unique_ptr<OpenGLRenderer>& renderer)
+		: m_Renderer(renderer), m_Filepath(filepath)
 	{
 		TTEX_ASSERT(m_Renderer, "EqirectangularLoader:Invalid Renderer!");
 	}
 
 	std::shared_ptr<TextureCube> EquirectangularLoader::LoadEquirectangularFromFile() const
 	{
-		tTexture::CoreLoader coreLoader(m_Filepath, m_FlipOnLoad);
+		tTexture::CoreLoader coreLoader(m_Filepath, false);
 		std::shared_ptr<Texture2D> sourceTexture = coreLoader.LoadImageFromFile(false);
 
 		return m_Renderer->RenderEquirectangularTexture(sourceTexture);

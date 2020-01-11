@@ -186,7 +186,7 @@ namespace tTexture {
 		CreateIrradianceDataError err = ValidateIrradianceInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, create Irradiance
 		{
-			std::shared_ptr<TextureCube> texture = m_Application->CreateIrradiance(m_IrradianceData->InputFilepath.c_str(), m_IrradianceData->InputCubeFormat, false);
+			std::shared_ptr<TextureCube> texture = m_Application->CreateIrradiance(m_IrradianceData->InputFilepath.c_str(), m_IrradianceData->InputCubeFormat);
 			m_Application->ExportTexture(m_IrradianceData->OutputFilepath.c_str(), texture);
 
 			return "Irradiance map created and stored to " + m_IrradianceData->OutputFilepath + ".";
