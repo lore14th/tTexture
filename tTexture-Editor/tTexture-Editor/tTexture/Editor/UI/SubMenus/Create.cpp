@@ -18,11 +18,9 @@ namespace tTexture::Ui {
 	{
 		UpdateUiLabel(m_Ui.IrradianceInputFilepathValue, m_Controller->GetIrradianceData()->InputFilepath.c_str());
 		UpdateUiLabel(m_Ui.IrradianceOutputFilepathValue, m_Controller->GetIrradianceData()->OutputFilepath.c_str());
-		SetComboBoxIndex(m_Ui.IrradianceInputChannelsBox, ImageChannelsToIndex(m_Controller->GetIrradianceData()->InputChannels));
 		SetComboBoxIndex(m_Ui.IrradianceInputFormatBox, CubeFormatToIndex(m_Controller->GetIrradianceData()->InputCubeFormat));
-		SetCheckboxStatus(m_Ui.IrradianceFlipOnLoadCheckbox, m_Controller->GetIrradianceData()->InputFlipOnLoad);
 
-		SetComboBoxIndex(m_Ui.BRFDTextureSizeBox, Ui::TextureSizeToIndex(m_Controller->GetBRDFData()->Size));
+		SetComboBoxIndex(m_Ui.BRDFTextureSizeBox, Ui::TextureSizeToIndex(m_Controller->GetBRDFData()->Size));
 		SetComboBoxIndex(m_Ui.BRDFTypeBox, BRDFTypeToIndex(m_Controller->GetBRDFData()->Type));
 		UpdateUiLabel(m_Ui.BRDFOutputFilepathValue, m_Controller->GetBRDFData()->OutputFilepath.c_str());
 	}
@@ -48,16 +46,6 @@ namespace tTexture::Ui {
 		m_Controller->GetIrradianceData()->InputCubeFormat = IndexToCubeFormat(m_Ui.IrradianceInputFormatBox->currentIndex());
 	}
 
-	void CreateMenuUi::on_IrradianceInputChannelsBox_currentIndexChanged()
-	{
-		m_Controller->GetIrradianceData()->InputChannels = IndexToImageChannels(m_Ui.IrradianceInputChannelsBox->currentIndex());
-	}
-
-	void CreateMenuUi::on_IrradianceFlipOnLoadCheckbox_stateChanged()
-	{
-		m_Controller->GetIrradianceData()->InputFlipOnLoad = GetCheckBoxStatus(m_Ui.IrradianceFlipOnLoadCheckbox);
-	}
-
 	void CreateMenuUi::on_IrradianceOutputFilepathButton_clicked()
 	{
 		QString filepath = m_FileDialog->getSaveFileName(this); // Open a window to enter the output filepath
@@ -69,26 +57,12 @@ namespace tTexture::Ui {
 		}
 	}
 
-	void CreateMenuUi::on_IrradianceCommandBox_accepted()
+	void CreateMenuUi::on_BRDFTextureSizeBox_currentIndexChanged()
 	{
-		// Perform conversion and show message to the screen
-		std::string resultMessage = m_Controller->CreateIrradiance();
-		ShowMessageBox(QString(resultMessage.c_str()));
-
-		BackToMainMenu();
+		m_Controller->GetBRDFData()->Size = std::pow(2, m_Ui.BRDFTextureSizeBox->currentIndex());
 	}
 
-	void CreateMenuUi::on_IrradianceCommandBox_rejected()
-	{
-		BackToMainMenu();
-	}
-
-	void CreateMenuUi::on_BRFDTextureSizeBox_stateChanged()
-	{
-		m_Controller->GetBRDFData()->Size = std::pow(2, m_Ui.BRFDTextureSizeBox->currentIndex());
-	}
-
-	void CreateMenuUi::on_BRDFTypeBox_stateChanged()
+	void CreateMenuUi::on_BRDFTypeBox_currentIndexChanged()
 	{
 		m_Controller->GetBRDFData()->Type = IndexToBRDFType(m_Ui.BRDFTypeBox->currentIndex());
 	}
@@ -104,16 +78,31 @@ namespace tTexture::Ui {
 		}
 	}
 
-	void CreateMenuUi::on_BRDFCommandBox_accepted()
+	void CreateMenuUi::on_CommandBox_accepted()
 	{
-		// Perform conversion and show message to the screen
-		std::string resultMessage = m_Controller->CreateBRDF();
-		ShowMessageBox(QString(resultMessage.c_str()));
+		std::pair<bool, bool> modifiedFlags; // first = irradiance, second = brdf
 
+		modifiedFlags.first = m_Controller->GetIrradianceData()->Modified();
+		modifiedFlags.second = m_Controller->GetBRDFData()->Modified();
+
+		if (modifiedFlags.first && modifiedFlags.second)
+		{
+			ShowMessageBox("Error! Do not modify data for the unused section");
+		}
+		else if (modifiedFlags.first)
+		{
+			std::string restultMessage = m_Controller->CreateIrradiance();
+			ShowMessageBox(QString(restultMessage.c_str()));
+		}
+		else if(modifiedFlags.second)
+		{
+			std::string restultMessage = m_Controller->CreateBRDF();
+			ShowMessageBox(QString(restultMessage.c_str()));
+		}
 		BackToMainMenu();
 	}
 
-	void CreateMenuUi::on_BRDFCommandBox_rejected()
+	void CreateMenuUi::on_CommandBox_rejected()
 	{
 		BackToMainMenu();
 	}
@@ -188,7 +177,7 @@ namespace tTexture {
 		}
 		else // return the error message
 		{
-			return err.GetErrorMessage();
+			return "BRDF\n" + err.GetErrorMessage();
 		}
 	}
 
@@ -197,14 +186,14 @@ namespace tTexture {
 		CreateIrradianceDataError err = ValidateIrradianceInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, create Irradiance
 		{
-			std::shared_ptr<TextureCube> texture = m_Application->CreateIrradiance(m_IrradianceData->InputFilepath.c_str(), m_IrradianceData->InputCubeFormat, m_IrradianceData->InputFlipOnLoad);
+			std::shared_ptr<TextureCube> texture = m_Application->CreateIrradiance(m_IrradianceData->InputFilepath.c_str(), m_IrradianceData->InputCubeFormat, false);
 			m_Application->ExportTexture(m_IrradianceData->OutputFilepath.c_str(), texture);
 
 			return "Irradiance map created and stored to " + m_IrradianceData->OutputFilepath + ".";
 		}
 		else // return the error message
 		{
-			return err.GetErrorMessage();
+			return "Irradiance\n" + err.GetErrorMessage();
 		}
 	}
 
@@ -231,6 +220,20 @@ namespace tTexture {
 		errorData.FileExtensionError = Ui::CheckFileExtensionIsSupported(m_IrradianceData->OutputFilepath);
 		
 		return errorData;
+	}
+
+	bool CreateIrradianceData::Modified() const
+	{
+		if (!InputFilepath.empty() || InputCubeFormat != CubeFormat::HCROSS || !OutputFilepath.empty())
+			return true;
+		return false;
+	}
+
+	bool CreateBRDFData::Modified() const
+	{
+		if (Size != 256 || Type != BRDFType::Epic_Games_Brdf || !OutputFilepath.empty())
+			return true;
+		return false;
 	}
 
 }

@@ -19,9 +19,8 @@ namespace tTexture::Ui {
 	{
 		UpdateUiLabel(m_Ui.InputFilepathValue, m_Controller->GetData()->InputFilepath.c_str());
 		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
-		SetComboBoxIndex(m_Ui.InputChannelBox, ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
 		SetComboBoxIndex(m_Ui.InputCubeFormatBox, CubeFormatToIndex(m_Controller->GetData()->InputCubeFormat));
-		SetCheckboxStatus(m_Ui.InputFlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
+		SetCheckboxStatus(m_Ui.PrefilterCheckBox, false);
 	}
 
 	void CubemapMenuUi::ResetControllerData() const
@@ -58,20 +57,14 @@ namespace tTexture::Ui {
 		m_Controller->GetData()->InputCubeFormat = IndexToCubeFormat(m_Ui.InputCubeFormatBox->currentIndex());
 	}
 
-	void CubemapMenuUi::on_InputChannelBox_currentIndexChanged()
-	{
-		// TODO: when one and two channel textures are supported, we'll change this to pass the inputBoxIndex directly
-		m_Controller->GetData()->InputChannels = IndexToImageChannels(m_Ui.InputChannelBox->currentIndex()); // update the converter data
-	}
-
-	void CubemapMenuUi::on_FlipOnLoadCheckbox_stateChanged()
-	{
-		m_Controller->GetData()->InputFlipOnLoad = m_Ui.InputFlipOnLoadCheckbox->isChecked(); // update the converter data
-	}
-
 	void CubemapMenuUi::on_OutputCubeFormatBox_currentIndexChanged()
 	{
 		m_Controller->GetData()->OutputCubeFormat = IndexToCubeFormat(m_Ui.OutputCubeFormatBox->currentIndex());
+	}
+
+	void CubemapMenuUi::on_PrefilterCheckBox_stateChanged()
+	{
+		m_Controller->GetData()->Prefilter = GetCheckBoxStatus(m_Ui.PrefilterCheckBox);
 	}
 
 	void CubemapMenuUi::on_CommandButton_accepted()
@@ -133,10 +126,20 @@ namespace tTexture {
 		CubemapDataError err = ValidateInputData(); // validate input data
 		if (err.NoError()) // if no error occurs, perform the conversion
 		{
-			std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, m_Data->InputFlipOnLoad);
-			m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
+			if (m_Data->Prefilter)
+			{
+				std::shared_ptr<PrefilteredTextureCube> texutures = m_Application->PrefilterEnvironmentMap(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, false);
+				m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texutures);
 
-			return "TextureCube converted and stored to " + m_Data->OutputFilepath + ".";
+				return "TextureCube converted, pre-filtered and stored to " + m_Data->OutputFilepath + ".";
+			}
+			else
+			{
+				std::shared_ptr<TextureCube> texture = m_Application->LoadTextureCube(m_Data->InputFilepath.c_str(), m_Data->InputCubeFormat, false);
+				m_Application->ExportTexture(m_Data->OutputFilepath.c_str(), texture);
+
+				return "TextureCube converted and stored to " + m_Data->OutputFilepath + ".";
+			}
 		}
 		else // return the error message
 		{

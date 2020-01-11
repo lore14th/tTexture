@@ -9,6 +9,8 @@
 
 #include "Editor/UI/SubMenus/SubMenu.h"
 
+// TODO: Use only one Command Box. Detect which action to perform by checking the data.
+
 namespace tTexture {
 
 	class EditorApplication;
@@ -18,10 +20,11 @@ namespace tTexture {
 	{
 		std::string InputFilepath = std::string();
 		CubeFormat InputCubeFormat = CubeFormat::HCROSS;
-		uint32_t InputChannels = 3;
-		bool InputFlipOnLoad = false;
+		//bool InputFlipOnLoad = false;
 
 		std::string OutputFilepath = std::string();
+
+		bool Modified() const;
 	};
 
 	struct CreateIrradianceDataError
@@ -39,6 +42,8 @@ namespace tTexture {
 		uint32_t Size = 256;
 		BRDFType Type = BRDFType::Epic_Games_Brdf;
 		std::string OutputFilepath = std::string();
+
+		bool Modified() const;
 	};
 
 	struct CreateBRDFDataError
@@ -87,23 +92,19 @@ namespace tTexture::Ui {
 		virtual void ResetControllerData() const override;
 
 	private slots:
-		// -- Irradiance --
+		// -- Irradiance ----------------
 		void on_IrradianceInputFilepathButton_clicked();
 		void on_IrradianceInputFormatBox_currentIndexChanged();
-		void on_IrradianceInputChannelsBox_currentIndexChanged();
-		void on_IrradianceFlipOnLoadCheckbox_stateChanged();
 		void on_IrradianceOutputFilepathButton_clicked();
 
-		void on_IrradianceCommandBox_accepted();
-		void on_IrradianceCommandBox_rejected();
-		// -- BRDF --------
-
-		void on_BRFDTextureSizeBox_stateChanged();
-		void on_BRDFTypeBox_stateChanged();
+		// -- BRDF ----------------------
+		void on_BRDFTextureSizeBox_currentIndexChanged();
+		void on_BRDFTypeBox_currentIndexChanged();
 		void on_BRDFOutputFilepathButton_clicked();
 
-		void on_BRDFCommandBox_accepted();
-		void on_BRDFCommandBox_rejected();
+		// ------------------------------
+		void on_CommandBox_accepted();
+		void on_CommandBox_rejected();
 	private:
 		::Ui::CreateWidget m_Ui;
 		std::unique_ptr<QFileDialog> m_FileDialog;

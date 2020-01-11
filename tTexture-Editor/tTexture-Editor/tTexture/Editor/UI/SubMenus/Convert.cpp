@@ -19,7 +19,6 @@ namespace tTexture::Ui {
 	{
 		UpdateUiLabel(m_Ui.InputFilepathValue, m_Controller->GetData()->InputFilepath.c_str());
 		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
-		SetComboBoxIndex(m_Ui.InputChannelBox, Ui::ImageChannelsToIndex(m_Controller->GetData()->InputChannels));
 		SetCheckboxStatus(m_Ui.FlipOnLoadCheckbox, m_Controller->GetData()->InputFlipOnLoad);
 	}
 
@@ -52,12 +51,6 @@ namespace tTexture::Ui {
 		}
 	}
 
-	void ConvertMenuUi::on_InputChannelBox_currentIndexChanged()
-	{
-		// TODO: when one and two channel textures are supported, we'll change this to pass the inputBoxIndex directly
-		m_Controller->GetData()->InputChannels = IndexToImageChannels(m_Ui.InputChannelBox->currentIndex()); // update the converter data
-	}
-
 	void ConvertMenuUi::on_FlipOnLoadCheckbox_stateChanged()
 	{
 		m_Controller->GetData()->InputFlipOnLoad = m_Ui.FlipOnLoadCheckbox->isChecked(); // update the converter data
@@ -76,8 +69,6 @@ namespace tTexture::Ui {
 	{
 		BackToMainMenu();
 	}
-
-
 
 }
 

@@ -13,7 +13,6 @@ namespace tTexture {
 	struct ConversionData
 	{
 		std::string InputFilepath = std::string();
-		uint32_t InputChannels = 3; // TODO: Remove
 		bool InputFlipOnLoad = false;
 
 		std::string OutputFilepath = std::string();
@@ -63,7 +62,6 @@ namespace tTexture::Ui {
 	private slots:
 		void on_InputFilepathButton_clicked();
 		void on_OutputFilepathButton_clicked();
-		void on_InputChannelBox_currentIndexChanged();
 		void on_FlipOnLoadCheckbox_stateChanged();
 
 		void on_ButtonBox_accepted();

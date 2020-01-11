@@ -24,27 +24,6 @@
           <string>Input</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="InputFilepathLabel">
-            <property name="text">
-             <string>Filepath</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="InputFilepathValue">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QToolButton" name="InputFilepathButton">
-            <property name="text">
-             <string>...</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="InputCubeFormatLabel">
             <property name="text">
@@ -71,36 +50,36 @@
             </item>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="InputChannelsLabel">
+          <item row="0" column="1">
+           <widget class="QLabel" name="InputFilepathValue">
             <property name="text">
-             <string>Input Channnels</string>
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="InputFilepathLabel">
+            <property name="text">
+             <string>Filepath</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QToolButton" name="InputFilepathButton">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="PreFilterLabel">
+            <property name="text">
+             <string>Pre-Filter</string>
             </property>
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QComboBox" name="InputChannelBox">
-            <item>
-             <property name="text">
-              <string>3</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>4</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="InputFlipOnLoadLabel">
-            <property name="text">
-             <string>Flip On Load</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QCheckBox" name="InputFlipOnLoadCheckbox">
+           <widget class="QCheckBox" name="PrefilterCheckBox">
             <property name="text">
              <string/>
             </property>

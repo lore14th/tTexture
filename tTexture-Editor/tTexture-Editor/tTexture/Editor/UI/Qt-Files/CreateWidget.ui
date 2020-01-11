@@ -14,6 +14,54 @@
    <string notr="true">CreateMenu</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <spacer name="LeftSpace">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <spacer name="TopSpace">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="1">
+    <spacer name="BottomSpace">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="1" column="1">
     <layout class="QHBoxLayout" name="BoxLayout">
      <item>
@@ -52,24 +100,27 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QComboBox" name="IrradianceInputChannelsBox">
-              <item>
-               <property name="text">
-                <string>3</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>4</string>
-               </property>
-              </item>
+            <item row="0" column="2">
+             <widget class="QToolButton" name="IrradianceInputFilepathButton">
+              <property name="text">
+               <string>...</string>
+              </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="IrradianceFlipOnLoad">
+            <item row="2" column="2">
+             <widget class="QToolButton" name="IrradianceOutputFilepathButton">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
               <property name="text">
-               <string>Flip On Load</string>
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="IrradianceOutputFilepathValue">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -80,6 +131,13 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="IrradianceOutputFilepath">
+              <property name="text">
+               <string>Output Filepath</string>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="IrradianceInputFormat">
               <property name="text">
@@ -87,64 +145,9 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="IrradianceInputChannels">
-              <property name="text">
-               <string>InputChannels</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QToolButton" name="IrradianceInputFilepathButton">
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QCheckBox" name="IrradianceFlipOnLoadCheckbox">
-              <property name="layoutDirection">
-               <enum>Qt::RightToLeft</enum>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="IrradianceOutputFilepath">
-              <property name="text">
-               <string>Output Filepath</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="IrradianceOutputFilepathValue">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QToolButton" name="IrradianceOutputFilepathButton">
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDialogButtonBox" name="IrradianceCommandBox">
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-         </property>
         </widget>
        </item>
       </layout>
@@ -197,7 +200,7 @@
              </widget>
             </item>
             <item row="0" column="2">
-             <widget class="QComboBox" name="BRFDTextureSizeBox">
+             <widget class="QComboBox" name="BRDFTextureSizeBox">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -284,13 +287,6 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <widget class="QDialogButtonBox" name="BRDFCommandBox">
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
     </layout>
@@ -311,53 +307,12 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="1">
-    <spacer name="TopSpace">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="2" column="1">
-    <spacer name="BottomSpace">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QDialogButtonBox" name="CommandBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0">
-    <spacer name="LeftSpace">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>

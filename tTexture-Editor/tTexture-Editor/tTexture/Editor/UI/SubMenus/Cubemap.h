@@ -16,8 +16,7 @@ namespace tTexture {
 	{
 		std::string InputFilepath = std::string();
 		CubeFormat InputCubeFormat = CubeFormat::HCROSS;
-		uint32_t InputChannels = 3;
-		bool InputFlipOnLoad = false;
+		bool Prefilter = false;
 		
 		std::string OutputFilepath = std::string();
 		CubeFormat OutputCubeFormat = CubeFormat::HCROSS;
@@ -68,9 +67,8 @@ namespace tTexture::Ui {
 		void on_InputFilepathButton_clicked();
 		void on_OutputFilepathButton_clicked();
 		void on_InputCubeFormatBox_currentIndexChanged();
-		void on_InputChannelBox_currentIndexChanged();
-		void on_FlipOnLoadCheckbox_stateChanged();
 		void on_OutputCubeFormatBox_currentIndexChanged();
+		void on_PrefilterCheckBox_stateChanged();
 		
 		void on_CommandButton_accepted();
 		void on_CommandButton_rejected();
