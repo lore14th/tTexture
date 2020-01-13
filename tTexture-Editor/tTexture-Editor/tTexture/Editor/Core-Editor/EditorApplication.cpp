@@ -2,11 +2,11 @@
 #include "EditorApplication.h"
 
 #include "Editor/Core-Editor/Loader/Loader.h"
-#include "Editor/Core-Editor/Exporter/Exporter.h"
 #include "Editor/Core-Editor/Renderer/OpenGLRenderer.h"
 
 #include <tTexture/tTexture-Core.h>
 #include <tTexture/Core/CoreLoader.h> 
+#include <tTexture/Core/CoreExporter.h>
 
 namespace tTexture {
 
@@ -72,14 +72,14 @@ namespace tTexture {
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const
 	{
 		TTEX_TIME_FUNCTION;
-		Exporter exporter(outputFilepath);
+		CoreExporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture);
 	}
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const 
 	{
 		TTEX_TIME_FUNCTION;
-		Exporter exporter(outputFilepath);
+		CoreExporter exporter(outputFilepath);
 		exporter.WriteToDisk(texture, outputFormat);
 	}
 

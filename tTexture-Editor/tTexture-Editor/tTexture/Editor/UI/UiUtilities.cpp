@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "UiUtilities.h"
+#include <tTexture/Core/CoreExporter.h>
 
 #include <QMessageBox>
 #include <string_view>
-
-#include "Editor/Core-Editor/Exporter/Exporter.h"
 
 namespace tTexture::Ui {
 
@@ -97,8 +96,8 @@ namespace tTexture::Ui {
 
 	bool CheckFileExtensionIsSupported(const std::string& extension)
 	{
-		tTexture::Exporter::OutputFormat format = tTexture::Exporter::RetrieveOutputFormat(extension);
-		return format == Exporter::OutputFormat::NONE;
+		tTexture::CoreExporter::OutputFormat format = tTexture::CoreExporter::RetrieveOutputFormat(extension);
+		return format == CoreExporter::OutputFormat::NONE;
 	}
 
 	bool CheckTextureSize(uint32_t size)
