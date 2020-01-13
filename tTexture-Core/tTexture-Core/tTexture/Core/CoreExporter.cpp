@@ -33,10 +33,10 @@ namespace tTexture {
 
 		switch (m_OutputFormat)
 		{
-		case OutputFormat::Tga: StoreTGAStbi(crossTexture);		break;
-		case OutputFormat::Png:	StorePngStbi(crossTexture);		break;
-		case OutputFormat::Jpg: StoreJpgStbi(crossTexture);		break;
-		default: TTEX_ERROR("Exporter:Texture not exported, invalid output format");
+			case OutputFormat::Tga: StoreTGAStbi(crossTexture);		break;
+			case OutputFormat::Png:	StorePngStbi(crossTexture);		break;
+			case OutputFormat::Jpg: StoreJpgStbi(crossTexture);		break;
+			default: TTEX_ERROR("Exporter:Texture not exported, invalid output format");
 		}
 	}
 

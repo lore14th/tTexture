@@ -68,8 +68,8 @@ namespace tTexture {
 		{
 			switch (face)
 			{
-				case Face::POS_X: return { 0, faceSize };
-				case Face::NEG_X: return { 2 * faceSize, faceSize };
+				case Face::POS_X: return { 2 * faceSize, faceSize };
+				case Face::NEG_X: return { 0, faceSize };
 				case Face::POS_Y: return { faceSize, 0 };
 				case Face::NEG_Y: return { faceSize, 2 * faceSize };
 				case Face::POS_Z: return { faceSize, faceSize };
@@ -80,8 +80,8 @@ namespace tTexture {
 		{
 			switch (face)
 			{
-				case Face::POS_X: return { 0, faceSize };
-				case Face::NEG_X: return { 2 * faceSize, faceSize };
+				case Face::POS_X: return { 2 * faceSize, faceSize };
+				case Face::NEG_X: return { 0, faceSize };
 				case Face::POS_Y: return { faceSize, 0 };
 				case Face::NEG_Y: return { faceSize, 2 * faceSize };
 				case Face::POS_Z: return { faceSize, faceSize };
