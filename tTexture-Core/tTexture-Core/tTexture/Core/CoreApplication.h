@@ -24,6 +24,20 @@ namespace tTexture {
 		// * baseFilepath:	path to the actual file on disk. Note that you should not inset the mip number in the filepath. (ex. texture.png -> { texture-0.png, texture-1.png ... })
 		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* baseFilepath);
 
+		// Export Texture2D to file
+		// * outputFilepath:	filepath used to store the texture on disk
+		// * texture:			texture to store
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const;
+		// Export TextureCube to file
+		// * outputFilepath:	filepath used to store the texture on disk
+		// * texture:			texture to store
+		// * outputFormat:		cube format of the output texture. [TODO] add VCross and Equirectangular
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat = CubeFormat::HCROSS) const;
+		// Export PrefilteredTexture to file
+		// * outputFilepath:	filepath used to store the texture on disk
+		// * texture:			texture to store
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const;
+
 #ifdef TTEX_APP
 	private:
 		static uint32_t s_ApplicationCount;

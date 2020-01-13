@@ -2,6 +2,7 @@
 
 #include "CoreApplication.h"
 #include "Core/CoreLoader.h"
+#include "Core/CoreExporter.h"
 
 #include "Debug/tTextureTimer.h"
 
@@ -52,6 +53,33 @@ namespace tTexture {
 
 		CoreLoader loader(baseFilepath, false);
 		return loader.LoadPrefilteredTextureHCrossFromFile();
+	}
+
+	void CoreApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const
+	{
+		TTEX_TIME_FUNCTION;
+
+		CoreExporter exporter(outputFilepath);
+		exporter.WriteToDisk(texture);
+	}
+
+	void CoreApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const
+	{
+		TTEX_TIME_FUNCTION;
+
+		CoreExporter exporter(outputFilepath);
+		exporter.WriteToDisk(texture, outputFormat);
+	}
+
+	void CoreApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const
+	{
+		TTEX_TIME_FUNCTION;
+
+		for (uint32_t mipLevel = 0; mipLevel < texture->GetLevelsCount(); mipLevel++)
+		{
+			std::string mipFilepath = tTexture::CoreLoader::GeneratePrefilteredTextureFilepath(outputFilepath, mipLevel);
+			ExportTexture(mipFilepath.c_str(), texture->GetLevel(mipLevel));
+		}
 	}
 
 }
