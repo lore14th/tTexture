@@ -150,9 +150,9 @@ namespace tTexture {
 		}
 		else // Middle Row
 		{
-			if (x < faceSize)			return Face::POS_X;
+			if (x < faceSize)			return Face::NEG_X;
 			else if (x < 2 * faceSize)	return Face::POS_Z;
-			else if (x < 3 * faceSize)	return Face::NEG_X;
+			else if (x < 3 * faceSize)	return Face::POS_X;
 			else						return Face::NEG_Z;
 		}
 	}
