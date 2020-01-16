@@ -10,3 +10,4 @@ tTexture/exporter/
 *.sln
 *vcxproj
 *.filters
+*.txt
