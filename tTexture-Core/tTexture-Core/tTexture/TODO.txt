@@ -59,7 +59,7 @@
 ------------------------
 
 -- Release Features --
-[TODO] - Add GUI
+[DONE] - Add GUI
 [TODO] - MacOS support
 [TODO] - Linux support
 ------------------------
