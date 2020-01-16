@@ -26,7 +26,7 @@ group ""
 
 project "tTexture-Editor"
 	location "tTexture-Editor"
-	kind "ConsoleApp"
+	kind "WindowedApp"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"

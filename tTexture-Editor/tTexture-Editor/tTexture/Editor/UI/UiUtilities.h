@@ -33,6 +33,8 @@ namespace tTexture::Ui {
 	void SetCheckboxStatus(QCheckBox* checkbox, bool status);
 
 	void SetComboBoxIndex(QComboBox* comboBox, uint32_t index);
+	void SetComboBoxEnable(QComboBox* comboBox, bool enabled);
 
 	void ShowMessageBox(const QString& message);
+
 }

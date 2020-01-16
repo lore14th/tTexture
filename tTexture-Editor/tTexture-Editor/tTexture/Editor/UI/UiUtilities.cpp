@@ -138,6 +138,11 @@ namespace tTexture::Ui {
 		comboBox->setCurrentIndex(index);
 	}
 
+	void SetComboBoxEnable(QComboBox* comboBox, bool enabled)
+	{
+		comboBox->setEnabled(enabled);
+	}
+
 	void ShowMessageBox(const QString& message)
 	{
 		QMessageBox* messageBox = new QMessageBox();

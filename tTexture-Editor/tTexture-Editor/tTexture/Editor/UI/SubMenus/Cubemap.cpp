@@ -20,6 +20,7 @@ namespace tTexture::Ui {
 		UpdateUiLabel(m_Ui.InputFilepathValue, m_Controller->GetData()->InputFilepath.c_str());
 		UpdateUiLabel(m_Ui.OutputFilepathValue, m_Controller->GetData()->OutputFilepath.c_str());
 		SetComboBoxIndex(m_Ui.InputCubeFormatBox, CubeFormatToIndex(m_Controller->GetData()->InputCubeFormat));
+		SetComboBoxIndex(m_Ui.OutputCubeFormatBox, CubeFormatToIndex(m_Controller->GetData()->OutputCubeFormat));
 		SetCheckboxStatus(m_Ui.PrefilterCheckBox, false);
 	}
 
@@ -64,7 +65,9 @@ namespace tTexture::Ui {
 
 	void CubemapMenuUi::on_PrefilterCheckBox_stateChanged()
 	{
-		m_Controller->GetData()->Prefilter = GetCheckBoxStatus(m_Ui.PrefilterCheckBox);
+		bool prefilter = GetCheckBoxStatus(m_Ui.PrefilterCheckBox);
+		m_Controller->GetData()->Prefilter = prefilter;
+		SetComboBoxEnable(m_Ui.OutputCubeFormatBox, !prefilter);
 	}
 
 	void CubemapMenuUi::on_CommandButton_accepted()
