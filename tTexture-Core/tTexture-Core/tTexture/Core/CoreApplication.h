@@ -31,8 +31,7 @@ namespace tTexture {
 		// Export TextureCube to file
 		// * outputFilepath:	filepath used to store the texture on disk
 		// * texture:			texture to store
-		// * outputFormat:		cube format of the output texture. [TODO] add VCross and Equirectangular
-		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat = CubeFormat::HCROSS) const;
+		void ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture) const;
 		// Export PrefilteredTexture to file
 		// * outputFilepath:	filepath used to store the texture on disk
 		// * texture:			texture to store

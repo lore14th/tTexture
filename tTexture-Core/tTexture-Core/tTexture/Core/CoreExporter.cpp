@@ -19,29 +19,17 @@ namespace tTexture {
 		StoreInternal(texture);
 	}
 
-	void CoreExporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const
+	void CoreExporter::WriteToDisk(const std::shared_ptr<TextureCube>& texture) const
 	{
 		TTEX_CORE_ASSERT(m_OutputFormat != OutputFormat::NONE, "Exporter: invalid output format");
-		StoreInternal(ConvertTextureCubeToFormat(texture, outputFormat));
+		const uint32_t bpp = m_OutputFormat == OutputFormat::Tga ? 3 : 4;
+		StoreInternal(ConvertToHCross(texture, bpp));
 	}
 
 	void CoreExporter::WriteToDisk(const std::shared_ptr<PrefilteredTextureCube> textures) const
 	{
 		std::shared_ptr<Texture2D> prefilteredCrossTexture = ConvertToPrefilteredCross(textures);
 		StoreInternal(prefilteredCrossTexture);
-	}
-
-	std::shared_ptr<tTexture::Texture2D> CoreExporter::ConvertTextureCubeToFormat(const std::shared_ptr<TextureCube>& sourceTexture, CubeFormat desiredFormat) const
-	{
-		const uint32_t bpp = m_OutputFormat == OutputFormat::Tga ? 3 : 4;
-		switch (desiredFormat)
-		{
-		case tTexture::CubeFormat::HCROSS:			return ConvertToHCross(sourceTexture, bpp);
-		case tTexture::CubeFormat::VCROSS:			return ConvertToVCross(sourceTexture, bpp);
-		case tTexture::CubeFormat::EQUIRECTANGULAR: return ConvertToEquirectangular(sourceTexture);
-		}
-		TTEX_CORE_ASSERT(false, "Invalid format");
-		return std::make_shared<tTexture::Texture2D>();
 	}
 
 	std::shared_ptr<tTexture::Texture2D> CoreExporter::ConvertToHCross(const std::shared_ptr<TextureCube>& sourceTexture, const uint32_t bpp) const
@@ -70,20 +58,6 @@ namespace tTexture {
 			}
 		}
 		return result;
-	}
-
-	std::shared_ptr<tTexture::Texture2D> CoreExporter::ConvertToVCross(const std::shared_ptr<TextureCube>& sourceTexture, const uint32_t bpp) const
-	{
-		TTEX_CORE_ASSERT(false, "Implement this");
-		// TODO:
-		return std::make_shared<tTexture::Texture2D>();
-	}
-
-	std::shared_ptr<tTexture::Texture2D> CoreExporter::ConvertToEquirectangular(const std::shared_ptr<TextureCube>& sourceTexture) const
-	{
-		TTEX_CORE_ASSERT(false, "Implement this");
-		// TODO:
-		return std::make_shared<tTexture::Texture2D>();
 	}
 
 	std::shared_ptr<tTexture::Texture2D> CoreExporter::ConvertToPrefilteredCross(const std::shared_ptr<PrefilteredTextureCube>& textures) const
