@@ -21,8 +21,8 @@ namespace tTexture {
 		std::shared_ptr<TextureCube> LoadHCrossFromFile(const char* filepath);
 
 		// Loads all the mip maps from a texture cube(HCross). All mips are loaded as RGBA textures.
-		// * baseFilepath:	path to the actual file on disk. Note that you should not inset the mip number in the filepath. (ex. texture.png -> { texture-0.png, texture-1.png ... })
-		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* baseFilepath);
+		// * filepath:	path to the actual file on disk.
+		std::shared_ptr<PrefilteredTextureCube> LoadPrefilteredHCrossFromFile(const char* filepath);
 
 		// Export Texture2D to file
 		// * outputFilepath:	filepath used to store the texture on disk

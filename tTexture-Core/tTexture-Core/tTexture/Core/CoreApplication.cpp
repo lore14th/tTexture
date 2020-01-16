@@ -47,12 +47,12 @@ namespace tTexture {
 		return loader.LoadHCrossFromFile();
 	}
 
-	std::shared_ptr<PrefilteredTextureCube> CoreApplication::LoadPrefilteredHCrossFromFile(const char* baseFilepath)
+	std::shared_ptr<PrefilteredTextureCube> CoreApplication::LoadPrefilteredHCrossFromFile(const char* filepath)
 	{
 		TTEX_TIME_FUNCTION;
 
-		CoreLoader loader(baseFilepath, false);
-		return loader.LoadPrefilteredTextureHCrossFromFile();
+		CoreLoader loader(filepath, false);
+		return loader.LoadPrefilteredTexture();
 	}
 
 	void CoreApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const
@@ -75,11 +75,8 @@ namespace tTexture {
 	{
 		TTEX_TIME_FUNCTION;
 
-		for (uint32_t mipLevel = 0; mipLevel < texture->GetLevelsCount(); mipLevel++)
-		{
-			std::string mipFilepath = tTexture::CoreLoader::GeneratePrefilteredTextureFilepath(outputFilepath, mipLevel);
-			ExportTexture(mipFilepath.c_str(), texture->GetLevel(mipLevel));
-		}
+		CoreExporter exporter(outputFilepath);
+		exporter.WriteToDisk(texture);
 	}
 
 }

@@ -8,12 +8,20 @@
 
 namespace tTexture {
 
+	enum class OutputFormat
+	{
+		NONE = -1, Tga = 0, Png = 1, Jpg = 2
+	};
+
 	enum class CubeFormat
 	{
 		HCROSS = 0, VCROSS = 1, EQUIRECTANGULAR = 2
 	};
 
-	enum class Face { NONE = -1, POS_X = 0, NEG_X, POS_Y = 2, NEG_Y = 3, POS_Z = 4, NEG_Z = 5 };
+	enum class Face
+	{
+		NONE = -1, POS_X = 0, NEG_X, POS_Y = 2, NEG_Y = 3, POS_Z = 4, NEG_Z = 5
+	};
 
 	struct TextureData
 	{
@@ -64,19 +72,31 @@ namespace tTexture {
 
 }
 
-// Note: Some functions are now accessible from CoreLoader as static functions
 namespace tTexture { // helper functions
+
+	// returns the filepath extension
+	OutputFormat RetrieveOutputFormat(const std::string& filepath);
+
+	// returns the face in witch x and y are in
+	Face SelectFace(uint32_t x, uint32_t y, uint32_t faceSize);
 
 	// returns the coordinates of the upper left corner of the face on the HCross file
 	std::pair<uint32_t, uint32_t> GetFaceLimits(CubeFormat format, Face face, uint32_t faceSize);
 
 	// returns the coordinates relative to the cube face, given the x and y coordinates relative to the HCross file.
 	std::pair<uint32_t, uint32_t> GetCoordinatesRelativeToFace(uint32_t x, uint32_t y, uint32_t faceSize, Face face);
+	//std::pair<uint32_t, uint32_t> GetCoordinatesRelativeToFace(uint32_t x, uint32_t y, uint32_t faceSize, Face face, uint32_t mipLevel);
 
 	// returns an rgb copy of the source texture. If the texture is already rgb, it does nothing
 	std::shared_ptr<Texture2D> RemoveAlphaChannel(const std::shared_ptr<Texture2D>& texture);
 
 	// returns the mip map count
 	int32_t CalculateMipMapCount(int32_t width, int32_t height);
+
+	// Returns the width of a pre-filtered texture given the number of mips
+	int32_t CalculatePrefilterTextureWidth(uint32_t mipCount);
+
+	// Returns -1 if sizes are not valid
+	int32_t CalculatePrefilterTextureMipCount(int32_t width, int32_t height);
 }
 
