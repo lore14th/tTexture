@@ -76,7 +76,15 @@ namespace tTexture {
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const 
 	{
-		m_CoreLibrary->ExportTexture(outputFilepath, texture, outputFormat);
+		if (outputFormat == CubeFormat::HCROSS)
+			m_CoreLibrary->ExportTexture(outputFilepath, texture);
+		else
+			TTEX_ASSERT(false, "Not implemented yet");
+		//else
+		//{
+		//	std::shared_ptr<Texture2D> outTexture = EditorExporter::ConvertToFormat(texture, outputFormat);
+		//	m_CoreLibrary->ExportTexture(outputFilepath, outTexture);
+		//}
 	}
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const
