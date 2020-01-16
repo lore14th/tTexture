@@ -71,26 +71,17 @@ namespace tTexture {
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<Texture2D>& texture) const
 	{
-		TTEX_TIME_FUNCTION;
-		CoreExporter exporter(outputFilepath);
-		exporter.WriteToDisk(texture);
+		m_CoreLibrary->ExportTexture(outputFilepath, texture);
 	}
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<TextureCube>& texture, CubeFormat outputFormat) const 
 	{
-		TTEX_TIME_FUNCTION;
-		CoreExporter exporter(outputFilepath);
-		exporter.WriteToDisk(texture, outputFormat);
+		m_CoreLibrary->ExportTexture(outputFilepath, texture, outputFormat);
 	}
 
 	void EditorApplication::ExportTexture(const char* outputFilepath, const std::shared_ptr<PrefilteredTextureCube>& texture) const
 	{
-		TTEX_TIME_FUNCTION;
-		for (uint32_t mipLevel = 0; mipLevel < texture->GetLevelsCount(); mipLevel++)
-		{
-			std::string mipFilepath = tTexture::CoreLoader::GeneratePrefilteredTextureFilepath(outputFilepath, mipLevel);
-			ExportTexture(mipFilepath.c_str(), texture->GetLevel(mipLevel));
-		}
+		m_CoreLibrary->ExportTexture(outputFilepath, texture);
 	}
 
 	void EditorApplication::SetRendererResolution(uint32_t resolution)

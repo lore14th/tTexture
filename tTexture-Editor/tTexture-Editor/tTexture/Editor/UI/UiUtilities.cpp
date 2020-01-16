@@ -96,8 +96,8 @@ namespace tTexture::Ui {
 
 	bool CheckFileExtensionIsSupported(const std::string& extension)
 	{
-		tTexture::CoreExporter::OutputFormat format = tTexture::CoreExporter::RetrieveOutputFormat(extension);
-		return format == CoreExporter::OutputFormat::NONE;
+		tTexture::OutputFormat format = tTexture::RetrieveOutputFormat(extension);
+		return format == OutputFormat::NONE;
 	}
 
 	bool CheckTextureSize(uint32_t size)

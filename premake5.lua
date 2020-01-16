@@ -15,5 +15,10 @@ workspace "tTexture"
 		"Release",
 	}
 
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 include "tTexture-Editor"

@@ -28,21 +28,21 @@ namespace tTexture {
 		result->AllocateTexture();
 
 #ifdef TTEX_LOADER_SINGLE_THREAD
-		CoreLoader::ReadSquareFace(Face::POS_X, sourceImage, result);
-		CoreLoader::ReadSquareFace(Face::NEG_X, sourceImage, result);
-		CoreLoader::ReadSquareFace(Face::POS_Y, sourceImage, result);
-		CoreLoader::ReadSquareFace(Face::NEG_Y, sourceImage, result);
-		CoreLoader::ReadSquareFace(Face::POS_Z, sourceImage, result);
-		CoreLoader::ReadSquareFace(Face::NEG_Z, sourceImage, result);
+		CoreLoader::ReadSquareFace(Face::POS_X, sourceImage, result, 0);
+		CoreLoader::ReadSquareFace(Face::NEG_X, sourceImage, result, 0);
+		CoreLoader::ReadSquareFace(Face::POS_Y, sourceImage, result, 0);
+		CoreLoader::ReadSquareFace(Face::NEG_Y, sourceImage, result, 0);
+		CoreLoader::ReadSquareFace(Face::POS_Z, sourceImage, result, 0);
+		CoreLoader::ReadSquareFace(Face::NEG_Z, sourceImage, result, 0);
 #else
 		std::array<std::thread*, 6> threads;
 
-		threads[0] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_X, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
-		threads[1] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_X, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
-		threads[2] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_Y, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
-		threads[3] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_Y, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
-		threads[4] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_Z, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
-		threads[5] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_Z, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result));
+		threads[0] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_X, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
+		threads[1] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_X, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
+		threads[2] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_Y, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
+		threads[3] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_Y, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
+		threads[4] = new std::thread(CoreLoader::ReadSquareFace, Face::POS_Z, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
+		threads[5] = new std::thread(CoreLoader::ReadSquareFace, Face::NEG_Z, CubeFormat::VCROSS, std::ref(sourceImage), std::ref(result), 0);
 
 		for (auto& t : threads)
 			t->join();
