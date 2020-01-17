@@ -102,7 +102,7 @@ namespace tTexture {
 		TTEX_CORE_ASSERT(data.Bpp == 3, "CoreLoader:Cannot add alpha channel to texture with {0} bpp", data.Bpp);
 
 		const uint32_t newBpp = 4;
-		byte* sourceWithAlpha = new byte[(uint64_t)data.Width * (uint64_t)data.Height * (uint64_t)data.Bpp];
+		byte* sourceWithAlpha = new byte[(uint64_t)data.Width * (uint64_t)data.Height * (uint64_t)newBpp];
 		for (int32_t y = 0; y < data.Height; y++)
 		{
 			for (int32_t x = 0; x < data.Width; x++)
