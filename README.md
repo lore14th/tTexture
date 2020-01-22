@@ -56,3 +56,16 @@ std::shared_ptr<tTexture::PrefilteredTextureCube> LoadPrefilteredTextureCubeFrom
 }	
 ```
 
+#### Example
+Here's the original image
+![alt text](https://github.com/lore14th/tTexture/blob/master/images/OriginalEquirectangular.jpg)
+\
+Converted into HCross
+![alt text](https://github.com/lore14th/tTexture/blob/master/images/HCross.png)
+\
+Irradiance map
+![alt text](https://github.com/lore14th/tTexture/blob/master/images/Irradiance.png)
+\
+Prefiltered
+![alt text](https://github.com/lore14th/tTexture/blob/master/images/Converted.png)
+
