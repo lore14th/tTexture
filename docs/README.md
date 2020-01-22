@@ -68,7 +68,7 @@ std::shared_ptr<tTexture::PrefilteredTextureCube> LoadPrefilteredTextureCubeFrom
 }	
 ```
 You can convert results into your formats to integrate the library even better with your project. 
-
+For additional information, please visit the Wiki page. [Not available yet]
 #### Example
 Here's the original image
 ![alt text](https://github.com/lore14th/tTexture/blob/master/docs/images/OriginalEquirectangular.jpg)
@@ -82,4 +82,6 @@ Irradiance map
 Prefiltered
 ![alt text](https://github.com/lore14th/tTexture/blob/master/docs/images/Converted.png)
 
-For additional information, please visit the Wiki page. [Not available yet]
+## How to contribute?
+Feel free to open __issues__ for bugs ideas and any questions you might have.\
+If you want to help to build the library, even more, fork the repository and open a __pull request!__
