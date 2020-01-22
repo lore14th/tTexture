@@ -25,7 +25,8 @@ The intended workflow is _Converting offline your assets using the editor applic
 Core Library loads cubemaps in Horizontal Cross format, pre-filtered images, and simple textures from every file format supported by stb_image (https://github.com/nothings/stb).
 The editor application uses stb_image_write, and can output: __png__, __jpg__ and __tga__ images.\
 \
-If you are using premake, integarting tTexture is as easy as including the tTexture-Core/premake5.lua file, and add "tTexture-Core/tTexture-Core" as and include directory into your own premake script.
+If you are using premake, integrating  tTexture is as easy as including the tTexture-Core/premake5.lua file, and add "tTexture-Core/tTexture-Core" as and include directory into your own premake script.
+CoreApplication class contains everything you'll need. You can convert results into your formats to integrate the library even better with your project. 
 
 #### Load 2D Texture
 ```cp
@@ -69,3 +70,4 @@ Irradiance map
 Prefiltered
 ![alt text](https://github.com/lore14th/tTexture/blob/master/images/Converted.png)
 
+For additional information, please visit the Wiki page.
