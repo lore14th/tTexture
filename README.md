@@ -51,8 +51,8 @@ std::shared_ptr<tTexture::TextureCube> LoadTextureCubeFromFile(const std::string
 ```cp
 std::shared_ptr<tTexture::PrefilteredTextureCube> LoadPrefilteredTextureCubeFromFile(const std::string& filepath)
 {
-		tTexture::CoreApplication app;
-		return app.LoadPrefilteredHCrossFromFile(filepath.c_str());
+	tTexture::CoreApplication app;
+	return app.LoadPrefilteredHCrossFromFile(filepath.c_str());
 }	
 ```
 
