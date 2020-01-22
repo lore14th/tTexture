@@ -25,4 +25,34 @@ The intended workflow is _Converting offline your assets using the editor applic
 Core Library loads cubemaps in Horizontal Cross format, pre-filtered images, and simple textures from every file format supported by stb_image (https://github.com/nothings/stb).
 The editor application uses stb_image_write, and can output: __png__, __jpg__ and __tga__ images.\
 \
-To 
+If you are using premake, integarting tTexture is as easy as including the tTexture-Core/premake5.lua file, and add "tTexture-Core/tTexture-Core" as and include directory into your own premake script.
+
+#### Load 2D Texture
+```cp
+#include <tTexture/tTexture-Core.h>
+
+std::shared_ptr<tTexture::Texture2D> LoadTextureFromFile(const std::string& filepath, bool flipOnLoad)
+{
+	bool addAlphaChannel = true; // if you want to add the alphaChannel to an RGB texture
+
+	tTexture::CoreApplication app;
+	return app.LoadTexture2D(filepath.c_str(), addAlphaChannel, flipOnLoad);
+}
+```
+#### Load HCross
+```cp
+std::shared_ptr<tTexture::TextureCube> LoadTextureCubeFromFile(const std::string& filepath)	
+{
+	tTexture::CoreApplication app;
+	return app.LoadHCrossFromFile(filepath.c_str());
+}
+```
+#### Load Prefiltered Texture
+```cp
+std::shared_ptr<tTexture::PrefilteredTextureCube> LoadPrefilteredTextureCubeFromFile(const std::string& filepath)
+{
+		tTexture::CoreApplication app;
+		return app.LoadPrefilteredHCrossFromFile(filepath.c_str());
+}	
+```
+
