@@ -33,10 +33,4 @@ namespace tTexture {
 			memset(Data, 0, Size);
 	}
 
-	void Buffer::Write(byte* data, uint32_t size, uint32_t offset)
-	{
-		TTEX_CORE_ASSERT(size + offset <= Size, "Buffer overflow!");
-		memcpy(Data + offset, data, size);
-	}
-
 }
